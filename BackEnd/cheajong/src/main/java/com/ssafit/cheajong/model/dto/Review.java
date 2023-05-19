@@ -1,9 +1,9 @@
 package com.ssafit.cheajong.model.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Review {
-	
+
 	private int reviewNum;
 	private String videoId;
 	private String userId;
