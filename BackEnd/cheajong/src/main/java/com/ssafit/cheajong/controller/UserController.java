@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafit.cheajong.model.dto.User;
-import com.ssafit.cheajong.model.service.UserService; 
+import com.ssafit.cheajong.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/userapi")
 public class UserController {
-	
+
 	@Autowired
 	UserService us;
-	
+
 	/**
-	 * 로그인  
-	 * */
-	@PostMapping("/{userId}") 
+	 * 로그인
+	 */
+	@PostMapping("/user/{userId}")
 	@ApiOperation(value = "{userId}에 해당하는 user를 반환한다.", response = User.class)
 	public ResponseEntity<?> selectUser(@PathVariable String userId) {
 		try {
@@ -40,14 +40,14 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-	
+
 	/**
-	 * 회원가입    
-	 * */
-	@PostMapping()
+	 * 회원가입
+	 */
+	@PostMapping("/user")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
-	public ResponseEntity<?> insertUser(User user) {
-		
+	public ResponseEntity<?> insertUser(@RequestBody User user) {
+
 		try {
 			int res = us.insert(user);
 			return new ResponseEntity<Integer>(res, HttpStatus.OK);
@@ -60,37 +60,36 @@ public class UserController {
 		e.printStackTrace();
 		return new ResponseEntity<String>("sorry: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	/**
-	 * 수정    
-	 * */ 
-    @PutMapping()  
-    public ResponseEntity<Void> update(@RequestBody User user){
-        us.update(user); 
-        
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
-    
-    /**
-	 * 회원탈퇴      
-	 * */ 
-    @DeleteMapping("/{userId}")
-    @ApiOperation(value = "{userId}에 해당하는 user를 삭제한다.", response = Integer.class)
-    public ResponseEntity<?> delete(@PathVariable String userId) {
-        try {
-            int result = us.delete(userId);
-            return new ResponseEntity<Integer>(result, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return exceptionHandling(e);
-        }
-    } 
-    
-    
-    /**
-	 * 회원 중복 확인   
-	 * */
-	@GetMapping("/{userId}") 
-	@ApiOperation(value = "{userId}에 해당하는 user가 이미 존재 하는지 확인한다  .", response = Boolean.class )
+	 * 수정
+	 */
+	@PutMapping("/user")
+	public ResponseEntity<Void> update(@RequestBody User user) {
+		us.update(user);
+
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	/**
+	 * 회원탈퇴
+	 */
+	@DeleteMapping("/user/{userId}")
+	@ApiOperation(value = "{userId}에 해당하는 user를 삭제한다.", response = Integer.class)
+	public ResponseEntity<?> delete(@PathVariable String userId) {
+		try {
+			int result = us.delete(userId);
+			return new ResponseEntity<Integer>(result, HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	/**
+	 * 회원 중복 확인
+	 */
+	@GetMapping("/user/{userId}")
+	@ApiOperation(value = "{userId}에 해당하는 user가 이미 존재 하는지 확인한다  .", response = Boolean.class)
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
 			User user = us.searchByUserId(userId);
