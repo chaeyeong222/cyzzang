@@ -5,8 +5,10 @@ public class User {
 	private String password;
 	private String userId;
 	private String nickName;
-	private String emailAddress;
+	private String emailAdress;
 	private String img;
+	private double height;
+	private double weight;
 
 	public User() {
 	}
@@ -43,14 +45,13 @@ public class User {
 		this.nickName = nickName;
 	}
 
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmailAdress() {
+		return emailAdress;
 	}
+	public void setEmailAdress(String emailAdress) {
+		this.emailAdress = emailAdress;
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-
+	
 	public String getImg() {
 		return img;
 	}
@@ -59,10 +60,24 @@ public class User {
 		this.img = img;
 	}
 
+	public double getHeight() {
+		return height;
+	}
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	public double getWeight() {
+		return weight;
+	}
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userNum=" + userNum + ", password=" + password + ", userId=" + userId + ", nickName=" + nickName
-				+ ", emailAddress=" + emailAddress + ", img=" + img + "]";
+				+ ", emailAdress=" + emailAdress + ", img=" + img + ", height=" + height + ", weight=" + weight + "]";
 	}
+
 
 }
