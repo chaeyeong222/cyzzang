@@ -50,6 +50,7 @@ public class User {
 	}
 	public void setEmailAdress(String emailAdress) {
 		this.emailAdress = emailAdress;
+	}
 
 	
 	public String getImg() {
