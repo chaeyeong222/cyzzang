@@ -15,14 +15,13 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`User` (
   `height` INT NULL,
   `weight` INT NULL,
   PRIMARY KEY (`user_num`),
-  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 INSERT INTO user (password,user_id,nick_name,email_adress)
 values ("qwer","qwer","admin","john0513@naver.com");
 
-select * from User;
 
 
 -- -----------------------------------------------------
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`Schedule` (
   `video_id` VARCHAR(45) NOT NULL,
   `day` DATETIME NOT NULL,
   PRIMARY KEY (`schedule_num`),
-  INDEX `schedule_from_user_idx` (`user_num` ASC) VISIBLE,
+  INDEX `schedule_from_user_idx` (`user_num` ASC),
   CONSTRAINT `schedule_from_user`
     FOREIGN KEY (`user_num`)
     REFERENCES `SSAFIT`.`User` (`user_num`)
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`Review` (
   `write_time` DATETIME NOT NULL,
   `rate` INT NOT NULL,
   PRIMARY KEY (`review_num`),
-  INDEX `review_from_user_idx` (`user_num` ASC) VISIBLE,
+  INDEX `review_from_user_idx` (`user_num` ASC),
   CONSTRAINT `review_from_user`
     FOREIGN KEY (`user_num`)
     REFERENCES `SSAFIT`.`User` (`user_num`))
@@ -74,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
   `video_title` VARCHAR(45) NOT NULL,
   `channel_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`zzim_num`),
-  INDEX `zzim_from_user_idx` (`user_num` ASC) VISIBLE,
+  INDEX `zzim_from_user_idx` (`user_num` ASC),
   CONSTRAINT `zzim_from_user`
     FOREIGN KEY (`user_num`)
     REFERENCES `SSAFIT`.`User` (`user_num`)
@@ -93,12 +92,3 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`food` (
   PRIMARY KEY (`food_name`))
 ENGINE = InnoDB;
 
-
-SELECT 
-review_num AS reviewNum, 
-video_id AS videoId, 
-(SELECT user_id FROM User WHere user_num = Review.user_num) AS userId,
-content,
-  write_time AS writeTime,
-  rate
-FROM Review WHERE video_id =0;

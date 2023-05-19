@@ -26,7 +26,7 @@ public class SwaggerConfig {
 				.apiInfo(apiInfo)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.ssafit.cheajong.controller"))
-				.paths(PathSelectors.ant("/*/**")) 
+				.paths(PathSelectors.ant("/*/*/**")) 
 				.build(); 
 	}
 }

@@ -14,7 +14,7 @@ public interface ReviewDao {
 
 	List<Review> selectReviewByVideoId(String videoId);
 
-	List<Review> selectReviewByuserId(String videoId);
+	List<Review> selectReviewByuserId(String userId);
 
 	int videoRate(String videoId);
 }

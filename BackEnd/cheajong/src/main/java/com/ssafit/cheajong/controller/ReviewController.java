@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafit.cheajong.model.dto.Review;
@@ -20,7 +21,7 @@ import com.ssafit.cheajong.model.service.ReviewService;
 
 @RestController
 @RequestMapping("/reviewapi")
-@CrossOrigin("*")
+@CrossOrigin(origins =  "*",methods = RequestMethod.GET)
 public class ReviewController {
 
 	@Autowired
@@ -28,7 +29,6 @@ public class ReviewController {
 
 	@PostMapping("/review")
 	public ResponseEntity<?> insertReview(@RequestBody Review review) {
-		System.out.println("inputed");
 		try {
 			int res = rService.insertReview(review);
 			return new ResponseEntity<Integer>(res, HttpStatus.CREATED);
@@ -57,27 +57,35 @@ public class ReviewController {
 		}
 	}
 
-	@GetMapping("/review/{videoId}")
+	@GetMapping("/video/{videoId}")
 	public ResponseEntity<?> selectReviewByVideoId(@PathVariable String videoId) {
 		try {
 			List<Review> res = rService.selectReviewByVideoId(videoId);
-			return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
+			if (res.size() > 0)
+				return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 
-	@GetMapping("/review/user/{userId}")
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<?> selectReviewByuserId(@PathVariable String userId) {
+		System.out.println("inputed");
+
 		try {
 			List<Review> res = rService.selectReviewByuserId(userId);
-			return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
-		} catch (Exception e) {
+			if (res.size() > 0)
+				return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
+			else
+				return new ResponseEntity<String>("바보",HttpStatus.NO_CONTENT);
+				} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 
-	@GetMapping("/review/rate/{videoId}")
+	@GetMapping("/rate/{videoId}")
 	public ResponseEntity<?> videoRate(@PathVariable String videoId) {
 		try {
 			int res = rService.videoRate(videoId);
