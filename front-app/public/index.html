@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en" class="no-js">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta name="description" content="A horizontal smooth scroll layout powered by Locomotive Scroll" />
+		<meta name="keywords" content="locomotive scroll, smooth scroll, horizontal, layout, web design, javascript, css" />
+		<meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="./favicon.ico">
+    <!-- <link rel="stylesheet" type="text/css" href="./css/base.css" /> -->
+		<link rel="stylesheet" type="text/css" href="./css/demo4.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+  <body class="demo-4 loading">
+    <script src="./js/index.js"></script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
