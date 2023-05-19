@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafit.cheajong.model.dao.ReviewDao">
+	<!--<resultMap type="Review" id="reviewMap">
+		<result column="review_num" property="reviewNum" />
+		<result column="video_id" property="videoId" />
+		<result column="user_id" property="userId" />
+		<result column="content" property="content" />
+		<result column="write_time" property="writeTime" />
+		<result column="rate" property="rate" />
+	</resultMap>-->
 
 	<insert id="insertReview" parameterType="Review">
 		INSERT INTO Review (video_Id,user_num,content,write_time,rate)
@@ -9,7 +17,7 @@
 	</insert>
 
 	<update id="updateReview" parameterType="Review">
-		UPDATE Review SET  content = #{content},rate = #{rate} where review_num =
+		UPDATE Review SET content = #{content},rate = #{rate} where review_num =
 		#{reviewNum};
 	</update>
 
@@ -27,6 +35,17 @@
 		write_time AS writeTime,
 		rate
 		FROM Review WHERE video_id =#{videoId};
+	</select>
+
+	<select id="selectReviewByuserId" parameterType="String" resultType="Review">
+		SELECT review_num AS reviewNum,
+		video_id AS videoId,
+		(SELECT user_id FROM User WHere user_num = Review.user_num) AS userId,
+		content,
+		write_time AS writeTime,
+		rate
+		FROM Review WHERE user_num = (SELECT user_num FROM User WHERE user_id =
+		#{userId})
 	</select>
 
 	<select id="videoRate" parameterType="String" resultType="Integer">

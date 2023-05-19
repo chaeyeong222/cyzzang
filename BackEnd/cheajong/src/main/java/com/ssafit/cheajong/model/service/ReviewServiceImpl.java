@@ -35,8 +35,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	@Override
-	public List<Review> selectReviewByuserId(String videoId) {
-		return rDao.selectReviewByuserId(videoId);
+	public List<Review> selectReviewByuserId(String userId) {
+		System.out.println("dd");
+		return rDao.selectReviewByuserId(userId);
 	}
 
 	@Override
