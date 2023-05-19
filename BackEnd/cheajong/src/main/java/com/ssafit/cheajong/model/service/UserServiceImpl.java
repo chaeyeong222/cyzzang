@@ -10,9 +10,9 @@ import com.ssafit.cheajong.model.dao.UserDao;
 import com.ssafit.cheajong.model.dto.User; 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
-	
-	
+
 	private UserDao uDao;
  
 	@Autowired
