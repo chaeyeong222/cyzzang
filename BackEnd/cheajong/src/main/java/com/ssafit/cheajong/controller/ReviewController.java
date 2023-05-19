@@ -20,15 +20,16 @@ import com.ssafit.cheajong.model.dto.Review;
 import com.ssafit.cheajong.model.service.ReviewService;
 
 @Controller
-@RequestMapping("/review")
+@RequestMapping("/reviewapi")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 public class ReviewController {
 
 	@Autowired
 	ReviewService rService;
 
-	@PostMapping("")
+	@PostMapping("/review")
 	public ResponseEntity<?> insertReview(@RequestBody Review review) {
+		System.out.println("inputed");
 		try {
 			int res = rService.insertReview(review);
 			return new ResponseEntity<Integer>(res, HttpStatus.CREATED);
@@ -37,7 +38,7 @@ public class ReviewController {
 		}
 	}
 
-	@PutMapping("")
+	@PutMapping("/review")
 	public ResponseEntity<?> updateReview(@RequestBody Review review) {
 		try {
 			int res = rService.updateReview(review);
@@ -47,7 +48,7 @@ public class ReviewController {
 		}
 	}
 
-	@DeleteMapping("/{reviewId}")
+	@DeleteMapping("/review/{reviewId}")
 	public ResponseEntity<?> deleteReview(@PathVariable int reviewId) {
 		try {
 			int res = rService.deleteReview(reviewId);
@@ -57,7 +58,7 @@ public class ReviewController {
 		}
 	}
 
-	@GetMapping("/{videoId}")
+	@GetMapping("/review/{videoId}")
 	public ResponseEntity<?> selectReviewByVideoId(@PathVariable String videoId) {
 		try {
 			List<Review> res = rService.selectReviewByVideoId(videoId);
@@ -67,7 +68,7 @@ public class ReviewController {
 		}
 	}
 
-	@GetMapping("/user/{userId}")
+	@GetMapping("/review/user/{userId}")
 	public ResponseEntity<?> selectReviewByuserId(@PathVariable String userId) {
 		try {
 			List<Review> res = rService.selectReviewByuserId(userId);
@@ -77,7 +78,7 @@ public class ReviewController {
 		}
 	}
 
-	@GetMapping("/rate/{videoId}")
+	@GetMapping("/review/rate/{videoId}")
 	public ResponseEntity<?> videoRate(@PathVariable String videoId) {
 		try {
 			int res = rService.videoRate(videoId);
