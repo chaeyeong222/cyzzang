@@ -21,7 +21,7 @@ import com.ssafit.cheajong.model.service.ReviewService;
 
 @RestController
 @RequestMapping("/reviewapi")
-@CrossOrigin(origins =  "*",methods = RequestMethod.GET)
+@CrossOrigin(origins = "*", methods = RequestMethod.GET)
 public class ReviewController {
 
 	@Autowired
@@ -31,7 +31,10 @@ public class ReviewController {
 	public ResponseEntity<?> insertReview(@RequestBody Review review) {
 		try {
 			int res = rService.insertReview(review);
-			return new ResponseEntity<Integer>(res, HttpStatus.CREATED);
+			if (res == 1)
+				return new ResponseEntity<Integer>(res, HttpStatus.CREATED);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -41,7 +44,10 @@ public class ReviewController {
 	public ResponseEntity<?> updateReview(@RequestBody Review review) {
 		try {
 			int res = rService.updateReview(review);
-			return new ResponseEntity<Integer>(res, HttpStatus.OK);
+			if (res == 1)
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -51,7 +57,10 @@ public class ReviewController {
 	public ResponseEntity<?> deleteReview(@PathVariable int reviewId) {
 		try {
 			int res = rService.deleteReview(reviewId);
-			return new ResponseEntity<Integer>(res, HttpStatus.OK);
+			if (res == 1)
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -64,7 +73,7 @@ public class ReviewController {
 			if (res.size() > 0)
 				return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -72,15 +81,13 @@ public class ReviewController {
 
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<?> selectReviewByuserId(@PathVariable String userId) {
-		System.out.println("inputed");
-
 		try {
 			List<Review> res = rService.selectReviewByuserId(userId);
 			if (res.size() > 0)
 				return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
 			else
-				return new ResponseEntity<String>("바보",HttpStatus.NO_CONTENT);
-				} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
@@ -89,14 +96,17 @@ public class ReviewController {
 	public ResponseEntity<?> videoRate(@PathVariable String videoId) {
 		try {
 			int res = rService.videoRate(videoId);
-			return new ResponseEntity<Integer>(res, HttpStatus.OK);
+			if (res > 0)
+				return new ResponseEntity<Integer>(res, HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 
 	private ResponseEntity<?> exceptionHandling(Exception e) {
-		return new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<String>("오류발생: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

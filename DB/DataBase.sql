@@ -67,7 +67,7 @@ insert into Review values (0,"test",1,"test",now(),5);
 -- Table `SSAFIT`.`ZzimList`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
-  `zzim_num` VARCHAR(45) NOT NULL,
+  `zzim_num` VARCHAR(45) NOT NULL auto_increment,
   `user_num` INT NOT NULL,
   `video_id` VARCHAR(45) NOT NULL,
   `video_title` VARCHAR(45) NOT NULL,
