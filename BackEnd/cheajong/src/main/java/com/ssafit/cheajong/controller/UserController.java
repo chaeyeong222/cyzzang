@@ -97,7 +97,7 @@ public class UserController {
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
 			User user = us.searchByUserId(userId);
-			if (user == null)
+			if (user != null)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			else
 				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
@@ -105,21 +105,21 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-	
+
 	/**
-	 * 회원 전체 조회    
+	 * 회원 전체 조회
 	 */
-	
+
 	@GetMapping("/user")
 	@ApiOperation(value = "회원 전체 조회      .")
 	public ResponseEntity<?> selectAll() {
 		try {
 			List<User> users = us.selectAll();
 			if (users != null)
-				return new ResponseEntity<List<User>>(users, HttpStatus.OK); 
-			else 
-				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); 
-		} catch (Exception e) { 
+				return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+			else
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
