@@ -2,6 +2,7 @@ package com.ssafit.cheajong.model.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,11 +10,12 @@ import com.ssafit.cheajong.model.dao.UserDao;
 import com.ssafit.cheajong.model.dto.User; 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 	
+	@Autowired
 	private UserDao uDao;
 
-	@Transactional
 	@Override
 	public int insert(User user) { 
 		return uDao.insert(user);
