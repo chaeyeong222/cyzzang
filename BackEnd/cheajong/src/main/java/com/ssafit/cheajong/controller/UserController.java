@@ -1,5 +1,7 @@
 package com.ssafit.cheajong.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,6 +102,24 @@ public class UserController {
 			else
 				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	/**
+	 * 회원 전체 조회    
+	 */
+	
+	@GetMapping("/user")
+	@ApiOperation(value = "회원 전체 조회      .")
+	public ResponseEntity<?> selectAll() {
+		try {
+			List<User> users = us.selectAll();
+			if (users != null)
+				return new ResponseEntity<List<User>>(users, HttpStatus.OK); 
+			else 
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); 
+		} catch (Exception e) { 
 			return exceptionHandling(e);
 		}
 	}

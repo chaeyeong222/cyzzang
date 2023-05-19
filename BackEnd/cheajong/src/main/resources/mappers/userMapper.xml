@@ -2,28 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafit.cheajong.model.dao.UserDao">
+	<resultMap type="User" id="UserMap">
+		<result column="user_id" property="userId"/>
+		<result column="nick_name" property="nickName"/>
+		<result column="email_adress" property="emailAdress"/> 
+	</resultMap>
+
 
 	<!-- 회원가입  -->
-	<insert id="insert" parameterType="User">
-		INSERT INTO User(password, userId, nickName, emailAddress )
-		VALUES(#{password}, #{user_id}, #{nick_name}, #{email_address})
+	<insert id="insert" parameterType="User" >
+		INSERT INTO User(password, user_id, nick_name, email_adress )
+		VALUES(#{password}, #{userId}, #{nickName}, #{emailAdress})
 	</insert>
 	
 	<!-- 유저아이디로 조회   -->
-	<select id="searchByUserId" parameterType="String" resultType="User">
+	<select id="searchByUserId" parameterType="String" resultMap="UserMap">
 		SELECT * FROM User WHERE user_id = #{userId};
 	</select>
 	
 	<!--전체  조회   -->
-	<select id="selectAll" resultType="User" >
+	<select id="selectAll" resultType="User" resultMap="UserMap" >
 	SELECT * FROM User 
 	</select>
 	
 	
-	<!-- 유저아이디로 수정    -->
+	<!-- 유저아이디로 수정 , 키와 몸무게는 무조건 수정에서 입력됨.   -->
 	<update id="update" parameterType="User">
 	 UPDATE User 
-	 SET nickName = #{nick_name}, emailAddress = #{email_address}, password = {password}
+	 SET nickName = #{nickName}, email_adress = #{emailAdress}, password = #{password}, height = #{height}, weight = #{weight}
 	 WHERE user_id = #{userId};
 	</update>
 	

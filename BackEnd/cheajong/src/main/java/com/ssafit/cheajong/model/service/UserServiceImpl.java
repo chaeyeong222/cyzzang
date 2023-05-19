@@ -12,10 +12,15 @@ import com.ssafit.cheajong.model.dto.User;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
-	
-	@Autowired
-	private UserDao uDao;
 
+	private UserDao uDao;
+ 
+	@Autowired
+	public UserServiceImpl(UserDao uDao) { 
+		this.uDao = uDao;
+	}
+
+	@Transactional 
 	@Override
 	public int insert(User user) { 
 		return uDao.insert(user);
