@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafit.cheajong.model.dto.User;
 import com.ssafit.cheajong.model.service.UserService;
+import com.ssafit.cheajong.util.Encrypt;
 import com.ssafit.cheajong.util.JwtUtil;
 
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/userapi")
 public class UserController {
 
+	@Autowired
+	Encrypt ecp;
 	@Autowired
 	JwtUtil jwtUtil;
 
@@ -47,8 +50,9 @@ public class UserController {
 	public ResponseEntity<?> selectUser(@RequestBody User user) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
+			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			User target = us.searchByUserId(user.getUserId());
-			if (user != null && target.getPassword().equals(target.getPassword())) {
+			if (user != null && target.getPassword().equals(ecpPassword)) {
 				result.put("access-token", jwtUtil.createToken("id", user.getUserId()));
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 			} else
@@ -65,6 +69,9 @@ public class UserController {
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
 	public ResponseEntity<?> insertUser(@RequestBody User user, @RequestPart(required = false) MultipartFile file) {
 		try {
+			// 암호화 방식 추가
+			String ecpPassword = ecp.getEncrypt(user.getPassword());
+			user.setPassword(ecpPassword);
 			// 업로드하는 파일이 존재할 시에 경로 생성후 저장 및 db저장 유저 객체에 img명 추가
 			if (!file.isEmpty()) {
 				Resource res = resLoader.getResource("resources/upload");
