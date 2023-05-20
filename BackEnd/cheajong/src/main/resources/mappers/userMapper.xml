@@ -12,7 +12,6 @@
 		<result column="weight" property="weight"/>
 	</resultMap>
 
-
 	<!-- 회원가입  -->
 	<insert id="insert" parameterType="User" >
 		INSERT INTO User(password, user_id, nick_name, email_adress)
