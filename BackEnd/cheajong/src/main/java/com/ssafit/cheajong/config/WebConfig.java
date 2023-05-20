@@ -30,8 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
 	@Autowired
 	private JwtInterceptor jwtinter;
 	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(jwtinter).addPathPatterns("/**").excludePathPatterns("/userapi/user/login");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(jwtinter).addPathPatterns("/**").excludePathPatterns("/userapi/user/login");
+//	}
 }

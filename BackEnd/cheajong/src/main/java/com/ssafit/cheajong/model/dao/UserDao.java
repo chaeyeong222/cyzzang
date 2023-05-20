@@ -16,5 +16,9 @@ public interface UserDao {
 
 	int delete(String userId);
 	
+	User searchByUserEmail(String userEmail); //디비 상에 존재하는 이메일인지 확인하기  
+	
+	boolean updateToNewPassword(String tmpPassword, String memberEmail); //디비상의 비밀번호를 임시비밀번호로 업데이트하기  
+	 
 
 }

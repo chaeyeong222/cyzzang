@@ -182,46 +182,42 @@ public class UserController {
 	@ApiOperation(value = "이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
 		System.out.println("memberEmail " + memberEmail);
+		
 		/** 임시 비밀번호 생성 **/
-//      String tmpPassword = us.getTmpPassword();
-		String tmpPassword ="임시 비번   ";
+        String tmpPassword = ms.getTmpPassword();
+        
+        System.out.println("임시 비밀번호 "+ tmpPassword );
 
       /** 임시 비밀번호 저장 **/
-//      us.updatePassword(tmpPassword, memberEmail);
-	//	MailVo mail = us.createMail(tmpPassword, memberEmail);
-	//	us.sendMail(mail);
-//		MailService ms = new MailServiceImpl();
+      //  us.updateToNewPassword(tmpPassword, memberEmail);  
+        
+        //이메일 보내기  
 		MailVo mail = ms.createMail(tmpPassword ,memberEmail);
         ms.sendMail(mail);
 
-        System.out.println("임시 비밀번호 전송 완료");
-		
-	 
-		
+        System.out.println("임시 비밀번호 전송 완료" );
+		 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+
 	
-	 
-//	@PostMapping("/sendPwd")
-//    public String sendPwdEmail(@RequestParam("memberEmail") String memberEmail) {
-//
-//        log.info("sendPwdEmail 진입");
-//        log.info("이메일 : "+ memberEmail);
-//
-//        /** 임시 비밀번호 생성 **/
-//        String tmpPassword = memberService.getTmpPassword();
-//
-//        /** 임시 비밀번호 저장 **/
-//        memberService.updatePassword(tmpPassword, memberEmail);
-//
-//        /** 메일 생성 & 전송 **/
-//        MailVo mail = mailService.createMail(tmpPassword, memberEmail);
-//        mailService.sendMail(mail);
-//
-//        log.info("임시 비밀번호 전송 완료");
-//
-//        return "member/member-login";
-//    }
+	/**
+	 * 가입된 이메일 있는 지 체크   
+	 */
+	@GetMapping("/email/{emailAdress}") 
+	@ApiOperation(value = "{emailAdress}에 해당하는 이메일이 이미 존재 하는지 확인한다  .", response = Boolean.class)
+	public ResponseEntity<?> emailCheck(@PathVariable String emailAdress) {
+		try {
+			User emailCheck  = us.searchByEmail(emailAdress);    
+			System.out.println("emailAdress " + emailAdress );
+			if (emailCheck != null)
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			else
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	
 
 

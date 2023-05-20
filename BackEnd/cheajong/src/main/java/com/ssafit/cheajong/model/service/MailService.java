@@ -7,6 +7,7 @@ public interface MailService {
 		MailVo createMail(String tmpPassword, String memberEmail);
 		
 		void sendMail(MailVo mailVo); 
-
-
+		
+		String getTmpPassword();
+		  
 }

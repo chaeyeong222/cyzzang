@@ -43,5 +43,17 @@
 	</delete>
 	
 	
+	<!-- 유저이메일 로 조회   -->
+	<select id="searchByUserEmail" parameterType="String" resultMap="UserMap">
+		SELECT * FROM User WHERE email_adress = #{emailAdress};
+	</select>
+	 
+	<!-- 디비상의 비밀번호를 임시로 생성된 비밀번호로 업데이트 하기     -->
+	<update id="updateToNewPassword" parameterType="User" >
+	 UPDATE User 
+	 SET password = #{password}
+	 WHERE email_adress = #{emailAdress};
+	</update>
+	
 	
 </mapper>
