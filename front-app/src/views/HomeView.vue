@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div data-scroll-container>
     <div class="content">
       <div class="gallery" id="gallery">
@@ -55,12 +55,13 @@
           >
         </div>
       </div>
-    </div>
+    </div> 
   </div>
 </template>
 
 <script>
 export default {
+
   name: "HomeView",
   data() {
     return {
@@ -145,7 +146,7 @@ export default {
     };
   },
 };
-
+ 
 </script>
 
 <style>
