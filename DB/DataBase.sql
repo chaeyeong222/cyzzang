@@ -7,7 +7,7 @@ USE `SSAFIT` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SSAFIT`.`User` (
   `user_num` INT NOT NULL AUTO_INCREMENT,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
   `user_id` VARCHAR(20) NOT NULL,
   `nick_name` VARCHAR(20) NOT NULL,
   `email_adress` VARCHAR(45) NOT NULL,
