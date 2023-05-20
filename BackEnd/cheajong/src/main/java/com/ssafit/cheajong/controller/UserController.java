@@ -34,6 +34,7 @@ public class UserController {
 
 	@Autowired
 	Encrypt ecp;
+	
 	@Autowired
 	JwtUtil jwtUtil;
 
@@ -50,8 +51,10 @@ public class UserController {
 	public ResponseEntity<?> selectUser(@RequestBody User user) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
+			// 암호화된 비밀번호 비교를 통해서 로그인 가능여부 판단
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			User target = us.searchByUserId(user.getUserId());
+			// 아이디와 비밀번호 모두 일치할 경우 토큰 생성해서 반환
 			if (user != null && target.getPassword().equals(ecpPassword)) {
 				result.put("access-token", jwtUtil.createToken("id", user.getUserId()));
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
@@ -86,6 +89,7 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
+	
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("sorry: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
