@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.springframework.stereotype.Component;
 
+// 암호화를 위한 클래스
 @Component
 public class Encrypt {
 	public String getEncrypt(String password) {
