@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.cheajong.model.dao.ZzimDao">
+
+	<insert id="addZzim" parameterType="Zzim">
+		INSERT INTO ZzimList (video_Id,user_num,video_title,channel_name)
+		VALUES(#{videoId},(select user_num from user where user_id =
+		#{userId}),#{title},#{channelName})
+	</insert>
+
+	<delete id="deleteZzim" parameterType="int">
+		DELETE FROM ZzimList WHERE zzim_num = #{zzimNum};
+	</delete>
+
+	<select id="selectByUserId" parameterType="String" resultType="Zzim">
+		SELECT zzim_num AS zzimNum,
+		video_id AS videoId,
+		(SELECT user_id FROM User WHere user_num = ZzimList.user_num) AS userId,
+		video_title AS title,
+		channel_name AS channelName
+		FROM ZzimList WHERE user_num = (SELECT user_num FROM User WHERE user_id = #{userId});
+	</select>
+
+
+</mapper>
