@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <a href="/emailcheck">이메일 인증 </a>
   </div>
 </template>
 
@@ -10,8 +11,10 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'HomeView',
+  name: 
+  'HomeView',
   components: {
+    
     HelloWorld
   }
 }
