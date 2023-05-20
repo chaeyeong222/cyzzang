@@ -1,8 +1,11 @@
 package com.ssafit.cheajong.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafit.cheajong.model.dto.User;
 import com.ssafit.cheajong.model.service.UserService;
@@ -24,6 +29,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/userapi")
 @CrossOrigin("*")
 public class UserController {
+
+	@Autowired
+	ResourceLoader resLoader;
 
 	@Autowired
 	UserService us;
@@ -50,9 +58,16 @@ public class UserController {
 	 */
 	@PostMapping("/user/regist")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
-	public ResponseEntity<?> insertUser(@RequestBody User user) {
-		System.out.println("생");
+	public ResponseEntity<?> insertUser(@RequestBody User user, @RequestPart(required = false) MultipartFile file) {
 		try {
+			// 업로드하는 파일이 존재할 시에 경로 생성후 저장 및 db저장 유저 객체에 img명 추가
+			if (!file.isEmpty()) {
+				Resource res = resLoader.getResource("resources/upload");
+				if (!res.getFile().exists())
+					res.getFile().mkdir();
+				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
+				file.transferTo(new File(res.getFile(), user.getImg()));
+			}
 			int res = us.insert(user);
 			return new ResponseEntity<Integer>(res, HttpStatus.OK);
 		} catch (Exception e) {
@@ -69,10 +84,26 @@ public class UserController {
 	 * 수정
 	 */
 	@PutMapping("/user")
-	public ResponseEntity<Void> update(@RequestBody User user) {
-		us.update(user);
-
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	public ResponseEntity<?> update(@RequestBody User user, @RequestPart(required = false) MultipartFile file) {
+		try {
+			if (!file.isEmpty()) {
+				Resource res = resLoader.getResource("resources/upload");
+				if (!res.getFile().exists())
+					res.getFile().mkdir();
+				// 다른 것은 가입 시 저장과 동일, 하지만 이미지를 새로 입력시 기존 이미지를 삭제하는 양식 추가
+				if (us.searchByUserId(user.getUserId()) != null) {
+					String oldImg = us.searchByUserId(user.getUserId()).getImg();
+					File target = new File("resources/upload" + "/" + oldImg);
+					target.delete();
+				}
+				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
+				file.transferTo(new File(res.getFile(), user.getImg()));
+			}
+			int res = us.update(user);
+			return new ResponseEntity<Integer>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 
 	/**
