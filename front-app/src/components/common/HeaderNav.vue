@@ -1,5 +1,5 @@
 <template>
-  <div class="frame"><!-- don't put fixed elements into the scroll container! -->
+  <div class="frame">
 			<h1 class="frame__title">Horizontal Smooth Scroll Layout <br/> using <a href="https://locomotivemtl.github.io/locomotive-scroll/">Locomotive Scroll</a></h1>
 			<div class="frame__demos">
 				<a class="frame__demo" href="index.html">Demo__01</a>
