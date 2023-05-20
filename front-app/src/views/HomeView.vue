@@ -1,5 +1,5 @@
 <template>
-  <main data-scroll-container>
+  <div data-scroll-container>
     <div class="content">
       <div class="gallery" id="gallery">
         <div class="gallery__text">
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -64,8 +64,8 @@ export default {
   name: "HomeView",
   data() {
     return {
-      firstText: "draga",
-      secondText: "armor",
+      firstText: "SSAFIT",
+      secondText: "chajong",
       items: [
         {
           image: "img/12.jpg",
@@ -145,6 +145,9 @@ export default {
     };
   },
 };
+
 </script>
 
-<style></style>
+<style>
+
+</style>
