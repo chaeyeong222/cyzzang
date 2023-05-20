@@ -1,7 +1,7 @@
 package com.ssafit.cheajong.model.dao;
 
 import java.util.List;
-
+ 
 import com.ssafit.cheajong.model.dto.User;
 
 public interface UserDao {
@@ -15,5 +15,6 @@ public interface UserDao {
 	int update(User user);
 
 	int delete(String userId);
+	
 
 }
