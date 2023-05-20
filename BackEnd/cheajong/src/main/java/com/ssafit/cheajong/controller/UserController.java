@@ -1,14 +1,15 @@
 package com.ssafit.cheajong.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +23,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafit.cheajong.model.dto.User;
 import com.ssafit.cheajong.model.service.UserService;
+import com.ssafit.cheajong.util.JwtUtil;
 
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/userapi")
-@CrossOrigin("*")
 public class UserController {
+
+	@Autowired
+	JwtUtil jwtUtil;
 
 	@Autowired
 	ResourceLoader resLoader;
@@ -39,14 +43,15 @@ public class UserController {
 	/**
 	 * 로그인
 	 */
-	@PostMapping("/user/{userId}")
-	@ApiOperation(value = "{userId}에 해당하는 user를 반환한다.", response = User.class)
-	public ResponseEntity<?> selectUser(@PathVariable String userId) {
+	@PostMapping("/user/login")
+	public ResponseEntity<?> selectUser(@RequestBody User user) {
+		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			User user = us.searchByUserId(userId);
-			if (user != null)
-				return new ResponseEntity<User>(user, HttpStatus.OK);
-			else
+			User target = us.searchByUserId(user.getUserId());
+			if (user != null && target.getPassword().equals(target.getPassword())) {
+				result.put("access-token", jwtUtil.createToken("id", user.getUserId()));
+				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+			} else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -76,7 +81,6 @@ public class UserController {
 	}
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
-		e.printStackTrace();
 		return new ResponseEntity<String>("sorry: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
