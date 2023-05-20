@@ -43,5 +43,19 @@ public class UserServiceImpl implements UserService{
 	public int delete(String userId) { 
 		return uDao.delete(userId);
 	}
+	 
+	@Override
+	public User searchByEmail(String userEmail) { 
+		return uDao.searchByUserEmail(userEmail);
+	}
+	
+
+    /** 임시로 생성된 비밀번호를 디비로 전송하여 업데이트하는 메서드 **/
+	@Transactional
+    @Override
+    public boolean updateToNewPassword(String tmpPassword, String memberEmail ) {
+        return uDao.updateToNewPassword(tmpPassword, memberEmail );
+    }
+	
 
 }
