@@ -10,6 +10,8 @@ public class User {
 	private double height;
 	private double weight;
 
+	private String tmpPassword;
+	
 	public User() {
 	}
 
@@ -75,6 +77,16 @@ public class User {
 
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+
+	
+	
+	public String getTmpPassword() {
+		return tmpPassword;
+	}
+
+	public void setTmpPassword(String tmpPassword) {
+		this.tmpPassword = tmpPassword;
 	}
 
 	@Override
