@@ -134,5 +134,4 @@ class Cursor {
 
 </script>
 
-<style>
-</style>
+<style></style>
