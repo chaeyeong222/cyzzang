@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -183,7 +184,7 @@ public class UserController {
 	 */
 
 	@Transactional
-	@PostMapping("/email")
+	@PutMapping("/email")
 	@ApiOperation(value = "이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
 		System.out.println("memberEmail " + memberEmail);
@@ -195,7 +196,7 @@ public class UserController {
         User user = us.searchByEmail(memberEmail);
         
       /** 임시 비밀번호 저장 **/
-        us.updateToNewPassword(tmpPassword, user.getEmailAdress());  
+      //  us.updateToNewPassword(tmpPassword, user);  
         
         //이메일 보내기  
 		MailVo mail = ms.createMail(tmpPassword ,memberEmail);
