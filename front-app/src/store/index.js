@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     videos: [],
   },
-  getters: {},
+  getters: {
+  },
   mutations: {
     SET_VIDEO_LIST(state, videos) {
       state.videos = videos;
@@ -21,12 +22,13 @@ export default new Vuex.Store({
       const apiKey = 'AIzaSyBCemuYfu5PQsgPVL_oTEudlK9GnsKZ4is';
       axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${word+" 운동"}&key=${apiKey}&maxResults=50`)
       .then(response => {
+        const he = require("he");
         const videoItems = response.data.items;
         console.log(videoItems);
         const videos = videoItems.map(item => {
           const videoId = item.id.videoId;
-          const title = item.snippet.title;
-          const channelTitle = item.snippet.channelTitle;
+          const title = he.decode(item.snippet.title);
+          const channelTitle = he.decode(item.snippet.channelTitle);
           return {
             videoId,
             title,

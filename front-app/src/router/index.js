@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import ContentView from "@/views/ContentView.vue"
+import ContentView from "@/views/ContentView.vue";
 import VideoSearch from "@/components/VideoSearch.vue";
 
 Vue.use(VueRouter);
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: "/video",
-    component:ContentView,
+    component: ContentView,
     children: [{ path: "", name: "list", component: VideoSearch }],
   },
 ];
