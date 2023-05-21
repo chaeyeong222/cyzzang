@@ -1,10 +1,8 @@
 <template>
   <div class="frame">
     <h1 class="frame__title">
-      Horizontal Smooth Scroll Layout <br />
-      using
-      <a href="https://locomotivemtl.github.io/locomotive-scroll/"
-        >Locomotive Scroll</a
+      <a href="/"
+        >Home</a
       >
     </h1>
     <div class="frame__demos">
@@ -17,11 +15,8 @@
       <a class="frame__demo" href="index5.html">Demo__05</a>
     </div>
     <div class="frame__links">
-      <a href="https://tympanus.net/Development/ImageStackGrid/"
-        >Previous demo</a
-      >
-      <a href="https://tympanus.net/codrops/?p=52157">Article</a>
-      <a @click="modalShow = !modalShow">Open Modal</a>
+      <a href="/video">검색</a>
+      <a href="#" @click="modalShow = !modalShow">로그인</a>
 
       <b-modal v-model="modalShow">Hello From Modal!</b-modal>
     </div>

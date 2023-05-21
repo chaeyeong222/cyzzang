@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div data-scroll-container>
     <div class="content">
       <div class="gallery" id="gallery">
@@ -30,12 +30,16 @@
               :style="`background-image: url(${item.image})`"></div>
           </div>
           <figcaption class="gallery__item-caption">
-            <h2 class="gallery__item-title">{{ item.title }}</h2>
+            <h2 class="gallery__item-title">{{ item.engtitle }}</h2>
             <span class="gallery__item-number">{{ item.number }}</span>
             <p class="gallery__item-tags">
-              <span v-for="tag in item.tags" :key="tag">#{{ tag }}</span>
+              <span v-for="tag in item.tags" :key="tag"
+                ><a @click="Search(item.title + ' ' + tag)">#{{ tag }}</a></span
+              >
             </p>
-            <a class="gallery__item-link">explore</a>
+            <span @click="Search(item.title)" class="gallery__item-link">{{
+              item.title
+            }}</span>
           </figcaption>
         </figure>
         <div class="gallery__text">
@@ -55,14 +59,20 @@
           >
         </div>
       </div>
-    </div> 
+    </div>
   </div>
 </template>
 
 <script>
-export default {
 
+
+export default {
   name: "HomeView",
+  methods: {
+    Search(tag) {
+      this.$store.dispatch("videoSearch", tag);
+    },
+  },
   data() {
     return {
       firstText: "SSAFIT",
@@ -70,72 +80,84 @@ export default {
       items: [
         {
           image: "img/12.jpg",
-          title: "Funambulist",
+          engtitle: "WHOLE  BODY",
+          title: "전신",
           number: "01",
           tags: ["house", "green", "chair"],
         },
         {
           image: "img/11.jpg",
-          title: "Omophagy",
+          engtitle: "Shoulder",
+          title: "어깨",
           number: "02",
           tags: ["love", "hug", "people"],
         },
         {
           image: "img/10.jpg",
-          title: "Conniption",
+          engtitle: "Chest",
+          title: "가슴",
           number: "03",
           tags: ["hike", "nature", "rain"],
         },
         {
           image: "img/9.jpg",
-          title: "Xenology",
+          engtitle: "Arms",
+          title: "팔",
           number: "04",
           tags: ["free", "wood", "fire"],
         },
         {
           image: "img/8.jpg",
-          title: "Lycanthropy",
+          engtitle: "Back",
+          title: "등",
           number: "05",
           tags: ["cloud", "lake", "frog"],
         },
         {
           image: "img/7.jpg",
-          title: "Mudlark",
+          engtitle: "Abdomen",
+          title: "복근",
           number: "06",
           tags: ["tent", "flower", "love"],
         },
         {
           image: "img/6.jpg",
-          title: "Illywhacker",
+          engtitle: "Lower Body",
+          title: "하체",
           number: "07",
           tags: ["water", "bottle", "hand"],
         },
         {
           image: "img/5.jpg",
+          engtitle: "Shoulder",
           title: "Disenthral",
           number: "08",
           tags: ["night", "stars", "moon"],
         },
         {
           image: "img/4.jpg",
+          engtitle: "Shoulder",
           title: "Abaya",
           number: "09",
           tags: ["sun", "light", "air"],
         },
         {
           image: "img/3.jpg",
+          engtitle: "Shoulder",
           title: "Hallux",
           number: "10",
           tags: ["vital", "fog", "close"],
         },
         {
           image: "img/2.jpg",
+          engtitle: "Shoulder",
           title: "Lablab",
           number: "11",
           tags: ["cover", "bed", "window"],
         },
         {
           image: "img/1.jpg",
+          engtitle: "Shoulder",
           title: "Momisom",
           number: "12",
           tags: ["sad", "mouth", "tear"],
@@ -146,9 +168,7 @@ export default {
     };
   },
 };
- 
+
 </script>
 
-<style>
-
-</style>
+<style></style>
