@@ -196,7 +196,8 @@ public class UserController {
         User user = us.searchByEmail(memberEmail);
         
       /** 임시 비밀번호 저장 **/
-      //  us.updateToNewPassword(tmpPassword, user);  
+//        user.setEmailAdress(tmpPassword);
+//        us.updateToNewPassword(user);  
         
         //이메일 보내기  
 		MailVo mail = ms.createMail(tmpPassword ,memberEmail);

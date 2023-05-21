@@ -17,5 +17,5 @@ public interface UserService {
 
 	User searchByEmail(String userEmail);//디비상에 존재하는 이메일인지 확인하는 메서드
 	
-	boolean updateToNewPassword(String tmpPassword, User user);
+	boolean updateToNewPassword(User user);
 }
