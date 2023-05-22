@@ -9,7 +9,7 @@
 	</resultMap>
  
 	<!--카테고리로  조회   -->
-	<select id="searchByCategory" parameterType="String" resultMap="UserMap">
+	<select id="searchByCategory" parameterType="String" resultMap="FoodMap">
 		SELECT * FROM Food WHERE category = #{category};
 	</select>
 	 

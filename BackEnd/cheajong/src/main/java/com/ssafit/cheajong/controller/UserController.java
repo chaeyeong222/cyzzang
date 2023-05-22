@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +17,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping; 
-import org.springframework.web.bind.annotation.RequestParam; 
-import org.springframework.web.bind.annotation.RequestPart; 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafit.cheajong.model.dto.MailVo;
 import com.ssafit.cheajong.model.dto.User;
-import com.ssafit.cheajong.model.service.MailService; 
+import com.ssafit.cheajong.model.service.MailService;
 import com.ssafit.cheajong.model.service.UserService;
 import com.ssafit.cheajong.util.Encrypt;
 import com.ssafit.cheajong.util.JwtUtil;
@@ -38,8 +37,8 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
 
 	@Autowired
-	Encrypt ecp;
-	
+	Encrypt ecp; // db 암호화를 위한 코드
+
 	@Autowired
 	JwtUtil jwtUtil;
 
@@ -48,10 +47,10 @@ public class UserController {
 
 	@Autowired
 	UserService us;
-	 
+
 	@Autowired
 	MailService ms;
-	 
+
 	/**
 	 * 로그인
 	 */
@@ -78,26 +77,25 @@ public class UserController {
 	 */
 	@PostMapping("/user/regist")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
-	public ResponseEntity<?> insertUser(@RequestBody User user, @RequestPart(required = false) MultipartFile file) {
+	public ResponseEntity<?> insertUser(@RequestBody User user) {
 		try {
 			// 암호화 방식 추가
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			user.setPassword(ecpPassword);
 			// 업로드하는 파일이 존재할 시에 경로 생성후 저장 및 db저장 유저 객체에 img명 추가
-			if (!file.isEmpty()) {
-				Resource res = resLoader.getResource("resources/upload");
-				if (!res.getFile().exists())
-					res.getFile().mkdir();
-				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
-				file.transferTo(new File(res.getFile(), user.getImg()));
-			}
+//			if (!file.isEmpty()) {
+//				Resource res = resLoader.getResource("resources/upload");
+//				if (!res.getFile().exists())
+//					res.getFile().mkdir();
+//				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
+//				file.transferTo(new File(res.getFile(), user.getImg()));
+//			}
 			int res = us.insert(user);
 			return new ResponseEntity<Integer>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-	
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("sorry: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -177,10 +175,9 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-	
-	
+
 	/**
-	 * 이메일 보내기     
+	 * 이메일 보내기
 	 */
 
 	@Transactional
@@ -188,37 +185,38 @@ public class UserController {
 	@ApiOperation(value = "이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
 		System.out.println("memberEmail " + memberEmail);
-		
+
 		/** 임시 비밀번호 생성 **/
-        String tmpPassword = ms.getTmpPassword();
-        System.out.println("임시 비밀번호 "+ tmpPassword );
+		String tmpPassword = ms.getTmpPassword();
+		String ecpPassword = ecp.getEncrypt(ms.getTmpPassword());
+		System.out.println("임시 비밀번호 " + tmpPassword);
+		System.out.println("암호화  비밀번호 " + ecpPassword);
 
-        User user = us.searchByEmail(memberEmail);
-        
-      /** 임시 비밀번호 저장 **/
-//        user.setEmailAdress(tmpPassword);
-//        us.updateToNewPassword(user);  
-        
-        //이메일 보내기  
-		MailVo mail = ms.createMail(tmpPassword ,memberEmail);
-        ms.sendMail(mail);
+		User user = us.searchByEmail(memberEmail);
 
-        System.out.println("임시 비밀번호 전송 완료" );
-		 
+		/** 임시 비밀번호 저장 **/
+		user.setPassword(ecpPassword);
+		us.updateToNewPassword(user);
+
+		// 이메일 보내기
+		MailVo mail = ms.createMail(tmpPassword, memberEmail);
+		ms.sendMail(mail);
+
+		System.out.println("임시 비밀번호 전송 완료");
+
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	
 	/**
-	 * 가입된 이메일 있는 지 체크   
+	 * 가입된 이메일 있는 지 체크
 	 */
-	@GetMapping("/email/{emailAdress}") 
+	@GetMapping("/email/{emailAdress}")
 	@ApiOperation(value = "{emailAdress}에 해당하는 이메일이 이미 존재 하는지 확인한다  .", response = Boolean.class)
 	public ResponseEntity<?> emailCheck(@PathVariable String emailAdress) {
 		try {
-			User emailCheck  = us.searchByEmail(emailAdress);    
-			System.out.println("emailAdress " + emailAdress );
-			//System.out.println(emailCheck.getEmailAdress());
+			User emailCheck = us.searchByEmail(emailAdress);
+			System.out.println("emailAdress " + emailAdress);
+			// System.out.println(emailCheck.getEmailAdress());
 			if (emailCheck != null)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			else
@@ -227,7 +225,7 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-	
 
+	
 
 }
