@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.cheajong.model.dao.FoodDao">
+	<resultMap type="Food" id="FoodMap">
+		<result column="food_num" property="foodNum"/>
+		<result column="food_name" property="foodName"/>
+		<result column="category" property="category"/> 
+	</resultMap>
+ 
+	<!--카테고리로  조회   -->
+	<select id="searchByCategory" parameterType="String" resultMap="UserMap">
+		SELECT * FROM Food WHERE category = #{category};
+	</select>
+	 
+</mapper>
