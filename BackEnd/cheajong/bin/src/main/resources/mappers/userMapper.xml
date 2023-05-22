@@ -4,14 +4,17 @@
 <mapper namespace="com.ssafit.cheajong.model.dao.UserDao">
 	<resultMap type="User" id="UserMap">
 		<result column="user_id" property="userId"/>
+		<result column="password" property="password"/>
 		<result column="nick_name" property="nickName"/>
 		<result column="email_adress" property="emailAdress"/> 
+		<result column="img" property="img"/>
+		<result column="height" property="height"/>
+		<result column="weight" property="weight"/>
 	</resultMap>
-
 
 	<!-- 회원가입  -->
 	<insert id="insert" parameterType="User" >
-		INSERT INTO User(password, user_id, nick_name, email_adress )
+		INSERT INTO User(password, user_id, nick_name, email_adress)
 		VALUES(#{password}, #{userId}, #{nickName}, #{emailAdress})
 	</insert>
 	
@@ -29,7 +32,7 @@
 	<!-- 유저아이디로 수정 , 키와 몸무게는 무조건 수정에서 입력됨.   -->
 	<update id="update" parameterType="User">
 	 UPDATE User 
-	 SET nickName = #{nickName}, email_adress = #{emailAdress}, password = #{password}, height = #{height}, weight = #{weight}
+	 SET nickName = #{nickName}, email_adress = #{emailAdress}, password = #{password}, img = #{img}, height = #{height}, weight = #{weight}
 	 WHERE user_id = #{userId};
 	</update>
 	
@@ -39,6 +42,18 @@
 	DELETE FROM USER WHERE user_id = #{userId};
 	</delete>
 	
+	
+	<!-- 유저이메일 로 조회   -->
+	<select id="searchByUserEmail" parameterType="String" resultMap="UserMap">
+		SELECT * FROM User WHERE email_adress = #{emailAdress};
+	</select>
+	 
+	<!-- 디비상의 비밀번호를 임시로 생성된 비밀번호로 업데이트 하기     -->
+	<update id="updateToNewPassword" parameterType="User" >
+	 UPDATE User 
+	 SET password = #{password}
+	 WHERE email_adress = #{emailAdress};
+	</update>
 	
 	
 </mapper>
