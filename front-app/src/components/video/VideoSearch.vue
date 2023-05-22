@@ -1,5 +1,7 @@
 <template>
   <div style="justify-content: center">
+    <br />
+    <br />
     <div class="header-container">
       <input
         type="text"
@@ -16,6 +18,7 @@
         v-for="(video, index) in paginatedVideos"
         :key="index"
         class="card"
+        @click="goDetail(video.videoId)"
       >
         <template #header>
           <img :src="getThumbnailUrl(video.videoId)" style="width: 100%" />
@@ -57,6 +60,9 @@ export default {
     },
   },
   methods: {
+    goDetail(videoId) {
+      this.$store.dispatch("setVideoReviews", videoId);
+    },
     videoSearch() {
       this.$store.dispatch("videoSearch", this.searchWord);
       this.$refs.search.value = "";
@@ -118,7 +124,7 @@ export default {
 }
 
 .search-input {
-  flex: 0.8;
+  flex: 0.7;
   margin-right: 10px;
 }
 
