@@ -1,37 +1,55 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{ width: containerWidth, maxWidth: '90vw' }">
     <h2 class="text-center">{{ video.title }}</h2>
     <div class="messaging">
       <div class="inbox_review">
         <div class="inbox_video">
-          <b-embed type="iframe" :src="embedURL()"></b-embed>
+          <div class="favorite-icon" @click="toggleFavorite">
+            <i :class="['fa', 'fa-heart', { active: isFavorite }]"></i>
+          </div>
+          <div class="embedded-video">
+            <b-embed type="iframe" :src="embedURL()"></b-embed>
+          </div>
         </div>
         <div class="mesgs">
           <div class="review_history">
-            <div
-              class="incoming_review"
-              v-for="(review, index) in reviews"
-              :key="review.id"
-              :class="index % 2 === 0 ? 'received_review' : 'sent_review'"
-            >
-              <div class="message">
-                <div class="message_content">
-                  <p>{{ review.text }}</p>
-                  <span class="time_date">{{ review.time }}</span>
-                  <span class="time_date">{{ review.rate }}</span>
+            <div class="review_scroll">
+              <div
+                class="incoming_review"
+                v-for="(review, index) in videoReviews"
+                :key="review.id"
+                :class="index % 2 === 0 ? 'received_review' : 'sent_review'">
+                <div class="message">
+                  <div class="message_content">
+                    <p>{{ review.content }}</p>
+                    <span class="time_date"
+                      >{{ review.writeTime }}
+                      <i
+                        v-for="n in review.rate"
+                        :key="n"
+                        class="fa fa-star"
+                        aria-hidden="true"></i
+                    ></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="type_review">
             <div class="input_review_write">
+              <span class="star-rating">
+                <i
+                  v-for="n in 5"
+                  :key="n"
+                  :class="['fa', 'fa-star', { active: n <= selectedRating }]"
+                  @click="selectRating(n)"></i>
+              </span>
               <input
                 type="text"
                 class="write_review"
                 placeholder="Type a review"
-                v-model="newreviewText"
-              />
-              <button class="review_send_btn" type="button" @click="sendreview">
+                v-model="newReviewText" />
+              <button class="review_send_btn" type="button" @click="sendReview">
                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
               </button>
             </div>
@@ -42,8 +60,6 @@
   </div>
 </template>
 
-
-
 <script>
 import { mapState } from "vuex";
 
@@ -52,35 +68,21 @@ export default {
   data() {
     return {
       videoId: "",
-      newreviewText: "",
+      newReviewText: "",
+      selectedRating: 0,
+      isFavorite: false,
+      zzimNum: 0,
     };
   },
   computed: {
-    ...mapState(["videoReviews", "video"]),
-    reviews() {
-      // 여기에서 실제로 사용할 메시지 데이터를 반환합니다. 예시로 하드코딩하였습니다.
-      return [
-        {
-          id: 1,
-          text: "Test which is a new approach to have all solutions",
-          time: "11:01 AM | June 9",
-        },
-        {
-          id: 2,
-          text: "Test, which is a new approach to have",
-          time: "11:01 AM | Yesterday",
-        },
-        {
-          id: 3,
-          text: "Apollo University, Delhi, India Test",
-          time: "11:01 AM | Today",
-        },
-        {
-          id: 4,
-          text: "We work directly with our designers and suppliers, and sell direct to you, which means quality, exclusive products, at a price anyone can afford.",
-          time: "11:01 AM | Today",
-        },
-      ];
+    ...mapState(["videoReviews", "video", "ZzimList"]),
+    containerWidth() {
+      const viewportWidth =
+        window.innerWidth || document.documentElement.clientWidth;
+      return `${viewportWidth * 0.9}px`;
+    },
+    isFavorite() {
+      return this.video.isFavorite;
     },
   },
   created() {
@@ -88,12 +90,20 @@ export default {
     const id = pathName[pathName.length - 1];
     this.videoId = id;
     if (this.video.videoId !== this.videoId) {
-      alert("잘못된 접근입니다.");
       this.$router.push("/");
       this.$router.go(0);
     }
   },
   methods: {
+    toggleFavorite() {
+      if (this.isFavorite) this.$store.dispatch("deleteZzim", this.zzimNum);
+      else this.$store.dispatch("addZzim");
+
+      this.isFavorite = !this.isFavorite;
+    },
+    selectRating(rating) {
+      this.selectedRating = rating;
+    },
     embedURL() {
       return `https://www.youtube.com/embed/${this.videoId}?rel=0`;
     },
@@ -104,17 +114,44 @@ export default {
       const containerHeight = windowHeight - containerTop;
       container.style.height = `${containerHeight}px`;
     },
-    sendreview() {
-      if (this.newreviewText) {
-        // 메시지 전송 로직을 추가하세요.
-        console.log("Send review:", this.newreviewText);
-        this.newreviewText = ""; // 입력 필드 비우기
+    sendReview() {
+      if (this.newReviewText && this.selectedRating > 0) {
+        let videoReview = {
+          videoId: this.videoId,
+          userId: this.$store.state.loginUser.userId,
+          content: this.newReviewText,
+          rate: this.selectedRating,
+        };
+        this.$store.dispatch("addReview", videoReview);
+        this.newReviewText = "";
+        this.selectedRating = 0;
+      } else {
+        alert("리뷰 내용과 별점을 선택해주세요.");
       }
+    },
+    scrollToBottom() {
+      const container = this.$el.querySelector(".review_scroll");
+      container.scrollTop = container.scrollHeight;
     },
   },
   mounted() {
+    for (let Zzim of this.ZzimList) {
+      if (Zzim.videoId === this.videoId) {
+        this.isFavorite = true;
+        this.zzimNum = Zzim.zzimNum;
+        break;
+      }
+    }
+    this.$nextTick(() => {
+      this.scrollToBottom();
+    });
     window.addEventListener("resize", this.adjustContainerHeight);
     this.adjustContainerHeight();
+    this.$watch("videoReviews", () => {
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
+    });
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.adjustContainerHeight);
@@ -122,8 +159,48 @@ export default {
 };
 </script>
 
-
 <style>
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.favorite-icon .fa-heart {
+  font-size: 24px;
+}
+
+.favorite-icon .fa-heart.active {
+  color: red;
+}
+
+.time_date i {
+  color: #fcd12a;
+}
+
+.star-rating i.active {
+  color: #fcd12a;
+}
+
+.review_history {
+  background-color: transparent;
+  overflow-y: auto;
+  max-height: 100%-48pt;
+}
+
+.review_history::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.review_scroll {
+  padding-right: 15px;
+}
+
 .container {
   max-width: 1170px;
   margin: 0 auto;
@@ -131,18 +208,39 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .inbox_video {
   overflow: hidden;
-  width: 100%; /* 가로 길이를 100%로 조정 */
+  width: 100%;
   border-right: 1px solid #c4c4c4;
   display: flex;
   justify-content: center;
-  align-items: center; /* 동영상을 수직으로 가운데 정렬 */
+  align-items: center;
+  height: 60vw;
 }
 
+.embedded-video {
+  position: relative;
+  padding-bottom: 56.25%;
+  width: 100%;
+}
+
+.embedded-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 .inbox_review {
   border: 1px solid #c4c4c4;
   clear: both;
@@ -153,10 +251,13 @@ export default {
 
 .mesgs {
   padding: 30px 15px 0 25px;
-  width: 60%;
+  width: 100%;
+  height: 60vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-/* Remove the white background */
 .review_history {
   background-color: transparent;
 }
@@ -175,6 +276,20 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+
+.sent_review .message {
+  text-align: right;
+}
+
+.sent_review .message_content p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 12px 5px 10px;
+  width: 100%;
 }
 
 .message {
@@ -230,7 +345,9 @@ export default {
 }
 
 .messaging {
-  padding: 0 0 50px 0;
+  padding: 0 0 30px 0;
+  width: 90vw;
+  height: 70vw;
 }
 
 .text-center {
