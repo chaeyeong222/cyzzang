@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+
 import http from "@/util/http.js"
 import router from "@/router";
 
@@ -12,6 +13,9 @@ export default new Vuex.Store({
     videoReviews: [],
     videoId: "",
     video: {},
+    users: [],
+    user: {},
+    loginUser: null,
   },
   getters: {
   },
@@ -25,8 +29,36 @@ export default new Vuex.Store({
     SET_VIDEO(state, video) {
       state.video = video;
     },
+    CREATE_USER: function (state, user) {
+      state.users.push(user);
+    },
+    SET_USER: function (state, user) {
+      state.user = user;
+    },
+    SET_USERS: function (state, users) {
+      state.users = users;
+    },
+    SET_LOGIN_USER: function (state, user) {
+      state.loginUser = user;
+    },
+    LOGOUT: function (state) {
+      state.loginUser = null;
+    },
+
   },
   actions: {
+    createUser({ commit }, user) {
+      console.log(user)
+      http.post("userapi/user", user)
+        .then(() => {
+          commit("CREATE_USER", user);
+          alert("회원가입 완료");
+          router.push("/login"); //로그인 화면으로 이동하기
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     videoSearch({ commit }, word) {
       console.log(word);
       const apiKey = 'AIzaSyBCemuYfu5PQsgPVL_oTEudlK9GnsKZ4is';
@@ -54,13 +86,13 @@ export default new Vuex.Store({
       http.get(`reviewapi/video/${videoId}`)
         .then((res) => {
           commit("SET_VIDEO_REVIEWS", res.data);
-          for(let video of this.state.videos){
-            if(video.videoId === videoId){
+          for (let video of this.state.videos) {
+            if (video.videoId === videoId) {
               commit("SET_VIDEO", video);
               break;
             }
           }
-          
+
           router.push(`/video/${videoId}`)
         })
         .catch((err) => { console.log(err) });
