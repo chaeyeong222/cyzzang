@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ContentView from "@/views/ContentView.vue";
-import VideoSearch from "@/components/VideoSearch.vue";
+import VideoSearch from "@/components/video/VideoSearch.vue";
+import VideoDetail from "@/components/video/VideoDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,18 @@ const routes = [
   {
     path: "/video",
     component: ContentView,
-    children: [{ path: "", name: "list", component: VideoSearch }],
+    children: [
+      {
+        path: "",
+        name: "list",
+        component: VideoSearch
+      },
+      {
+        path: ":videoId",
+        name: "VideoDetail",
+        component: VideoDetail
+      }
+    ],
   },
 ];
 

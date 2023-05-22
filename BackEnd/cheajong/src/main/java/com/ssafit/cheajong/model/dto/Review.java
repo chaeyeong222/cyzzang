@@ -1,14 +1,12 @@
 package com.ssafit.cheajong.model.dto;
 
-import java.sql.Date;
-
 public class Review {
 
 	private int reviewNum;
 	private String videoId;
 	private String userId;
 	private String content;
-	private Date writeTime;
+	private String writeTime;
 	private int rate;
 
 	public int getReviewNum() {
@@ -43,11 +41,11 @@ public class Review {
 		this.content = content;
 	}
 
-	public Date getWriteTime() {
+	public String getWriteTime() {
 		return writeTime;
 	}
 
-	public void setWriteTime(Date writeTime) {
+	public void setWriteTime(String writeTime) {
 		this.writeTime = writeTime;
 	}
 
