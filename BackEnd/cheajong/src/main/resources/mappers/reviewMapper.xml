@@ -32,7 +32,7 @@
 		video_id AS videoId,
 		(SELECT user_id FROM User WHere user_num = Review.user_num) AS userId,
 		content,
-		write_time AS writeTime,
+		date_format(write_time,'%y-%m-%d %H:%i:%s') AS writeTime,
 		rate
 		FROM Review WHERE video_id =#{videoId};
 	</select>
@@ -42,7 +42,7 @@
 		video_id AS videoId,
 		(SELECT user_id FROM User WHere user_num = Review.user_num) AS userId,
 		content,
-		write_time AS writeTime,
+		date_format(write_time,'%y-%m-%d %H:%i:%s') AS writeTime,
 		rate
 		FROM Review WHERE user_num = (SELECT user_num FROM User WHERE user_id =
 		#{userId})

@@ -70,7 +70,7 @@ public class ReviewController {
 			if (res.size() > 0)
 				return new ResponseEntity<List<Review>>(res, HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

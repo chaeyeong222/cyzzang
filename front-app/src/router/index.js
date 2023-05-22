@@ -3,10 +3,11 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyUser from "../views/MyUser.vue";
 import ContentView from "@/views/ContentView.vue";
-import VideoSearch from "@/components/VideoSearch.vue";
+
+import VideoSearch from "@/components/video/VideoSearch.vue";
+import VideoDetail from "@/components/video/VideoDetail.vue";
 import LoginForm from "@/components/user/LoginForm.vue";
 import Regist from "@/components/user/Regist.vue";
-
 
 Vue.use(VueRouter);
 
@@ -24,20 +25,31 @@ const routes = [
   {
     path: "/video",
     component: ContentView,
-    children: [{ path: "", name: "list", component: VideoSearch }],
+    children: [
+      {
+        path: "",
+        name: "list",
+        component: VideoSearch
+      },
+      {
+        path: ":videoId",
+        name: "VideoDetail",
+        component: VideoDetail
+      }
+    ],
   },
   {
     path: "/login",
-    name:"Login",
-    component: LoginForm, 
+    name: "Login",
+    component: LoginForm,
   },
   {
-    path:"/user",
+    path: "/user",
     component: MyUser,
-    children:[
+    children: [
       {
-        path : "/regist",
-        name : "Regist",
+        path: "/regist",
+        name: "Regist",
         component: Regist,
       }
     ]
