@@ -1,11 +1,26 @@
 <template>
-  <div>
+  <div style="justify-content: center">
+    <div class="header-container">
+      <input
+        type="text"
+        class="search-input"
+        @keyup.enter="videoSearch"
+        v-bind="searchWord"
+        ref="search"
+        placeholder="검색어를 입력하세요"
+      />
+      <button class="search-button" @click="videoSearch">검색</button>
+    </div>
     <div class="card-container">
-      <b-card v-for="(video, index) in paginatedVideos" :key="index" class="card">
+      <b-card
+        v-for="(video, index) in paginatedVideos"
+        :key="index"
+        class="card"
+      >
         <template #header>
-          <img :src="getThumbnailUrl(video.videoId)" style="width: 100%;" />
+          <img :src="getThumbnailUrl(video.videoId)" style="width: 100%" />
         </template>
-        <p class="card-text">{{ video.title }}</p>
+        <p class="card-text">{{ truncateTitle(video.title) }}</p>
         <p class="card-text">{{ video.channelTitle }}</p>
       </b-card>
     </div>
@@ -21,18 +36,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
   name: "SearchResult",
   data() {
     return {
       currentPage: 1,
-      perPage: 15,
+      perPage: 0,
+      searchWord: "",
     };
   },
+
   computed: {
-    ...mapState(["videos"]),
+    videos() {
+      return this.$store.state.videos;
+    },
     paginatedVideos() {
       const startIndex = (this.currentPage - 1) * this.perPage;
       const endIndex = startIndex + this.perPage;
@@ -40,42 +57,89 @@ export default {
     },
   },
   methods: {
+    videoSearch() {
+      this.$store.dispatch("videoSearch", this.searchWord);
+      this.$refs.search.value = "";
+    },
     videoSize() {
       return this.videos.length;
     },
     getThumbnailUrl(videoId) {
       return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
     },
+    updatePerPage() {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 768) {
+        this.perPage = 10;
+      } else if (screenWidth >= 480) {
+        this.perPage = 6;
+      } else {
+        this.perPage = 1;
+      }
+    },
+    truncateTitle(title) {
+      const maxLength = 20;
+      if (title.length <= maxLength) {
+        return title;
+      } else {
+        return title.slice(0, maxLength) + "...";
+      }
+    },
+  },
+  created() {
+    this.updatePerPage();
+    window.addEventListener("resize", this.updatePerPage);
+    this.perPage = this.calculatePerPage();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updatePerPage);
   },
 };
 </script>
 
 <style>
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
+.card {
+  width: calc(100% / 6);
+  margin: 10px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.search-input {
+  flex: 0.8;
+  margin-right: 10px;
+}
+
+.search-button {
+  width: 80px;
+}
+
+@media (max-width: 768px) {
   .card {
-    width: calc(100% / 6);
-    margin: 10px;
+    width: calc(100% / 4);
   }
+}
 
-  @media (max-width: 768px) { 
-    .card {
-      width: calc(100% / 4);
-    }
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
   }
-
-  @media (max-width: 480px) { 
-    .card {
-      width: 100% - 20px;
-    }
-  }
-  .pagination-container {
-    display: flex;
-    justify-content: center; 
-    margin-top: 20px;
-  }
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 </style>

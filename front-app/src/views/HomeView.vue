@@ -23,19 +23,25 @@
           :key="item.number"
           class="gallery__item"
           data-scroll
-          data-scroll-speed="1">
+          data-scroll-speed="1"
+        >
           <div class="gallery__item-img">
             <div
               class="gallery__item-imginner"
-              :style="`background-image: url(${item.image})`"></div>
+              :style="`background-image: url(${item.image})`"
+            ></div>
           </div>
           <figcaption class="gallery__item-caption">
             <h2 class="gallery__item-title">{{ item.engtitle }}</h2>
             <span class="gallery__item-number">{{ item.number }}</span>
             <p class="gallery__item-tags">
-              <span v-for="tag in item.tags" :key="tag"><a @click="videoSearch(tag)">#{{ tag }}</a></span>
+              <span v-for="tag in item.tags" :key="tag"
+                ><a @click="videoSearch(tag)">#{{ tag }}</a></span
+              >
             </p>
-            <a @click="videoSearch(item.title)" class="gallery__item-link">{{ item.title }}</a>
+            <a @click="videoSearch(item.title)" class="gallery__item-link">{{
+              item.title
+            }}</a>
           </figcaption>
         </figure>
         <div class="gallery__text">
@@ -62,10 +68,11 @@
 <script>
 export default {
   name: "HomeView",
-  methods:{
-    videoSearch(word){
-      this.$store.dispatch("videoSearch",word);
-    }
+  methods: {
+    videoSearch(word) {
+      this.$store.dispatch("videoSearch", word);
+      this.$router.push("/video");
+    },
   },
   data() {
     return {
