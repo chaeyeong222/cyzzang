@@ -44,17 +44,17 @@
             }}</a>
           </figcaption>
         </figure>
-        <div class="gallery__text">
+        <div class="gallery__text_d">
           <span
             class="gallery__text-inner"
             data-scroll
-            data-scroll-speed="-4"
+            data-scroll-speed="-1"
             data-scroll-direction="vertical"
             >{{ thirdText }}</span
           >
           <span
             data-scroll
-            data-scroll-speed="3"
+            data-scroll-speed="1"
             data-scroll-direction="vertical"
             class="gallery__text-inner"
             >{{ fourthText }}</span
@@ -164,8 +164,8 @@ export default {
           tags: ["sad", "mouth", "tear"],
         },
       ],
-      thirdText: "Hexed",
-      fourthText: "kambu",
+      thirdText: "Health is not valued",
+      fourthText: "till sickness comes",
     };
   },
 };

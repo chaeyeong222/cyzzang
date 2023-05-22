@@ -36,10 +36,10 @@ public class ZzimController {
 		}
 	}
 
-	@DeleteMapping("/zzim/{zzimId}")
-	public ResponseEntity<?> deleteZzim(@PathVariable int zzimId) {
+	@DeleteMapping("/zzim/{zzimNum}")
+	public ResponseEntity<?> deleteZzim(@PathVariable int zzimNum) {
 		try {
-			int res = zService.deleteZzim(zzimId);
+			int res = zService.deleteZzim(zzimNum);
 			if (res == 1)
 				return new ResponseEntity<>(HttpStatus.ACCEPTED);
 			else
