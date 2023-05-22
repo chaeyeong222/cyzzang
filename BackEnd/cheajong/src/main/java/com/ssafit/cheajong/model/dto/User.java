@@ -9,8 +9,7 @@ public class User {
 	private String img;
 	private double height;
 	private double weight;
-
-	private String tmpPassword;
+ 
 	
 	public User() {
 	}
@@ -80,14 +79,6 @@ public class User {
 	}
 
 	
-	
-	public String getTmpPassword() {
-		return tmpPassword;
-	}
-
-	public void setTmpPassword(String tmpPassword) {
-		this.tmpPassword = tmpPassword;
-	}
 
 	@Override
 	public String toString() {

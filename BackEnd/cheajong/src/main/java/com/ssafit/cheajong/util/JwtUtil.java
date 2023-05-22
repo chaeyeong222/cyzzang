@@ -15,7 +15,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 // 토큰 생성을 위한 클래스
 @Component
 public class JwtUtil {
-	private static final String Salt = "ZZINCHAJONG";
+	private static final String Salt = "ZZINCHAEJONG"; //암호키     
 
 	public String createToken(String claimId, String data) throws UnsupportedEncodingException {
 
