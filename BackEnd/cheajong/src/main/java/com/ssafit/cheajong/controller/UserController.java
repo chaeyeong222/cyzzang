@@ -79,12 +79,7 @@ public class UserController {
 	 */
 	@PostMapping("/user")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
-	public ResponseEntity<?> insertUser(@RequestBody User user) {
-<<<<<<< HEAD
-		System.out.println("들어오아ㅏ");
-=======
-		System.out.println("들어오나    ");
->>>>>>> e910587ff8be383afef623f7f78dfc525d239365
+	public ResponseEntity<?> insertUser(@RequestBody User user) { 
 		try {
 			// 암호화 방식 추가
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
