@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import http from "@/util/http.js";
+import http from "@/util/http";
 import router from "@/router";
 
 Vue.use(Vuex);
+
+const URL = "http://localhost:9999/";
 
 export default new Vuex.Store({
   state: {
@@ -38,7 +40,7 @@ export default new Vuex.Store({
       state.users = users;
     },
     SET_LOGIN_USER(state) {
-      let token = sessionStorage.getItem("access-token");
+      let token = sessionStorage.getItem("Authorization");
       if (token) {
         let base64Payload = token.split(".")[1];
         let payload = new TextDecoder().decode(
@@ -50,7 +52,7 @@ export default new Vuex.Store({
     },
     LOGOUT(state) {
       state.loginUser = null;
-      sessionStorage.removeItem("access-token");
+      sessionStorage.removeItem("Authorization");
     },
     DELETE_ZZIM(state, zzimNum) {
       for (let zzim of state.zzimList) {
@@ -71,11 +73,11 @@ export default new Vuex.Store({
     createUser({ commit }, user) {
       console.log(user);
       http
-        .post("userapi/user", user)
+        .post("userapi/regist", user)
         .then(() => {
           commit("CREATE_USER", user);
           alert("회원가입 완료");
-          router.push("/login"); //로그인 화면으로 이동하기
+          router.push("user/login"); //로그인 화면으로 이동하기
         })
         .catch((err) => {
           console.log(err);
@@ -109,8 +111,15 @@ export default new Vuex.Store({
         });
     },
     setVideoReviews({ commit }, videoId) {
-      http
-        .get(`reviewapi/video/${videoId}`)
+      console.log();
+      axios({
+        method: "GET",
+        url: URL + `reviewapi/video/${videoId}`,
+        headers: {
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
+        },
+      })
         .then((res) => {
           commit("SET_VIDEO_REVIEWS", res.data);
           for (let video of this.state.videos) {
@@ -123,20 +132,23 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err);
+          alert("로그인을 먼저 해주세요");
         });
     },
-    setLoginUser({ commit }, user) {
+    setLoginUser(context, user) {
       http
         .post("userapi/login", user)
         .then((res) => {
-          sessionStorage.setItem("access-token", res.data["access-token"]);
-          commit("SET_LOGIN_USER");
-          this.actions.setZzimList(user.userId);
+          console.log(res.data);
+          sessionStorage.setItem("Authorization", res.data["Authorization"]);
+          context.commit("SET_LOGIN_USER");
           router.push("/");
+          router.go(0);
         })
         .catch((err) => {
           console.log(err);
         });
+      context.dispatch("setZzimList");
     },
     addReview({ commit }, newReview) {
       http
@@ -167,23 +179,29 @@ export default new Vuex.Store({
         });
     },
     setZzimList({ commit }) {
-      let token = sessionStorage.getItem("access-token");
-      let base64Payload = token.split(".")[1];
-      let payload = new TextDecoder().decode(
-        new Uint8Array([...atob(base64Payload)].map((c) => c.charCodeAt(0)))
-      );
-      let result = JSON.parse(payload.toString());
-      http
-        .get(`zzimapi/user/${result.userId}`)
-        .then((res) => {
-          console.log(res.data);
-          commit("SET_ZZIMLIST", res.data);
+      let token = sessionStorage.getItem("Authorization");
+      if (token) {
+        let base64Payload = token.split(".")[1];
+        let payload = new TextDecoder().decode(
+          new Uint8Array([...atob(base64Payload)].map((c) => c.charCodeAt(0)))
+        );
+        let result = JSON.parse(payload.toString());
+        axios({
+          method: "GET",
+          url: URL + `zzimapi/user/${result.userId}`,
+          headers: {
+            "Authorization": sessionStorage.getItem("Authorization"),
+            "Content-Type": "application/json",
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((res) => {
+            if (res.data !== null) commit("SET_ZZIMLIST", res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
-
     addZzim({ commit }) {
       let newZzim = {
         userId: this.state.loginUser.userId,
@@ -191,8 +209,15 @@ export default new Vuex.Store({
         title: this.state.video.title,
         channelName: this.state.video.channelTitle,
       };
-      http
-        .post("zzimapi/zzim", newZzim)
+      axios({
+        method: "POST",
+        url: URL + "zzimapi/zzim",
+        headers: {
+          "Authorization": sessionStorage.getItem("Authorization"),
+          "Content-Type": "application/json",
+        },
+        data: newZzim,
+      })
         .then(() => {
           commit("ADD_ZZIM", newZzim);
         })

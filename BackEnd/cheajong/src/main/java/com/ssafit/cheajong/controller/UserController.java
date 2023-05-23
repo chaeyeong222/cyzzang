@@ -70,8 +70,7 @@ public class UserController {
 				returnUser.put("nickName", target.getNickName());
 				returnUser.put("height", target.getHeight());
 				returnUser.put("weight", target.getWeight());
-				String token = jwtUtil.createToken(returnUser);
-				result.put("access-token", token);
+				result.put("Authorization", jwtUtil.createToken(returnUser));
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -83,7 +82,7 @@ public class UserController {
 	/**
 	 * 회원가입
 	 */
-	@PostMapping("/user")
+	@PostMapping("/regist")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
 		try {
@@ -153,7 +152,7 @@ public class UserController {
 	/**
 	 * 회원 중복 확인
 	 */
-	@GetMapping("/user/{userId}")
+	@GetMapping("/dupli/{userId}")
 	@ApiOperation(value = "{userId}에 해당하는 user가 이미 존재 하는지 확인한다  .")
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
@@ -191,7 +190,7 @@ public class UserController {
 	 */
 
 	@Transactional
-	@PutMapping("/email")
+	@PutMapping("/sendemail")
 	@ApiOperation(value = "임시 비밀번호 생성해서 db 수정 후, 이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
 		System.out.println("memberEmail " + memberEmail);
