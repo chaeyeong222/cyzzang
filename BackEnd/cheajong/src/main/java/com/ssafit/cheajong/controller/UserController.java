@@ -11,6 +11,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +31,11 @@ import com.ssafit.cheajong.model.service.UserService;
 import com.ssafit.cheajong.util.Encrypt;
 import com.ssafit.cheajong.util.JwtUtil;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiOperation; 
 
 @RestController
 @RequestMapping("/userapi")
+@CrossOrigin("*")
 public class UserController {
 
 	@Autowired
@@ -78,6 +80,7 @@ public class UserController {
 	@PostMapping("/user/regist")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
+		System.out.println("들어오아ㅏ");
 		try {
 			// 암호화 방식 추가
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
@@ -145,14 +148,18 @@ public class UserController {
 	 * 회원 중복 확인
 	 */
 	@GetMapping("/user/{userId}")
-	@ApiOperation(value = "{userId}에 해당하는 user가 이미 존재 하는지 확인한다  .", response = Boolean.class)
+	@ApiOperation(value = "{userId}에 해당하는 user가 이미 존재 하는지 확인한다  .")
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
 			User user = us.searchByUserId(userId);
-			if (user != null)
-				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-			else
-				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			String userCheckedId="";
+			if (user != null) {
+				userCheckedId = user.getUserId(); 
+				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
+			}else { 
+				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
+			}
+				
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -182,7 +189,7 @@ public class UserController {
 
 	@Transactional
 	@PutMapping("/email")
-	@ApiOperation(value = "이메일 보내기기능    .")
+	@ApiOperation(value = "임시 비밀번호 생성해서 db 수정 후, 이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
 		System.out.println("memberEmail " + memberEmail);
 
@@ -211,16 +218,21 @@ public class UserController {
 	 * 가입된 이메일 있는 지 체크
 	 */
 	@GetMapping("/email/{emailAdress}")
-	@ApiOperation(value = "{emailAdress}에 해당하는 이메일이 이미 존재 하는지 확인한다  .", response = Boolean.class)
+	@ApiOperation(value = "{emailAdress}에 해당하는 이메일이 이미 존재 하는지 확인한다  .")
 	public ResponseEntity<?> emailCheck(@PathVariable String emailAdress) {
 		try {
 			User emailCheck = us.searchByEmail(emailAdress);
-			System.out.println("emailAdress " + emailAdress);
-			// System.out.println(emailCheck.getEmailAdress());
-			if (emailCheck != null)
-				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-			else
-				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			System.out.println("emailAdress " + emailAdress); 
+			String authenticNum = "";
+			if(emailCheck ==null) {
+				authenticNum = ms.getTmpPassword(); //인증번호 생성  
+				System.out.println("인증번호  " + authenticNum);  
+				// 이메일 보내기
+				MailVo mail = ms.createMailForAuthentic(authenticNum, emailAdress, 1);
+				ms.sendMail(mail);
+			} 
+			return new ResponseEntity<String>(authenticNum, HttpStatus.OK); 
+				
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
