@@ -1,5 +1,6 @@
 package com.ssafit.cheajong.interceptor;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +12,7 @@ import com.ssafit.cheajong.util.JwtUtil;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-	private static final String HEADER_AUTH = "access-token";
+	private static final String HEADER_AUTH = "Authorization";
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -19,15 +20,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-
-		if (request.getMethod().equals("OPTIONS"))
-			return false;
-
+		System.out.println(request.getHeader("Authorization"));
 		String token = request.getHeader(HEADER_AUTH);
 		if (token != null) {
 			jwtUtil.valid(token);
 			return true;
+		} else {
+			throw new Exception("로그인이 필요합니다.");
 		}
-		throw new Exception("로그인이 필요합니다.");
 	}
 }
