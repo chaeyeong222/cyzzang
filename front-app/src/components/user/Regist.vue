@@ -14,6 +14,7 @@
                         <div class="form-group mt-2">
                           <label for="userId">아이디</label>
                           <input
+                            :readonly="idCC"
                             type="text"
                             id="userId"
                             name="userId"
@@ -41,6 +42,7 @@
                         <div class="form-group mt-2">
                           <label for="emailAdress">이메일</label>
                           <input
+                            :readonly="emailCC"
                             type="email"
                             name="emailAdress"
                             class="form-style"
@@ -117,7 +119,7 @@
 </template>
 
 <script>
-import http from "@/util/http.js";
+import http from "@/util/http";
 
 export default {
   name: "UserList",
@@ -141,9 +143,10 @@ export default {
     regist() {
       if (
         this.password === "" ||
-        this.password2 === ""
+        this.password2 === "" ||
+        this.isPasswordMatch === false
       ) {
-        alert("모든 내용을 입력해주세요");
+        alert("비밀번호를 확인해주세요");
         return;
       }
 
@@ -160,7 +163,7 @@ export default {
 
     idDuplicateCheck(userId) {
       console.log(userId);
-      http.get(`userapi/user/${userId}`).then((res) => {
+      http.get(`userapi/dupli/${userId}`).then((res) => {
         console.log(res);
         if (res.data) {
           alert("사용가능한 아이디 입니다.");

@@ -24,15 +24,16 @@ public class WebConfig implements WebMvcConfigurer {
 	// 컨트롤러에 있는 모든 cors 설정 전역화
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/*/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
 	}
-	
+
 	// 이 아래는 토큰을 이용한 실행 제한 인터셉터, 프론트 설계에 따라서 exclude 내용추가 필요
 	@Autowired
 	private JwtInterceptor jwtinter;
-	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(jwtinter).addPathPatterns("/**").excludePathPatterns("/userapi/user/login");
-//	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(jwtinter).addPathPatterns("/**").excludePathPatterns("/userapi/login",
+				"/userapi/regist", "/userapi/dupli/*", "/userapi/email/*");
+	}
 }
