@@ -8,6 +8,7 @@ import VideoSearch from "@/components/video/VideoSearch.vue";
 import VideoDetail from "@/components/video/VideoDetail.vue";
 import LoginForm from "@/components/user/LoginForm.vue";
 import Regist from "@/components/user/Regist.vue";
+import MyPage from "@/components/user/MyPage.vue"
 
 Vue.use(VueRouter);
 
@@ -48,12 +49,19 @@ const routes = [
         component: Regist,
       },
       {
+        path:"mypage",
+        name:"MyPage",
+        component: MyPage,
+      },
+      {
         path: "login",
         name: "Login",
         component: LoginForm,
-      },
-    ],
+      } 
+    ]
+
   },
+ 
 ];
 
 const router = new VueRouter({
