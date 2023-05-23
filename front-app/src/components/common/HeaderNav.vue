@@ -19,9 +19,7 @@ import { mapState } from "vuex";
 export default {
   name: "HeaderNav",
   data() {
-    return {
-      modalShow: false,
-      sendMail: false,
+    return { 
     };
   },
   computed: {
