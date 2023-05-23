@@ -7,7 +7,7 @@
         type="text"
         class="search-input"
         @keyup.enter="videoSearch"
-        v-bind="searchWord"
+        v-model="searchWord"
         ref="search"
         placeholder="검색어를 입력하세요"
       />
