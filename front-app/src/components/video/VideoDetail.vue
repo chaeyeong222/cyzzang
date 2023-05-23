@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["videoReviews", "video", "ZzimList"]),
+    ...mapState(["videoReviews", "video", "zzimList"]),
     containerWidth() {
       const viewportWidth =
         window.innerWidth || document.documentElement.clientWidth;
@@ -142,10 +142,10 @@ export default {
     },
   },
   mounted() {
-    for (let Zzim of this.ZzimList) {
-      if (Zzim.videoId === this.videoId) {
+    for (let zzim of this.zzimList) {
+      if (zzim.videoId === this.videoId) {
         this.favorite = true;
-        this.zzimNum = Zzim.zzimNum;
+        this.zzimNum = zzim.zzimNum;
         break;
       }
     }
