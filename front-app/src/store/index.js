@@ -71,8 +71,7 @@ export default new Vuex.Store({
       const apiKey = "AIzaSyBCemuYfu5PQsgPVL_oTEudlK9GnsKZ4is";
       axios
         .get(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${
-            word + " 운동"
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${word + " 운동"
           }&key=${apiKey}&maxResults=50&type=video&videoSyndicated=true`
         )
         .then((response) => {
@@ -144,10 +143,10 @@ export default new Vuex.Store({
     },
     addZzim({ commit }) {
       let newZzim = {
-        userId: loginUser.userId,
+        userId: this.state.loginUser.userId,
         videoId: this.state.video.videoId,
         title: this.state.video.title,
-        channelName: this.state.video.channelName,
+        channelName: this.state.video.channelTitle,
       };
       http
         .post("zzimapi/zzim", newZzim)

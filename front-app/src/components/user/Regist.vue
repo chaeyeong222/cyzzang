@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section"> 
       <div class="container">
         <div class="row full-height justify-content-center">
           <div class="col-12 text-center align-self-center py-5">
@@ -48,7 +48,7 @@
                         </div>
                         </div>
                         <button v-if="registPossible" class="btn" style="width:120px" @click="regist">가입하기</button> 
-                          </div>
+                      </div>
                         </div>
                       </div>
                     </div>
@@ -59,6 +59,7 @@
         </div> 
   
   </template> 
+</template>  
   
 
 <script>
@@ -70,7 +71,7 @@ export default {
     return {
       userId: "",
       password: "",
-      nickName: "",
+      nickName: "", 
       emailAdress: "",  
       password2:"",
       emailSendCheck:false,
@@ -80,13 +81,13 @@ export default {
       authenticNumCC:false, //인증번호 확인 환료시
      // registPossible:false, //모든 확인 완료시 가입버튼 활성화
     };
-  }, 
+  },  
   methods: {
     regist() {
       if (
         this.userId === "" ||
         this.nickName === "" ||
-        this.emailAdress === "" || 
+        this.emailAdress === "" ||
         this.password === "" ||
         this.password2 === ""
       ) {
@@ -98,13 +99,13 @@ export default {
         userId: this.userId,
         password: this.password,
         nickName: this.nickName,
-        emailAdress: this.emailAdress, 
+        emailAdress: this.emailAdress,
       };
 
       alert("완료");
       this.$store.dispatch("createUser", user);
     },
-
+ 
     idDuplicateCheck(userId){
       console.log(userId);
       http.get(`userapi/user/${userId}`) 
@@ -116,10 +117,10 @@ export default {
         }else{
           alert("사용 불가능한 아이디 입니다. ")
           this.$refs.idDupCheck.value = "";
-        } 
-      }) 
+        }
+      });
     },
-
+ 
     emailDuplicateCheck(emailAdress){
       http.get(`userapi/email/${emailAdress}`) 
       .then((res)=>{
@@ -154,18 +155,17 @@ export default {
     }, 
     registPossible(){
       return this.idCC ==true && this.emailCC==true && this.authenticNumCC;
-    } 
-
+    }  
   },
+  computed: {},
 };
 </script>
 
 
 
 <style>
-
-body{
-  font-family: 'Poppins', sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-size: 15px;
   line-height: 1.7;
@@ -202,26 +202,26 @@ p {
 h4 {
   font-weight: 600;
 }
-h6 span{
+h6 span {
   padding: 0 20px;
   text-transform: uppercase;
   font-weight: 700;
 }
-.section{
+.section {
   position: relative;
   width: 100%;
   display: block;
 }
-.full-height{
+.full-height {
   min-height: 100vh;
 }
 [type="checkbox"]:checked,
-[type="checkbox"]:not(:checked){
+[type="checkbox"]:not(:checked) {
   position: absolute;
   left: -9999px;
 }
 .checkbox:checked + label,
-.checkbox:not(:checked) + label{
+.checkbox:not(:checked) + label {
   position: relative;
   display: block;
   text-align: center;
@@ -234,7 +234,7 @@ h6 span{
   background-color: #ffeba7;
 }
 .checkbox:checked + label:before,
-.checkbox:not(:checked) + label:before{
+.checkbox:not(:checked) + label:before {
   position: absolute;
   display: block;
   width: 36px;
@@ -242,8 +242,8 @@ h6 span{
   border-radius: 50%;
   color: #ffeba7;
   background-color: #102770;
-  font-family: 'unicons';
-  content: '\eb4f';
+  font-family: "unicons";
+  content: "\eb4f";
   z-index: 20;
   top: -10px;
   left: -10px;
@@ -255,7 +255,6 @@ h6 span{
 .checkbox:checked + label:before {
   transform: translateX(44px) rotate(-270deg);
 }
-
 
 .card-3d-wrap {
   position: relative;
@@ -270,18 +269,19 @@ h6 span{
 .card-3d-wrapper {
   width: 100%;
   height: 100%;
-  position:absolute;    
+  position: absolute;
   top: 0;
-  left: 0;  
+  left: 0;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  transition: all 600ms ease-out; 
+  transition: all 600ms ease-out;
 }
-.card-front, .card-back {
+.card-front,
+.card-back {
   width: 100%;
   height: 100%;
   background-color: #2a2b38;
-  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg");
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: 300%;
@@ -302,7 +302,7 @@ h6 span{
 .checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
   transform: rotateY(180deg);
 }
-.center-wrap{
+.center-wrap {
   position: absolute;
   width: 100%;
   padding: 0 35px;
@@ -313,12 +313,11 @@ h6 span{
   display: block;
 }
 
-
-.form-group{ 
+.form-group {
   position: relative;
   display: block;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .form-style {
   padding: 13px 20px 0px 55px;
@@ -336,13 +335,13 @@ h6 span{
   border: none;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
-  box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+  box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
 .form-style:focus,
 .form-style:active {
   border: none;
   outline: none;
-  box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+  box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
 .input-icon {
   position: absolute;
@@ -354,62 +353,62 @@ h6 span{
   text-align: left;
   color: #ffeba7;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
 
-.form-group input:-ms-input-placeholder  {
+.form-group input:-ms-input-placeholder {
   color: #c4c3ca;
   opacity: 0.7;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input::-moz-placeholder  {
+.form-group input::-moz-placeholder {
   color: #c4c3ca;
   opacity: 0.7;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input:-moz-placeholder  {
+.form-group input:-moz-placeholder {
   color: #c4c3ca;
   opacity: 0.7;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input::-webkit-input-placeholder  {
+.form-group input::-webkit-input-placeholder {
   color: #c4c3ca;
   opacity: 0.7;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input:focus:-ms-input-placeholder  {
+.form-group input:focus:-ms-input-placeholder {
   opacity: 0;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input:focus::-moz-placeholder  {
+.form-group input:focus::-moz-placeholder {
   opacity: 0;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input:focus:-moz-placeholder  {
+.form-group input:focus:-moz-placeholder {
   opacity: 0;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-.form-group input:focus::-webkit-input-placeholder  {
+.form-group input:focus::-webkit-input-placeholder {
   opacity: 0;
   -webkit-transition: all 200ms linear;
-    transition: all 200ms linear;
+  transition: all 200ms linear;
 }
-
-.btn{  
-  width: 70px ;
+ 
+.btn { 
+  width: 70px ; 
   border-radius: 4px;
   height: 44px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  -webkit-transition : all 200ms linear;
+  -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
   padding: 0 5px;
   letter-spacing: 1px;
@@ -429,21 +428,17 @@ h6 span{
   border: none;
   background-color: #ffeba7;
   color: #102770;
-  box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+  box-shadow: 0 8px 24px 0 rgba(255, 235, 167, 0.2);
 }
 .btn:active,
-.btn:focus{  
+.btn:focus {
   background-color: #102770;
   color: #ffeba7;
-  box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+  box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
 }
-.btn:hover{  
+.btn:hover {
   background-color: #102770;
   color: #ffeba7;
-  box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+  box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
 }
-
-
-
-
 </style>
