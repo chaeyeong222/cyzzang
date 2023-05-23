@@ -31,7 +31,7 @@ import com.ssafit.cheajong.model.service.UserService;
 import com.ssafit.cheajong.util.Encrypt;
 import com.ssafit.cheajong.util.JwtUtil;
 
-import io.swagger.annotations.ApiOperation; 
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/userapi")
@@ -61,11 +61,17 @@ public class UserController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			// 암호화된 비밀번호 비교를 통해서 로그인 가능여부 판단
-			String ecpPassword = ecp.getEncrypt(user.getPassword());
+//			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			User target = us.searchByUserId(user.getUserId());
 			// 아이디와 비밀번호 모두 일치할 경우 토큰 생성해서 반환
-			if (user != null && target.getPassword().equals(ecpPassword)) {
-				result.put("access-token", jwtUtil.createToken("id", user.getUserId()));
+			System.out.println(target);
+			if (user != null && target.getPassword().equals(user.getPassword())) {
+				Map<String, Object> returnUser = new HashMap<>();
+				returnUser.put("userId", target.getUserId());
+				returnUser.put("nickName", target.getNickName());
+				returnUser.put("height", target.getHeight());
+				returnUser.put("weight", target.getWeight());
+				result.put("access-token", jwtUtil.createToken(returnUser));
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -79,7 +85,7 @@ public class UserController {
 	 */
 	@PostMapping("/user")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
-	public ResponseEntity<?> insertUser(@RequestBody User user) { 
+	public ResponseEntity<?> insertUser(@RequestBody User user) {
 		try {
 			// 암호화 방식 추가
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
@@ -152,14 +158,14 @@ public class UserController {
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
 			User user = us.searchByUserId(userId);
-			String userCheckedId="";
+			String userCheckedId = "";
 			if (user != null) {
-				userCheckedId = user.getUserId(); 
+				userCheckedId = user.getUserId();
 				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
-			}else { 
+			} else {
 				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
 			}
-				
+
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -222,22 +228,20 @@ public class UserController {
 	public ResponseEntity<?> emailCheck(@PathVariable String emailAdress) {
 		try {
 			User emailCheck = us.searchByEmail(emailAdress);
-			System.out.println("emailAdress " + emailAdress); 
+			System.out.println("emailAdress " + emailAdress);
 			String authenticNum = "";
-			if(emailCheck ==null) {
-				authenticNum = ms.getTmpPassword(); //인증번호 생성  
-				System.out.println("인증번호  " + authenticNum);  
+			if (emailCheck == null) {
+				authenticNum = ms.getTmpPassword(); // 인증번호 생성
+				System.out.println("인증번호  " + authenticNum);
 				// 이메일 보내기
 				MailVo mail = ms.createMailForAuthentic(authenticNum, emailAdress, 1);
 				ms.sendMail(mail);
-			} 
-			return new ResponseEntity<String>(authenticNum, HttpStatus.OK); 
-				
+			}
+			return new ResponseEntity<String>(authenticNum, HttpStatus.OK);
+
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-
-	
 
 }

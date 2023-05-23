@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios"; 
+import axios from "axios";
 import http from "@/util/http.js";
 import router from "@/router";
 
@@ -14,7 +14,7 @@ export default new Vuex.Store({
     video: {},
     users: [],
     user: {},
-    loginUser: {},
+    loginUser: null,
     ZzimList: [],
   },
   getters: {},
@@ -37,11 +37,18 @@ export default new Vuex.Store({
     SET_USERS(state, users) {
       state.users = users;
     },
-    SET_LOGIN_USER(state, user) {
-      state.loginUser = user;
+    SET_LOGIN_USER(state) {
+      let token = sessionStorage.getItem("access-token");
+      if (token) {
+        let base64Payload = token.split('.')[1];
+        let payload = Buffer.from(base64Payload, 'base64');
+        let result = JSON.parse(payload.toString());
+        state.loginUser = result;
+      }
     },
     LOGOUT(state) {
       state.loginUser = null;
+      sessionStorage.removeItem("access-token");
     },
     DELETE_ZZIM(state, zzimNum) {
       for (let zzim of state.ZzimList) {
@@ -94,7 +101,6 @@ export default new Vuex.Store({
         });
     },
     setVideoReviews({ commit }, videoId) {
-      this.state.loginUser.userId = "qwer";
       http
         .get(`reviewapi/video/${videoId}`)
         .then((res) => {
@@ -112,8 +118,17 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    setLoginUser({ commit }, user) {
+      http.post("userapi/user/login", user)
+        .then((res) => {
+          sessionStorage.setItem("access-token", res.data.access - token);
+          commit("SET_LOGIN_USER");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     addReview({ commit }, newReview) {
-      console.log(newReview);
       http
         .post("reviewapi/review", newReview)
         .then(() => {

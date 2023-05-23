@@ -61,6 +61,9 @@ const preloadFonts = (id) => {
 
 export default {
   components: { HeaderNav },
+  created() {
+    this.$store.commit("SET_LOGIN_USER");
+  },
   mounted() {
     const lscroll = new LocomotiveScroll({
       el: this.$el.querySelector("[data-scroll-container]"),
