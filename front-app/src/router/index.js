@@ -29,32 +29,31 @@ const routes = [
       {
         path: "",
         name: "list",
-        component: VideoSearch
+        component: VideoSearch,
       },
       {
         path: ":videoId",
         name: "VideoDetail",
-        component: VideoDetail
-      }
+        component: VideoDetail,
+      },
     ],
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: LoginForm,
   },
   {
     path: "/user",
     component: MyUser,
     children: [
       {
-        path: "/regist",
+        path: "regist",
         name: "Regist",
         component: Regist,
-      }
-    ]
-
-  }
+      },
+      {
+        path: "login",
+        name: "Login",
+        component: LoginForm,
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
