@@ -25,7 +25,7 @@
           </div> 
           <button type="submit">저장</button>
         </form>
-        <router-link to="/myMenu">오늘의 식단 구성하기</router-link>
+        <router-link to="/user/myMenu">오늘의 식단 구성하기</router-link>
       </div>
       <div class="right-section">
         <h2>영상 찜 목록</h2>
