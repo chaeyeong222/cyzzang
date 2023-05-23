@@ -32,7 +32,11 @@
 	<!-- 유저아이디로 수정 , 키와 몸무게는 무조건 수정에서 입력됨.   -->
 	<update id="update" parameterType="User">
 	 UPDATE User 
+<<<<<<< HEAD
 	 SET nick_name = #{nickName}, height = #{height}, weight = #{weight}
+=======
+	 SET nickName = #{nickName}, password = #{password}, height = #{height}, weight = #{weight}
+>>>>>>> fcf34e3f346234312a6aad801a821fbfdc057a1e
 	 WHERE user_id = #{userId};
 	</update>
 	
