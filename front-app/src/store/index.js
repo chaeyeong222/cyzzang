@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
-
+import axios from "axios"; 
 import http from "@/util/http.js";
 import router from "@/router";
 
@@ -57,7 +56,7 @@ export default new Vuex.Store({
     createUser({ commit }, user) {
       console.log(user);
       http
-        .post("userapi/user", user)
+        .post("userapi/user/regist", user)
         .then(() => {
           commit("CREATE_USER", user);
           alert("회원가입 완료");
