@@ -108,22 +108,26 @@ public class UserController {
 	 * 수정
 	 */
 	@PutMapping("/user")
-	public ResponseEntity<?> update(@RequestBody User user, @RequestPart(required = false) MultipartFile file) {
+	public ResponseEntity<?> update(@RequestBody User user) {
 		try {
-			if (!file.isEmpty()) {
-				Resource res = resLoader.getResource("resources/upload");
-				if (!res.getFile().exists())
-					res.getFile().mkdir();
-				// 다른 것은 가입 시 저장과 동일, 하지만 이미지를 새로 입력시 기존 이미지를 삭제하는 양식 추가
-				if (us.searchByUserId(user.getUserId()) != null) {
-					String oldImg = us.searchByUserId(user.getUserId()).getImg();
-					File target = new File("resources/upload" + "/" + oldImg);
-					target.delete();
-				}
-				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
-				file.transferTo(new File(res.getFile(), user.getImg()));
-			}
+//			if (!file.isEmpty()) {
+//				Resource res = resLoader.getResource("resources/upload");
+//				if (!res.getFile().exists())
+//					res.getFile().mkdir();
+//				// 다른 것은 가입 시 저장과 동일, 하지만 이미지를 새로 입력시 기존 이미지를 삭제하는 양식 추가
+//				if (us.searchByUserId(user.getUserId()) != null) {
+//					String oldImg = us.searchByUserId(user.getUserId()).getImg();
+//					File target = new File("resources/upload" + "/" + oldImg);
+//					target.delete();
+//				}
+//				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
+//				file.transferTo(new File(res.getFile(), user.getImg()));
+//			}
+			System.out.println("들어오나ㅏㅏㅏ");
 			int res = us.update(user);
+			System.out.println(user.getUserId());
+			System.out.println(user.getNickName());
+			System.out.println(res);
 			return new ResponseEntity<Integer>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

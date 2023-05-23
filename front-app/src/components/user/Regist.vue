@@ -57,8 +57,7 @@
               </div>
             </div>
         </div> 
-  
-  </template> 
+   
 </template>  
   
 
@@ -402,7 +401,7 @@ h6 span {
 }
  
 .btn { 
-  width: 70px ; 
+   width: 70px ; 
   border-radius: 4px;
   height: 44px;
   font-size: 13px;

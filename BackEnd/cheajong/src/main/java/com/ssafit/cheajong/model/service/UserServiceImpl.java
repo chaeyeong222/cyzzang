@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int update(User user) {
+		System.out.println("서비스스ㅡ");
 		return uDao.update(user);
 	}
  
