@@ -1,14 +1,17 @@
 <template>
-  <div class="container" :style="{ width: containerWidth, maxWidth: '90vw' }">
+  <div
+    class="container"
+    :style="{ width: containerWidth, maxWidth: '90vw', maxHeight: '50vw' }"
+  >
     <h2 class="text-center">{{ video.title }}</h2>
     <div class="messaging">
       <div class="inbox_review">
         <div class="inbox_video">
           <div class="favorite-icon" @click="toggleFavorite">
-            <i :class="['fa', 'fa-heart', { active: isFavorite }]"></i>
+            <i :class="['fa', 'fa-heart', { active: favorite }]"></i>
           </div>
           <div class="embedded-video">
-            <b-embed type="iframe" :src="embedURL()"></b-embed>
+            <b-embed type="iframe" :src="embedURL()" allowfullscreen></b-embed>
           </div>
         </div>
         <div class="mesgs">
@@ -18,7 +21,8 @@
                 class="incoming_review"
                 v-for="(review, index) in videoReviews"
                 :key="review.id"
-                :class="index % 2 === 0 ? 'received_review' : 'sent_review'">
+                :class="index % 2 === 0 ? 'received_review' : 'sent_review'"
+              >
                 <div class="message">
                   <div class="message_content">
                     <p>{{ review.content }}</p>
@@ -28,7 +32,8 @@
                         v-for="n in review.rate"
                         :key="n"
                         class="fa fa-star"
-                        aria-hidden="true"></i
+                        aria-hidden="true"
+                      ></i
                     ></span>
                   </div>
                 </div>
@@ -42,13 +47,15 @@
                   v-for="n in 5"
                   :key="n"
                   :class="['fa', 'fa-star', { active: n <= selectedRating }]"
-                  @click="selectRating(n)"></i>
+                  @click="selectRating(n)"
+                ></i>
               </span>
               <input
                 type="text"
                 class="write_review"
                 placeholder="Type a review"
-                v-model="newReviewText" />
+                v-model="newReviewText"
+              />
               <button class="review_send_btn" type="button" @click="sendReview">
                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
               </button>
@@ -70,7 +77,7 @@ export default {
       videoId: "",
       newReviewText: "",
       selectedRating: 0,
-      isFavorite: false,
+      favorite: false,
       zzimNum: 0,
     };
   },
@@ -82,7 +89,7 @@ export default {
       return `${viewportWidth * 0.9}px`;
     },
     isFavorite() {
-      return this.video.isFavorite;
+      return this.video.favorite;
     },
   },
   created() {
@@ -96,10 +103,10 @@ export default {
   },
   methods: {
     toggleFavorite() {
-      if (this.isFavorite) this.$store.dispatch("deleteZzim", this.zzimNum);
+      if (this.favorite) this.$store.dispatch("deleteZzim", this.zzimNum);
       else this.$store.dispatch("addZzim");
 
-      this.isFavorite = !this.isFavorite;
+      this.favorite = !this.favorite;
     },
     selectRating(rating) {
       this.selectedRating = rating;
@@ -137,7 +144,7 @@ export default {
   mounted() {
     for (let Zzim of this.ZzimList) {
       if (Zzim.videoId === this.videoId) {
-        this.isFavorite = true;
+        this.favorite = true;
         this.zzimNum = Zzim.zzimNum;
         break;
       }
@@ -162,7 +169,6 @@ export default {
 <style>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 .favorite-icon {
-  position: absolute;
   top: 10px;
   right: 10px;
   z-index: 2;
@@ -347,7 +353,7 @@ export default {
 .messaging {
   padding: 0 0 30px 0;
   width: 90vw;
-  height: 70vw;
+  height: 50vw;
 }
 
 .text-center {
