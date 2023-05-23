@@ -4,9 +4,9 @@
       <a href="/">home</a>
     </h1>
     <div class="frame__links">
-      <router-link v-if="loginUser === null" to="/login">로그인</router-link>
-      <router-link v-if="loginUser === null" to="/regist">회원가입</router-link>
-      <router-link v-if="loginUser" @click="logout()">로그아웃</router-link>
+      <router-link v-if="loginUser === null" to="/user/login">로그인</router-link>
+      <router-link v-if="loginUser === null" to="/user/regist">회원가입</router-link>
+      <a href="/" v-if="loginUser !== null" @click="logout">로그아웃</a>
       <router-link to="/video">비디오검색</router-link>
     </div>
   </div>

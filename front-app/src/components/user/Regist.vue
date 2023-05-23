@@ -10,83 +10,101 @@
                   <div class="center-wrap">
                     <div class="section text-center">
                       <h4 class="mb-4 pb-3">회원가입</h4>
-                      <div class="form-group mt-2">
-                        <input
-                          type="text"
-                          name="userId"
-                          class="form-style"
-                          placeholder="아이디를 입력하세요"
-                          v-model="userId"
-                          autocomplete="off"
-                          ref="idDupCheck"
-                        />
-                        <i class="input-icon uil uil-user"></i>
+                      <div class="sssss">
+                        <div class="form-group mt-2">
+                          <label for="userId">아이디</label>
+                          <input
+                            type="text"
+                            id="userId"
+                            name="userId"
+                            class="form-style"
+                            placeholder="아이디를 입력하세요"
+                            v-model="userId"
+                            autocomplete="off"
+                            ref="idDupCheck" />
+                          <i class="input-icon uil uil-user"></i>
+                          <button class="btn" @click="idDuplicateCheck(userId)">
+                            중복확인
+                          </button>
+                        </div>
+                        <div class="form-group mt-2">
+                          <label for="nickName">닉네임</label>
+                          <input
+                            type="text"
+                            name="nickName"
+                            class="form-style"
+                            placeholder="닉네임을 입력하세요"
+                            v-model="nickName"
+                            autocomplete="off" />
+                          <i class="input-icon uil uil-user"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <label for="emailAdress">이메일</label>
+                          <input
+                            type="email"
+                            name="emailAdress"
+                            class="form-style"
+                            placeholder="이메일을 입력하세요"
+                            v-model="emailAdress"
+                            autocomplete="off"
+                            ref="emailDupCheck" />
+                          <i class="input-icon uil uil-at"></i>
+                          <button
+                            class="btn"
+                            @click="emailDuplicateCheck(emailAdress)">
+                            중복확인
+                          </button>
+                        </div>
+                        <div v-if="emailSendCheck" class="form-group mt-2">
+                          <label for=""></label>
+                          <input
+                            type="text"
+                            name="emailAuthentic"
+                            v-model="emailAuthentic"
+                            class="form-style"
+                            placeholder="인증번호 입력"
+                            ref="emailAuthCheck" />
+                          <button
+                            class="btn"
+                            @click="authenNumCheck(emailAuthentic)">
+                            인증번호확인
+                          </button>
+                        </div>
+                        <div class="form-group mt-2">
+                          <label for="password">비밀번호</label>
+                          <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-style"
+                            placeholder="비밀번호를 입력하세요"
+                            v-model="password"
+                            autocomplete="off" />
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <label for="password2">비밀번호 확인</label>
+                          <input
+                            type="password"
+                            id="password2"
+                            name="password2"
+                            class="form-style"
+                            placeholder="비밀번호를 한번 더 입력하세요"
+                            v-model="password2"
+                            autocomplete="off" />
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <p v-if="isPasswordMatch">비밀번호가 일치합니다.</p>
+                        <p v-else>비밀번호가 일치하지 않습니다.</p>
                       </div>
-                      <button
-                        class="btn"
-                        style="width:130px height:50px"
-                        @click="idDuplicateCheck(userId)"
-                      >
-                        중복확인
-                      </button>
-                      <div class="form-group mt-2">
-                        <input
-                          type="text"
-                          name="nickName"
-                          class="form-style"
-                          placeholder="닉네임을 입력하세요"
-                          v-model="nickName"
-                          autocomplete="off"
-                        />
-                        <i class="input-icon uil uil-user"></i>
-                      </div>
-                      <div class="form-group mt-2">
-                        <input
-                          type="email"
-                          name="emailAdress"
-                          class="form-style"
-                          placeholder="이메일을 입력하세요"
-                          v-model="emailAdress"
-                          autocomplete="off"
-                          ref="emailDupCheck"
-                        />
-                        <i class="input-icon uil uil-at"></i>
-                        <button
-                          class="btn"
-                          style="width: 130px"
-                          @click="emailDuplicateCheck(emailAdress)"
-                        >
-                          이메일확인
-                        </button>
-                      </div>
-                      <div class="form-group mt-2">
-                        <input
-                          type="password"
-                          name="password"
-                          class="form-style"
-                          placeholder="비밀번호를 입력하세요"
-                          v-model="password"
-                          autocomplete="off"
-                        />
-                        <i class="input-icon uil uil-lock-alt"></i>
-                      </div>
-                      <div class="form-group mt-2">
-                        <input
-                          type="password"
-                          name="passwordCheck"
-                          class="form-style"
-                          placeholder="비밀번호를 한번 더 입력하세요"
-                          model="passwordCheck"
-                          autocomplete="off"
-                        />
-                        <i class="input-icon uil uil-lock-alt"></i>
-                      </div>
-                      <p v-if="passwordMatch">비밀번호가 일치합니다.</p>
-                      <p v-else>비밀번호가 일치하지 않습니다.</p>
-                      <button class="btn" style="width: 120px" @click="regist">
-                        가입하기
-                      </button>
                     </div>
+                    <button
+                      v-if="isRegistPossible"
+                      class="btn"
+                      style="width: 120px"
+                      @click="regist">
+                      가입하기
+                    </button>
                   </div>
                 </div>
               </div>
@@ -96,8 +114,7 @@
       </div>
     </div>
   </div>
-</template> 
-  
+</template>
 
 <script>
 import http from "@/util/http.js";
@@ -110,25 +127,21 @@ export default {
       password: "",
       nickName: "",
       emailAdress: "",
-      passwordMatch: false,
+      password2: "",
+      emailSendCheck: false,
+      emailAuthentic: "", // 인증번호
+      idCC: false, //아이디 중복확인 완료 시
+      emailCC: false, //이메일 중복확인 완료 시
+      authenticNumCC: false, //인증번호 확인 환료시
+      isRegistPossible: false,
+      isPasswordMatch: false,
     };
-  },
-  watch: {
-    password() {
-      this.checkPassword();
-    },
-    passwordCheck() {
-      this.checkPassword();
-    },
   },
   methods: {
     regist() {
       if (
-        this.userId === "" ||
-        this.nickName === "" ||
-        this.emailAdress === "" ||
         this.password === "" ||
-        this.passwordCheck === ""
+        this.password2 === ""
       ) {
         alert("모든 내용을 입력해주세요");
         return;
@@ -141,13 +154,18 @@ export default {
         emailAdress: this.emailAdress,
       };
 
+      alert("완료");
       this.$store.dispatch("createUser", user);
     },
 
     idDuplicateCheck(userId) {
+      console.log(userId);
       http.get(`userapi/user/${userId}`).then((res) => {
-        if (res.data == true) {
+        console.log(res);
+        if (res.data) {
           alert("사용가능한 아이디 입니다.");
+          this.idCC = true;
+          this.registPossible();
         } else {
           alert("사용 불가능한 아이디 입니다. ");
           this.$refs.idDupCheck.value = "";
@@ -157,23 +175,51 @@ export default {
 
     emailDuplicateCheck(emailAdress) {
       http.get(`userapi/email/${emailAdress}`).then((res) => {
-        if (res.data == true) {
+        if (res.data === "") {
           alert("이미 등록된 이메일입니다. ");
           this.$refs.emailDupCheck.value = "";
         } else {
           alert("사용가능한 이메일입니다.");
+          this.authenticNum = res.data; //넘어온 인증번호
+          alert(res.data);
+          this.emailSendCheck = true;
+          this.emailCC = true;
+          this.registPossible();
         }
       });
     },
-    checkPassword() {
-      this.passwordMatch = this.password === this.passwordCheck;
+
+    authenNumCheck(emailAuthentic) {
+      console.log(emailAuthentic);
+      if (this.authenticNum === this.emailAuthentic) {
+        alert("인증완료!!");
+        this.authenticNumCC = true;
+        this.registPossible();
+      } else {
+        alert("인증번호가 일치하지 않습니다");
+        this.$refs.emailAuthCheck.value = "";
+      }
+    },
+    registPossible() {
+      if (this.idCC == true && this.emailCC == true && this.authenticNumCC) {
+        this.isRegistPossible = true;
+      }
     },
   },
-  computed: {},
+  watch: {
+    password() {
+      if (this.password !== "" && this.password === this.password2) {
+        this.isPasswordMatch = true;
+      }
+    },
+    password2() {
+      if (this.password !== "" && this.password === this.password2) {
+        this.isPasswordMatch = true;
+      }
+    },
+  },
 };
 </script>
-
-
 
 <style>
 body {
@@ -184,6 +230,14 @@ body {
   color: #c4c3ca;
   background-color: #1f2029;
   overflow-x: hidden;
+}
+label {
+  width: 60px;
+}
+.sssss {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 a {
   cursor: pointer;
@@ -262,9 +316,9 @@ h6 span {
 
 .card-3d-wrap {
   position: relative;
-  width: 440px;
+  width: 500px;
   max-width: 100%;
-  height: 400px;
+  height: 600px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -324,10 +378,10 @@ h6 span {
   padding: 0;
 }
 .form-style {
-  padding: 13px 20px;
-  padding-left: 55px;
+  padding: 13px 20px 0px 55px;
   height: 48px;
-  width: 100%;
+  /* width: 100%; */
+  width: 250px;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
@@ -406,6 +460,7 @@ h6 span {
 }
 
 .btn {
+  width: 70px;
   border-radius: 4px;
   height: 44px;
   font-size: 13px;
@@ -413,7 +468,7 @@ h6 span {
   text-transform: uppercase;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
-  padding: 0 30px;
+  padding: 0 5px;
   letter-spacing: 1px;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;

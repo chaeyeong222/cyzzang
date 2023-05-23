@@ -63,6 +63,8 @@ export default {
   components: { HeaderNav },
   created() {
     this.$store.commit("SET_LOGIN_USER");
+    if(sessionStorage.getItem("access-token"))
+      this.$store.dispatch("setZzimList");
   },
   mounted() {
     const lscroll = new LocomotiveScroll({

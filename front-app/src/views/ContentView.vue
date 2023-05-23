@@ -5,12 +5,15 @@
 </template>
 
 <script>
-import LocomotiveScroll from 'locomotive-scroll';
+import LocomotiveScroll from "locomotive-scroll";
 export default {
   name: "MainContent",
-  mounted(){
+  created() {
+    document.body.classList.remove("loading");
+  },
+  mounted() {
     const lscroll = new LocomotiveScroll({
-      el: this.$el.querySelector('[data-scroll-container]'),
+      el: this.$el.querySelector("[data-scroll-container]"),
       smooth: true,
     });
     lscroll.update();

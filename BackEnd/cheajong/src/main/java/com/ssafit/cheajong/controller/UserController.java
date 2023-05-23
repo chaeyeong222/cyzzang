@@ -56,22 +56,22 @@ public class UserController {
 	/**
 	 * 로그인
 	 */
-	@PostMapping("/user/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> selectUser(@RequestBody User user) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			// 암호화된 비밀번호 비교를 통해서 로그인 가능여부 판단
-//			String ecpPassword = ecp.getEncrypt(user.getPassword());
+			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			User target = us.searchByUserId(user.getUserId());
 			// 아이디와 비밀번호 모두 일치할 경우 토큰 생성해서 반환
-			System.out.println(target);
-			if (user != null && target.getPassword().equals(user.getPassword())) {
+			if (user != null && target.getPassword().equals(ecpPassword)) {
 				Map<String, Object> returnUser = new HashMap<>();
 				returnUser.put("userId", target.getUserId());
 				returnUser.put("nickName", target.getNickName());
 				returnUser.put("height", target.getHeight());
 				returnUser.put("weight", target.getWeight());
-				result.put("access-token", jwtUtil.createToken(returnUser));
+				String token = jwtUtil.createToken(returnUser);
+				result.put("access-token", token);
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -158,14 +158,11 @@ public class UserController {
 	public ResponseEntity<?> duplicateCheck(@PathVariable String userId) {
 		try {
 			User user = us.searchByUserId(userId);
-			String userCheckedId = "";
-			if (user != null) {
-				userCheckedId = user.getUserId();
-				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<String>(userCheckedId, HttpStatus.OK);
-			}
-
+			System.out.println(user);
+			if (user == null)
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			else
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

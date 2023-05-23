@@ -35,7 +35,7 @@
                         />
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
-                      <a href="#" @click="login()" class="btn mt-4">로그인</a>
+                      <a @click="login()" class="btn mt-4">로그인</a>
                       <p class="mb-0 mt-4 text-center">
                         <a href="#0" class="link">비밀번호를 잊으셨나요?</a>
                       </p>
@@ -83,7 +83,7 @@ export default {
     login() {
       let user = {
         userId: this.userId,
-        userPassword: this.userPassword,
+        password: this.userPassword,
       };
       console.log(user);
       this.$store.dispatch("setLoginUser", user);
