@@ -17,19 +17,19 @@ public class MailServiceImpl implements MailService{
 	JavaMailSender mailSender; 
 	
 	@Autowired
-	private UserDao uDao;
-	
-	private static final String title = "SSAFIT_CHAEJONG 임시 비밀번호 안내 이메일입니다.";
-    private static final String message = "안녕하세요. SSAFIT_CHAEJONG 임시 비밀번호 안내 메일입니다. "
-            +"\n" + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요!"+"\n";
+	private UserDao uDao; 
+	private static String mailType = ""; 
+	private static String title = "[SSAFIT_CHAEJONG]"+ mailType+ "안내 이메일입니다."; 
+    private static String message="안녕하세요. SSAFIT_CHAEJONG" + mailType+ "안내 메일입니다." ;
     private static final String adminAddress = "chaechae9873@gmail.com";
 	
     /**
-     * 전송할 이메일 내용을 구성하는 메서드  
+     * 전송할 이메일 내용을 구성하는 메서드. 임시비밀번호 설정 용    
      * */
 	@Override
-    public MailVo createMail(String tmpPassword, String memberEmail) {
-
+    public MailVo createMail(String tmpPassword, String memberEmail) { 
+		mailType = "임시 비밀번호"; 
+	    message =  "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요!"+"\n";
         MailVo mailVo = new MailVo();
         mailVo.setTitle(title);
         mailVo.setToAddress(memberEmail);
@@ -37,6 +37,26 @@ public class MailServiceImpl implements MailService{
         mailVo.setMessage(message + tmpPassword); 
 
         System.out.println("메일 생성 완료");
+        return mailVo;
+    }
+	
+	/**
+     * 전송할 이메일 내용을 구성하는 메서드. 이메일 인증용 메일
+     * */
+	@Override
+    public MailVo createMailForAuthentic(String authenticNum, String memberEmail, int num) {
+
+		mailType = "이메일 인증";  
+		message =  "이메일 인증을 위한 인증 번호는 아래와 같습니다." +"\n"+ "입력창에 인증번호를 입력해주세요.";
+        MailVo mailVo = new MailVo();
+        mailVo.setTitle(title);
+        mailVo.setToAddress(memberEmail);
+        mailVo.setFromAddress(adminAddress);
+        mailVo.setMessage(message + authenticNum); 
+
+        System.out.println("메일 생성 완료");
+        
+        
         return mailVo;
     }
 	
@@ -53,7 +73,9 @@ public class MailServiceImpl implements MailService{
         mailMessage.setFrom(mailVo.getFromAddress());
         mailMessage.setReplyTo(mailVo.getFromAddress());
  
+        System.out.println(mailVo.getMessage());
         mailSender.send(mailMessage);
+         
 
         System.out.println("메일 전송 완료");
     }
