@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDao uDao;
 
-	@Transactional 
+	 
 	@Override
 	public int insert(User user) { 
 		return uDao.insert(user);
@@ -31,14 +31,13 @@ public class UserServiceImpl implements UserService{
 	public List<User> selectAll() { 
 		return uDao.selectAll();
 	}
-	
-	@Transactional
+
+
 	@Override
 	public int update(User user) {
 		return uDao.update(user);
 	}
-
-	@Transactional
+ 
 	@Override
 	public int delete(String userId) { 
 		return uDao.delete(userId);
@@ -50,8 +49,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 
-    /** 임시로 생성된 비밀번호를 디비로 전송하여 업데이트하는 메서드 **/
-	@Transactional
+    /** 임시로 생성된 비밀번호를 디비로 전송하여 업데이트하는 메서드 **/ 
     @Override
     public int updateToNewPassword( User user ) {
         return uDao.updateToNewPassword( user );

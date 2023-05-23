@@ -11,6 +11,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/userapi")
+@CrossOrigin("*")
 public class UserController {
 
 	@Autowired
@@ -75,9 +77,10 @@ public class UserController {
 	/**
 	 * 회원가입
 	 */
-	@PostMapping("/user/regist")
+	@PostMapping("/user")
 	@ApiOperation(value = "새로운 user를 등록한다.", response = User.class)
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
+		System.out.println("들어오나    ");
 		try {
 			// 암호화 방식 추가
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
@@ -91,6 +94,7 @@ public class UserController {
 //				file.transferTo(new File(res.getFile(), user.getImg()));
 //			}
 			int res = us.insert(user);
+			System.out.println(res);
 			return new ResponseEntity<Integer>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
