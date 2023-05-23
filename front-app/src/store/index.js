@@ -200,6 +200,18 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    updateUser({commit}, user){ 
+      http.put(`userapi/user`, user) 
+      .then(() => {
+        commit("SET_USER", user);
+        router.push("/"); //일단 메인으로 이동
+       // router.push(`/mypage/{loginUser}`); //마이페이지로 이동, 로그인 되면 뒤에 로그인유저 붙이기
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    }
   },
   modules: {},
 });
