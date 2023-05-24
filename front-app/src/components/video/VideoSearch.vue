@@ -1,7 +1,5 @@
 <template>
   <div style="justify-content: center">
-    <br />
-    <br />
     <div class="header-container">
       <input
         type="text"
