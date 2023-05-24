@@ -1,19 +1,17 @@
 <template>
   <div class="container">
     <div>
-      <h1>오늘의 식단 추천</h1>
+      <h1>오늘의 식단 추천</h1> 
     </div>
     <div class="row">
       <div class="col-md-4"> 
         <div class="card mb-4">
           <div class="card-body text-center">
-            <h4 class="card-title">{{ loginUser.nickName }}</h4>
-            <p class="card-text">님의 키와 몸무게 정보입니다</p>
+            <h4 class="card-title">{{ loginUser.nickName }} 님의 키와 몸무게 정보입니다</h4> 
           </div>
         </div>
         <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">About Me</h5>
+          <div class="card-body" style="display: flex; flex-direction: column; text-align: center;"> 
             <p>키: {{ loginUser.height }} cm</p>
             <p>몸무게: {{ loginUser.weight }} kg</p>
           </div>
@@ -114,8 +112,13 @@ export default {
 
 <style scoped>  
  .card{
+  background-color: #1F2028;
   width:700px;
 } 
+.list-group-item{
+  background-color: #1F2028;
+  color: #c4c3c9;
+}
 .container {
   max-width: 800px;
   margin: 0 auto;
