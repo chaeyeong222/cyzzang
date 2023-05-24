@@ -6,7 +6,7 @@ import com.ssafit.cheajong.model.dto.Food;
 
 public interface FoodDao {
    
-	List<Food> searchByUserId(String category); 
+	List<Food> searchByCategory(String category); 
 	 
 
 }
