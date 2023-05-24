@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.users.push(user);
     },
     SET_USER(state, user) {
-      state.user = user;
+      state.loginUser = user;
     },
     SET_USERS(state, users) {
       state.users = users;
@@ -124,7 +124,6 @@ export default new Vuex.Store({
           for (let video of this.state.videos) {
             if (video.videoId === videoId) {
               commit("SET_VIDEO", video);
-              router.push(`/video/${videoId}`);
               break;
             }
           }
@@ -141,102 +140,99 @@ export default new Vuex.Store({
           if (res.status == 204) {
             alert("아이디 또는 비밀번호를 확인하세요.");
           } else {
-            console.log(res.data);
+            alert(res.data);
             sessionStorage.setItem("Authorization", res.data["Authorization"]);
             context.commit("SET_LOGIN_USER");
+            context.dispatch("setZzimList")
             router.push("/");
-            router.go(0);
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      context.dispatch("setZzimList");
     },
-    addReview({ commit }, newReview) {
-      http
-        .post("reviewapi/review", newReview)
-        .then(() => {
-          http
-            .get(`reviewapi/video/${newReview.videoId}`)
-            .then((res) => {
-              console.log(res.data);
-              commit("SET_VIDEO_REVIEWS", res.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    deleteZzim({ commit }, zzimNum) {
-      http
-        .delete(`zzimapi/zzim/${zzimNum}`)
-        .then(() => {
-          commit("DELETE_ZZIM", zzimNum);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    setZzimList({ commit }) {
-      let token = sessionStorage.getItem("Authorization");
-      if (token) {
-        let base64Payload = token.split(".")[1];
-        let payload = new TextDecoder().decode(
-          new Uint8Array([...atob(base64Payload)].map((c) => c.charCodeAt(0)))
-        );
-        let result = JSON.parse(payload.toString());
-        axios({
-          method: "GET",
-          url: URL + `zzimapi/user/${result.userId}`,
-          headers: {
-            "Authorization": sessionStorage.getItem("Authorization"),
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => {
-            if (res.data !== null) commit("SET_ZZIMLIST", res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    },
-    addZzim({ commit }) {
-      let newZzim = {
-        userId: this.state.loginUser.userId,
-        videoId: this.state.video.videoId,
-        title: this.state.video.title,
-        channelName: this.state.video.channelTitle,
-      };
+    addReview(context, newReview) {
       axios({
         method: "POST",
-        url: URL + "zzimapi/zzim",
+        url: URL + "reviewapi/review",
         headers: {
-          "Authorization": sessionStorage.getItem("Authorization"),
-          "Content-Type": "application/json",
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
+        },
+        data: newReview,
+      })
+        .then(() => {
+          context.dispatch("setVideoReviews", newReview.videoId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    deleteZzim(context, zzimNum) {
+      axios({
+        method: "DELETE",
+        url: URL + `zzimapi/zzim/${zzimNum}`,
+        headers: {
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
+        },
+      })
+        .delete(`zzimapi/zzim/${zzimNum}`)
+        .then(() => {
+          context.dispatch("setZzimList")
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addZzim(context, newZzim) {
+      axios({
+        method: "POST",
+        url: URL + `zzimapi/zzim`,
+        headers: {
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
         },
         data: newZzim,
       })
         .then(() => {
-          commit("ADD_ZZIM", newZzim);
+          context.dispatch("setZzimList")
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setZzimList(context) {
+      axios({
+        method: "GET",
+        url: URL + `zzimapi/user/${context.state.loginUser.userId}`,
+        headers: {
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
+        },
+      })
+        .then((res) => {
+          if (res.status == 200) context.commit("SET_ZZIMLIST", res.data);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     updateUser({ commit }, user) {
-      http.put(`userapi/user`, user)
+      axios({
+        method: "put",
+        url: URL + `userapi/user`,
+        headers: {
+          'Authorization': sessionStorage.getItem("Authorization"),
+          'Content-Type': 'application/json'
+        },
+        data: user,
+      })
         .then((res) => {
           if (res.status == 200)
             sessionStorage.setItem("Authorization", res.data["Authorization"]);
 
-          commit("SET_USER", user);
-          router.push("/"); //일단 메인으로 이동
-          // router.push(`/mypage/{loginUser}`); //마이페이지로 이동, 로그인 되면 뒤에 로그인유저 붙이기
+          commit("SET_LOGIN_USER");
         })
         .catch((err) => {
           console.log(err);

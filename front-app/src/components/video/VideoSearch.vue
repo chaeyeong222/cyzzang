@@ -62,6 +62,7 @@ export default {
   methods: {
     goDetail(videoId) {
       this.$store.dispatch("setVideoReviews", videoId);
+      this.$router.push(`/video/${videoId}`)
     },
     videoSearch() {
       this.$store.dispatch("videoSearch", this.searchWord);
