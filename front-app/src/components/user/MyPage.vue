@@ -48,13 +48,16 @@
               style="background-color: #B1B1B3;"
             />
           </div>
-          <div  style="display:flex;flex-direction: column; ">
+          <div  style="display:flex; flex-direction: column; ">
           <div style=" text-align: right;">
-          <button @click="updateUserInfo" style="background-color: #f6bf50;" class="btn">수정하기</button>
+          <button @click="updateUserInfo" style="background-color: #f6bf50;" class="btn">수정하기</button> 
         </div></div>
         </div>
       </div>
-      <router-link to="/user/myMenu"><b>오늘의 식단 구성하기</b></router-link>
+      <div  style="display:flex; flex-direction: column; text-align: center; " > 
+      <router-link to="/user/updatePassword"><b>비밀번호를 수정하시겠습니까?</b></router-link>
+      <router-link to="/user/myMenu"><b>[ 오늘의 식단 구성하기 ]</b></router-link>
+    </div>
     </div>
     <div class="card mb-4" style="width: 600px; background-color:#1F2028">
     <div class="right-section"> 
