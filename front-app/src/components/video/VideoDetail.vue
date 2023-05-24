@@ -1,17 +1,16 @@
 <template>
-  <div
-    class="container"
-    :style="{ width: containerWidth, maxWidth: '90vw', maxHeight: '50vw' }"
-  >
+  <div class="container">
     <h2 class="text-center">{{ video.title }}</h2>
     <div class="messaging">
       <div class="inbox_review">
         <div class="inbox_video">
-          <div class="favorite-icon" @click="toggleFavorite">
-            <i :class="['fa', 'fa-heart', { active: favorite }]"></i>
-          </div>
           <div class="embedded-video">
             <b-embed type="iframe" :src="embedURL()" allowfullscreen></b-embed>
+          </div>
+          <div style="display: inline-block">
+            <div class="favorite-icon" @click="toggleFavorite">
+              <i :class="['fa', 'fa-heart', { active: favorite }]"></i>
+            </div>
           </div>
         </div>
         <div class="mesgs">
@@ -21,8 +20,7 @@
                 class="incoming_review"
                 v-for="(review, index) in videoReviews"
                 :key="review.id"
-                :class="index % 2 === 0 ? 'received_review' : 'sent_review'"
-              >
+                :class="index % 2 === 0 ? 'received_review' : 'sent_review'">
                 <div class="message">
                   <div class="message_content">
                     <p>{{ review.content }}</p>
@@ -32,8 +30,7 @@
                         v-for="n in review.rate"
                         :key="n"
                         class="fa fa-star"
-                        aria-hidden="true"
-                      ></i
+                        aria-hidden="true"></i
                     ></span>
                   </div>
                 </div>
@@ -47,15 +44,13 @@
                   v-for="n in 5"
                   :key="n"
                   :class="['fa', 'fa-star', { active: n <= selectedRating }]"
-                  @click="selectRating(n)"
-                ></i>
+                  @click="selectRating(n)"></i>
               </span>
               <input
                 type="text"
                 class="write_review"
                 placeholder="Type a review"
-                v-model="newReviewText"
-              />
+                v-model="newReviewText" />
               <button class="review_send_btn" type="button" @click="sendReview">
                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
               </button>
@@ -74,43 +69,43 @@ export default {
   name: "videoDetail",
   data() {
     return {
-      videoId: "",
       newReviewText: "",
       selectedRating: 0,
       favorite: false,
       zzimNum: 0,
+      embedVideoHeight: "20vh",
     };
   },
   computed: {
     ...mapState(["videoReviews", "video", "zzimList", "loginUser"]),
-    containerWidth() {
-      const viewportWidth =
-        window.innerWidth || document.documentElement.clientWidth;
-      return `${viewportWidth * 0.9}px`;
-    },
     isFavorite() {
       return this.video.favorite;
     },
   },
   created() {
     this.$store.commit("SET_LOGIN_USER");
-    this.$store.dispatch("setZzimList");
     const pathName = new URL(document.location).pathname.split("/");
     const id = pathName[pathName.length - 1];
     this.videoId = id;
     this.$store.dispatch("setVideoReviews", id);
-    for (let zzim of this.zzimList) {
-      if (zzim.videoId === this.videoId) {
-        this.favorite = true;
-        this.zzimNum = zzim.zzimNum;
-        break;
+    this.$store.dispatch("setZzimList");
+  },
+  watch: {
+    zzimList() {
+      for (let zzim of this.zzimList) {
+        if (zzim.videoId === this.video.videoId) {
+          this.favorite = true;
+          this.zzimNum = zzim.zzimNum;
+          break;
+        }
       }
-    }
+    },
   },
   methods: {
     toggleFavorite() {
-      if (this.favorite) this.$store.dispatch("deleteZzim", this.zzimNum);
-      else {
+      if (this.favorite) {
+        this.$store.dispatch("deleteZzim", this.zzimNum);
+      } else {
         let newZzim = {
           userId: this.loginUser.userId,
           videoId: this.video.videoId,
@@ -173,22 +168,42 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 .favorite-icon {
-  top: 10px;
-  right: 10px;
+  padding-left: 10px;
   z-index: 2;
   cursor: pointer;
   color: #ccc;
 }
 
 .favorite-icon .fa-heart {
-  font-size: 24px;
+  font-size: 50px;
 }
 
 .favorite-icon .fa-heart.active {
   color: red;
+}
+
+.embedded-video {
+  display: flex;
+  margin-left: 15px;
+  width: 48vw;
+  height: 27vh;
+  justify-content: center;
+  align-content: center;
+}
+
+iframe {
+  width: 48vw;
+  height: 25vh;
+}
+
+b-embed {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .time_date i {
@@ -215,7 +230,6 @@ export default {
 }
 
 .container {
-  max-width: 1170px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -224,55 +238,30 @@ export default {
 }
 
 .inbox_video {
-  overflow: hidden;
+  height: 27vh;
+  flex-direction: row;
   width: 100%;
-  border-right: 1px solid #c4c4c4;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vw;
-}
-
-.embedded-video {
-  position: relative;
-  padding-bottom: 56.25%;
-  width: 100%;
-}
-
-.embedded-video iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.video-embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  padding: 0;
 }
 .inbox_review {
-  border: 1px solid #c4c4c4;
-  clear: both;
   overflow: hidden;
+  flex-direction: column;
   display: flex;
   justify-content: center;
 }
 
 .mesgs {
+  margin: 10px;
+  background-color: #388f9c;
   padding: 30px 15px 0 25px;
-  width: 100%;
-  height: 60vw;
+  width: 50vw;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-}
-
-.review_history {
-  background-color: transparent;
 }
 
 .incoming_review {
@@ -301,15 +290,14 @@ export default {
   color: #646464;
   font-size: 14px;
   margin: 0;
-  padding: 5px 12px 5px 10px;
+  padding: 5px 10px 5px 10px;
   width: 100%;
 }
 
 .message {
   display: inline-block;
-  padding: 0 0 0 10px;
+  padding: 0 0 0 0px;
   vertical-align: top;
-  width: 92%;
 }
 
 .message_content p {
@@ -326,7 +314,7 @@ export default {
   color: #747474;
   display: block;
   font-size: 12px;
-  margin: 8px 0 0;
+  margin: 5px 0 0 5px;
 }
 
 .type_review {
@@ -359,8 +347,6 @@ export default {
 
 .messaging {
   padding: 0 0 30px 0;
-  width: 90vw;
-  height: 50vw;
 }
 
 .text-center {

@@ -35,9 +35,9 @@
             <h2 class="gallery__item-title">{{ item.engtitle }}</h2>
             <span class="gallery__item-number">{{ item.number }}</span>
             <p class="gallery__item-tags">
-              <span v-for="tag in item.tags" :key="tag"
+              <span class="tag" v-for="tag in item.tags" :key="tag"
                 ><a @click="videoSearch(item.title + ' ' + tag)"
-                  >#{{ tag }}</a
+                  >#{{tag}}</a
                 ></span
               >
             </p>
@@ -156,6 +156,7 @@ export default {
 </script>
 
 <style>
+
 /*! locomotive-scroll v4.0.4 | MIT License | https://github.com/locomotivemtl/locomotive-scroll */
 html.has-scroll-smooth {
   overflow: hidden;

@@ -29,7 +29,7 @@
         <div class="card">
           <div class="card-body"> 
             <h5 class="card-title" style="width:500px">버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
-               <button class="btn" @click="getRandomMenu" style="width:100px">랜덤 식단 추천</button>
+               <b-button @click="getRandomMenu" class="btn-btn">랜덤 식단 추천</b-button>
               </h5>  
 
             <ul class="list-group">
@@ -133,4 +133,9 @@ export default {
   border-radius: 50%;
   object-fit: cover;
 } 
+.btn-btn{
+  width: fit-content;
+  background-color: yellowgreen;
+  padding: 5px;
+}
 </style>
