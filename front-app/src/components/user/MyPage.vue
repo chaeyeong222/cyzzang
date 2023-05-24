@@ -65,11 +65,19 @@
               >
             </div>
           </div>
+          <div style="display: flex; flex-direction: column">
+            <div style="text-align: right"></div>
+          </div>
         </div>
       </div>
-      <router-link to="/user/myMenu" style="align-self: end"
-        ><b>오늘의 식단 구성하기</b></router-link
-      >
+      <div style="display: flex; flex-direction: column; text-align: center">
+        <router-link to="/user/updatePassword"
+          ><b>비밀번호를 수정하시겠습니까?</b></router-link
+        >
+        <router-link to="/user/myMenu"
+          ><b>[ 오늘의 식단 구성하기 ]</b></router-link
+        >
+      </div>
     </div>
     <div
       class="card mb-4"

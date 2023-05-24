@@ -82,22 +82,24 @@ export default {
       return this.video.favorite;
     },
   },
-  beforeCreate() {
-    this.$store.commit("SET_LOGIN_USER");
-  },
   created() {
+    this.$store.commit("SET_LOGIN_USER");
     const pathName = new URL(document.location).pathname.split("/");
     const id = pathName[pathName.length - 1];
     this.videoId = id;
     this.$store.dispatch("setVideoReviews", id);
     this.$store.dispatch("setZzimList");
-    for (let zzim of this.zzimList) {
-      if (zzim.videoId === this.video.videoId) {
-        this.favorite = true;
-        this.zzimNum = zzim.zzimNum;
-        break;
+  },
+  watch: {
+    zzimList() {
+      for (let zzim of this.zzimList) {
+        if (zzim.videoId === this.video.videoId) {
+          this.favorite = true;
+          this.zzimNum = zzim.zzimNum;
+          break;
+        }
       }
-    }
+    },
   },
   methods: {
     toggleFavorite() {
@@ -185,7 +187,7 @@ export default {
 
 .embedded-video {
   display: flex;
-  margin-left:15px;
+  margin-left: 15px;
   width: 48vw;
   height: 27vh;
   justify-content: center;
@@ -236,7 +238,7 @@ b-embed {
 }
 
 .inbox_video {
-  height:27vh;
+  height: 27vh;
   flex-direction: row;
   width: 100%;
   display: flex;
@@ -252,7 +254,6 @@ b-embed {
 }
 
 .mesgs {
-  
   margin: 10px;
   background-color: #388f9c;
   padding: 30px 15px 0 25px;
