@@ -140,11 +140,11 @@ export default new Vuex.Store({
           if (res.status == 204) {
             alert("아이디 또는 비밀번호를 확인하세요.");
           } else {
-            alert(res.data);
             sessionStorage.setItem("Authorization", res.data["Authorization"]);
             context.commit("SET_LOGIN_USER");
             context.dispatch("setZzimList")
             router.push("/");
+            router.go(0);
           }
         })
         .catch((err) => {
