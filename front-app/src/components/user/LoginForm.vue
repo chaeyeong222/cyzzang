@@ -20,7 +20,8 @@
                           class="form-style"
                           placeholder="아이디를 입력하세요"
                           v-model="userId"
-                          autocomplete="off" />
+                          autocomplete="off"
+                        />
                         <i class="input-icon uil uil-at"></i>
                       </div>
                       <div class="form-group mt-2">
@@ -30,7 +31,8 @@
                           class="form-style"
                           placeholder="비밀번호를 입력하세요"
                           v-model="userPassword"
-                          autocomplete="off" />
+                          autocomplete="off"
+                        />
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
                       <a @click="login()" class="btn mt-4">로그인</a>
@@ -83,7 +85,6 @@ export default {
         userId: this.userId,
         password: this.userPassword,
       };
-      console.log(user);
       this.$store.dispatch("setLoginUser", user);
     },
   },

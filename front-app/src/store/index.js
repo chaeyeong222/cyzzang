@@ -84,16 +84,15 @@ export default new Vuex.Store({
         });
     },
     videoSearch({ commit }, word) {
-      const apiKey = "AIzaSyBCemuYfu5PQsgPVL_oTEudlK9GnsKZ4is";
+      const apiKey = "AIzaSyDZVBVC_rfXXmVOC4gp5pc0dUxiPpsyyHE";
       axios
         .get(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${
-            word + " 운동"
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${word + " 운동"
           }&key=${apiKey}&maxResults=50&type=video&videoSyndicated=true`
         )
-        .then((response) => {
+        .then((res) => {
           const he = require("he");
-          const videoItems = response.data.items;
+          const videoItems = res.data.items;
           const videos = videoItems.map((item) => {
             const videoId = item.id.videoId;
             const title = he.decode(item.snippet.title);
@@ -139,11 +138,15 @@ export default new Vuex.Store({
       http
         .post("userapi/login", user)
         .then((res) => {
-          console.log(res.data);
-          sessionStorage.setItem("Authorization", res.data["Authorization"]);
-          context.commit("SET_LOGIN_USER");
-          router.push("/");
-          router.go(0);
+          if (res.status == 204) {
+            alert("아이디 또는 비밀번호를 확인하세요.");
+          } else {
+            console.log(res.data);
+            sessionStorage.setItem("Authorization", res.data["Authorization"]);
+            context.commit("SET_LOGIN_USER");
+            router.push("/");
+            router.go(0);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -225,16 +228,19 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    updateUser({commit}, user){ 
-      http.put(`userapi/user`, user) 
-      .then(() => {
-        commit("SET_USER", user);
-        router.push("/"); //일단 메인으로 이동
-       // router.push(`/mypage/{loginUser}`); //마이페이지로 이동, 로그인 되면 뒤에 로그인유저 붙이기
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    updateUser({ commit }, user) {
+      http.put(`userapi/user`, user)
+        .then((res) => {
+          if (res.status == 200)
+            sessionStorage.setItem("Authorization", res.data["Authorization"]);
+
+          commit("SET_USER", user);
+          router.push("/"); //일단 메인으로 이동
+          // router.push(`/mypage/{loginUser}`); //마이페이지로 이동, 로그인 되면 뒤에 로그인유저 붙이기
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
     }
   },
