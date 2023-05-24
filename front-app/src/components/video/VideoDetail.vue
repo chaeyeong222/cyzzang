@@ -93,12 +93,18 @@ export default {
     },
   },
   created() {
+    this.$store.commit("SET_LOGIN_USER");
+    this.$store.dispatch("setZzimList");
     const pathName = new URL(document.location).pathname.split("/");
     const id = pathName[pathName.length - 1];
     this.videoId = id;
-    if (this.video.videoId !== this.videoId) {
-      this.$router.push("/");
-      this.$router.go(0);
+    this.$store.dispatch("setVideoReviews", id);
+    for (let zzim of this.zzimList) {
+      if (zzim.videoId === this.videoId) {
+        this.favorite = true;
+        this.zzimNum = zzim.zzimNum;
+        break;
+      }
     }
   },
   methods: {
@@ -150,13 +156,6 @@ export default {
     },
   },
   mounted() {
-    for (let zzim of this.zzimList) {
-      if (zzim.videoId === this.videoId) {
-        this.favorite = true;
-        this.zzimNum = zzim.zzimNum;
-        break;
-      }
-    }
     this.$nextTick(() => {
       this.scrollToBottom();
     });

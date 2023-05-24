@@ -2,7 +2,7 @@
   <div class="mypage">
     <div class="left-section">
       <h2>개인정보 수정</h2>
-      <form @submit="updateUserInfo">
+      <div>
         <div class="form-group">
           <label for="userId">아이디</label>
           <input type="text" id="userId" v-model="loginUser.userId" disabled />
@@ -38,8 +38,8 @@
             required
           />
         </div>
-        <button type="submit">저장</button>
-      </form>
+        <button @click="updateUserInfo">저장</button>
+      </div>
       <router-link to="/user/myMenu">오늘의 식단 구성하기</router-link>
     </div>
     <div class="right-section">
@@ -71,21 +71,15 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      user: {
-        userId: "aa",
-        nickName: "John",
-        emailAdress: "johndoe@example.com",
-        height: 0,
-        weight: 0,
-      },
+      user: {},
     };
   },
   created() {
     this.$store.commit("SET_LOGIN_USER");
+    this.$store.dispatch("setZzimList")
   },
   computed: {
-    ...mapState(["loginUser"]),
-    ...mapState(["zzimList"]),
+    ...mapState(["loginUser","zzimList"]),
   },
   methods: {
     goDetail(videoId) {
@@ -108,7 +102,7 @@ export default {
   
 <style>
 .scrollable-container {
-  height: 200px;
+  height: auto;
   overflow-y: scroll;
 }
 .mypage {

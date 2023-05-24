@@ -77,8 +77,8 @@
 </template>
 
 <script>
-import http from "@/util/http.js";
 import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
   data() {
@@ -102,8 +102,14 @@ export default {
   },
   methods: {
     getRandomMenu() {
-      http
-        .get(`/foodapi/food`)
+      axios({
+        method: "GET",
+        url: "http://localhost:9999/foodapi/food",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": sessionStorage.getItem("Authorization"),
+        },
+      })
         .then((response) => {
           this.randomValue = response.data;
         })

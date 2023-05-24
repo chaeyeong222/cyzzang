@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.users.push(user);
     },
     SET_USER(state, user) {
-      state.user = user;
+      state.loginUser = user;
     },
     SET_USERS(state, users) {
       state.users = users;
@@ -124,7 +124,6 @@ export default new Vuex.Store({
           for (let video of this.state.videos) {
             if (video.videoId === videoId) {
               commit("SET_VIDEO", video);
-              router.push(`/video/${videoId}`);
               break;
             }
           }
@@ -233,9 +232,7 @@ export default new Vuex.Store({
           if (res.status == 200)
             sessionStorage.setItem("Authorization", res.data["Authorization"]);
 
-          commit("SET_USER", user);
-          router.push("/"); //일단 메인으로 이동
-          // router.push(`/mypage/{loginUser}`); //마이페이지로 이동, 로그인 되면 뒤에 로그인유저 붙이기
+          commit("SET_LOGIN_USER");
         })
         .catch((err) => {
           console.log(err);
