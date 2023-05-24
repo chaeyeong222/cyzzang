@@ -22,6 +22,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 			throws Exception {
 		if(request.getMethod().equals("OPTIONS"))
 			return true;
+		
+		System.out.println(request.getHeader(HEADER_AUTH));
 		String token = request.getHeader(HEADER_AUTH);
 		if (token != null) {
 			jwtUtil.valid(token);
