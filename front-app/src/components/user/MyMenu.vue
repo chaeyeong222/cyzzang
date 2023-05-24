@@ -113,9 +113,9 @@ export default {
 </script>
 
 <style scoped>  
-.card{
+ .card{
   width:700px;
-}
+} 
 .container {
   max-width: 800px;
   margin: 0 auto;
