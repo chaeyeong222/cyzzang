@@ -207,27 +207,32 @@ public class UserController {
 	@PutMapping("/sendemail")
 	@ApiOperation(value = "임시 비밀번호 생성해서 db 수정 후, 이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
-		System.out.println("memberEmail " + memberEmail);
+		try {
+			System.out.println("memberEmail " + memberEmail);
 
-		/** 임시 비밀번호 생성 **/
-		String tmpPassword = ms.getTmpPassword();
-		String ecpPassword = ecp.getEncrypt(ms.getTmpPassword());
-		System.out.println("임시 비밀번호 " + tmpPassword);
-		System.out.println("암호화  비밀번호 " + ecpPassword);
+			/** 임시 비밀번호 생성 **/
+			String tmpPassword = ms.getTmpPassword();
+			String ecpPassword = ecp.getEncrypt(ms.getTmpPassword());
+			System.out.println("임시 비밀번호 " + tmpPassword);
+			System.out.println("암호화  비밀번호 " + ecpPassword);
 
-		User user = us.searchByEmail(memberEmail);
+			User user = us.searchByEmail(memberEmail);
+			if (user != null) {
+				/** 임시 비밀번호 저장 **/
+				user.setPassword(ecpPassword);
+				us.updateToNewPassword(user);
 
-		/** 임시 비밀번호 저장 **/
-		user.setPassword(ecpPassword);
-		us.updateToNewPassword(user);
+				// 이메일 보내기
+				MailVo mail = ms.createMail(tmpPassword, memberEmail);
+				ms.sendMail(mail);
 
-		// 이메일 보내기
-		MailVo mail = ms.createMail(tmpPassword, memberEmail);
-		ms.sendMail(mail);
+				System.out.println("임시 비밀번호 전송 완료");
+			}
+			return new ResponseEntity<String>(tmpPassword, HttpStatus.OK);
 
-		System.out.println("임시 비밀번호 전송 완료");
-
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 
 	/**

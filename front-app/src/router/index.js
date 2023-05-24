@@ -10,6 +10,7 @@ import LoginForm from "@/components/user/LoginForm.vue";
 import Regist from "@/components/user/Regist.vue";
 import MyPage from "@/components/user/MyPage.vue";
 import MyMenu from "@/components/user/MyMenu.vue";
+import UpdatePassword from "@/components/user/UpdatePassword.vue";
 
 Vue.use(VueRouter);
 
@@ -63,7 +64,12 @@ const routes = [
         path: "mymenu",
         name: "MyMenu",
         component: MyMenu,
-      } 
+      }, 
+      {
+        path: "updatePassword",
+        name: "UpdatePassword",
+        component: UpdatePassword,
+      }  
     ]
 
   },
