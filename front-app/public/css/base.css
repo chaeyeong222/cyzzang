@@ -35,7 +35,6 @@ body {
 .js .loading::before,
 .js .loading::after {
   content: "";
-  position: fixed;
   z-index: 1000;
 }
 
@@ -81,7 +80,6 @@ a:focus {
 .frame {
   padding: 3rem 5vw;
   text-align: center;
-  position: relative;
   z-index: 1000;
   text-transform: uppercase;
 }
@@ -124,7 +122,6 @@ a:focus {
 
 @media screen and (min-width: 30em) {
   .frame {
-    position: fixed;
     text-align: left;
     z-index: 100;
     top: 0;

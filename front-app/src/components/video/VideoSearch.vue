@@ -95,7 +95,6 @@ export default {
   created() {
     this.updatePerPage();
     window.addEventListener("resize", this.updatePerPage);
-    this.perPage = this.calculatePerPage();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.updatePerPage);
@@ -146,6 +145,5 @@ export default {
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
 }
 </style>
