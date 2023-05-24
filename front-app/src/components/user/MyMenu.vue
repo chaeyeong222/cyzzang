@@ -14,8 +14,8 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">About Me</h5>
-            <p>키: {{ height }} cm</p>
-            <p>몸무게: {{ weight }} kg</p>
+            <p>키: {{ loginUser.height }} cm</p>
+            <p>몸무게: {{ loginUser.weight }} kg</p>
             </div>
         </div>
       </div>
@@ -28,31 +28,34 @@
       <div class="col-md-8">
         <div class="card" style="width:600px">
           <div class="card-body"> 
-            <h5 class="card-title" style="width:500px">아래의 재료를 곁들여 먹는 걸 추천해요! 
+            <h5 class="card-title" style="width:500px">버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
                <button class="btn" @click="getRandomMenu" style="width:100px">랜덤 식단 추천</button>
               </h5>  
 
-             <ul class="list-group">
-              <!-- <div v-for="category in categories" :key="category.id">
-                  <h2>{{ category.name }}</h2>
-                   <p>{{ category.randomData }}</p>
-              </div> -->
- 
+             <ul class="list-group"> 
               <li class="list-group-item">
-                <span class="badge bg-success">탄수화물</span>
-                {{randomValue}}
+                <span class="badge bg-danger">탄수화물</span>
+                {{randomValue.carb}}
               </li>
               <li class="list-group-item">
                 <span class="badge bg-primary">단백질</span>
-                Order #5678 - Widget Y
+                {{randomValue.prot}}
               </li>
               <li class="list-group-item">
-                <span class="badge bg-warning text-dark">채소</span>
-                Order #9012 - Widget Z
+                <span class="badge bg-success text-dark">기본 채소</span>
+                {{randomValue.veg1}}
               </li>
+              <li class="list-group-item">
+                <span class="badge bg-info text-dark">보충 채소</span>
+                {{randomValue.veg2}}
+              </li> 
               <li class="list-group-item">
                 <span class="badge bg-warning text-dark">간식</span>
-                Order #9012 - Widget Z
+                {{randomValue.snack}}
+              </li>  
+              <li class="list-group-item">
+                <span class="badge bg-secondary">과일</span>
+                {{randomValue.fruit}}
               </li>  
             </ul>
           </div>
@@ -70,19 +73,14 @@ import { mapState } from "vuex";
 
 export default {
   data() {
-    return {  
-      // wasteCal: 999,
-      height:190,
-      weight:80,
-      // waterCal : height * 0.01,
-      //eatCal:888,
-      randomValue:{}, 
+    return {   
+      randomValue:{},  
     };
   },
   computed:{
     ...mapState(["loginUser"]),
     betterWeight(){
-      return Math.round((this.height * 0.01) * (this.height * 0.01) * 22);
+      return Math.round((this.loginUser.height * 0.01) * (this.loginUser.height * 0.01) * 22);
     },
     eatTotalCal(){
       return this.betterWeight * 35;
@@ -92,18 +90,14 @@ export default {
     }
   }, 
   methods:{
-    getRandomMenu(){
-      // this.categories.forEach(category => {
-      http.get(`/foodapi/food/`)
+    getRandomMenu(){ 
+      http.get(`/foodapi/food`)
       .then(response => {
           this.randomValue = response.data;
         })
         .catch(error => {
           console.error(error);
-        });
-    // }
-    //  );
-
+        }); 
   }
   }
 };
