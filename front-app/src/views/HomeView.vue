@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       firstText: "SSAFIT",
-      secondText: "chajong",
+      secondText: "chaejong",
       items: [
         {
           image: "img/BODY.jpg",

@@ -77,7 +77,7 @@ export default new Vuex.Store({
         .then(() => {
           commit("CREATE_USER", user);
           alert("회원가입 완료");
-          router.push("user/login"); //로그인 화면으로 이동하기
+          router.push("/user/login"); //로그인 화면으로 이동하기
         })
         .catch((err) => {
           console.log(err);
