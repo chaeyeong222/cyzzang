@@ -20,7 +20,7 @@ public class FoodServiceImpl implements FoodService{
 	
 	@Override
 	public List<Food> searchByCategory(String category) { 
-		return fDao.searchByUserId(category);
+		return fDao.searchByCategory(category);
 	}
 	
 	 

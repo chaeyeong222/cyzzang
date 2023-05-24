@@ -32,7 +32,7 @@ public class FoodController {
 	 */
 	@GetMapping("/food")
 	@ApiOperation(value = "{category}에 해당하는 음식목록을 반환한다.")
-	public ResponseEntity<?> getFoodList(@PathVariable String category) {
+	public ResponseEntity<?> getFoodList() {
 		List<Food> foodList1 = fs.searchByCategory("기본채소"); // veg1
 		List<Food> foodList2 = fs.searchByCategory("탄수화물"); // carb
 		List<Food> foodList3 = fs.searchByCategory("보충채소"); // veg2
