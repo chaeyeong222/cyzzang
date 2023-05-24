@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <div class="container">
+    <div class="container scroll-container">
       <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center">
@@ -225,7 +225,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+.scroll-container {
+  height: 100vh;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scroll-container {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+.scroll-container:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;

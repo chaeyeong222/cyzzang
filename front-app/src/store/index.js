@@ -15,7 +15,6 @@ export default new Vuex.Store({
     videoId: "",
     video: {},
     users: [],
-    user: {},
     loginUser: null,
     zzimList: [],
   },
@@ -33,12 +32,6 @@ export default new Vuex.Store({
     CREATE_USER(state, user) {
       state.users.push(user);
     },
-    SET_USER(state, user) {
-      state.loginUser = user;
-    },
-    SET_USERS(state, users) {
-      state.users = users;
-    },
     SET_LOGIN_USER(state) {
       let token = sessionStorage.getItem("Authorization");
       if (token) {
@@ -53,17 +46,6 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.loginUser = null;
       sessionStorage.removeItem("Authorization");
-    },
-    DELETE_ZZIM(state, zzimNum) {
-      for (let zzim of state.zzimList) {
-        if (zzim.zzimNum == zzimNum) {
-          let idx = state.ZzimList.indexOf(zzim);
-          ZzimList.splice(idx, 1);
-        }
-      }
-    },
-    ADD_ZZIM(state, newZzim) {
-      state.zzimList.push(newZzim);
     },
     SET_ZZIMLIST(state, zzimList) {
       state.zzimList = zzimList;
@@ -177,7 +159,6 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
       })
-        .delete(`zzimapi/zzim/${zzimNum}`)
         .then(() => {
           context.dispatch("setZzimList")
         })

@@ -6,7 +6,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafit.cheajong.model.dao.UserDao;
 import com.ssafit.cheajong.model.dto.MailVo;
 
 @Service
@@ -17,7 +16,6 @@ public class MailServiceImpl implements MailService{
 	JavaMailSender mailSender; 
 	
 	@Autowired
-	private UserDao uDao; 
 	private static String mailType = ""; 
 	private static String title = "[SSAFIT_CHAEJONG]"+ mailType+ "안내 이메일입니다."; 
     private static String message="안녕하세요. SSAFIT_CHAEJONG" + mailType+ "안내 메일입니다." ;

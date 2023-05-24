@@ -1,5 +1,5 @@
 <template>
-  <div style="justify-content: center; diplay: flex">
+  <div style="justify-content: center">
     <div class="header-container">
       <input
         type="text"
@@ -7,41 +7,40 @@
         @keyup.enter="videoSearch"
         v-model="searchWord"
         ref="search"
-        placeholder="  검색어를 입력하세요"
-      />
-      <b-button variant="warning" class="search-button" @click="videoSearch"
+        placeholder="          검색어를 입력하세요" />
+      <b-button class="search-button" @click="videoSearch"
         >검색</b-button
       >
     </div>
-    <div class="card-container mt-4 ml-5 mr-5 mb-3">
-      <b-card
-        bg-variant="dark"
-        text-variant="white"
-        header="Secondary"
-        class="text-center"
-        v-for="(video, index) in paginatedVideos"
-        :key="index"
-        @click="goDetail(video.videoId)"
-      >
-        <template #header>
-          <img :src="getThumbnailUrl(video.videoId)" style="width: 100%" />
-        </template>
-        <p class="card-text">{{ truncateTitle(video.title) }}</p>
-        <p class="card-text">{{ video.channelTitle }}</p>
-      </b-card>
-    </div>
+    <div class="content-container">
+      <div class="card-container mt-4 ml-5 mr-5 mb-3">
+        <b-card
+          bg-variant="dark"
+          text-variant="white"
+          header="Secondary"
+          class="text-center"
+          v-for="(video, index) in paginatedVideos"
+          :key="index"
+          @click="goDetail(video.videoId)">
+          <template #header>
+            <img :src="getThumbnailUrl(video.videoId)" style="width: 100%" />
+          </template>
+          <p class="card-text">{{ truncateTitle(video.title) }}</p>
+          <p class="card-text">{{ video.channelTitle }}</p>
+        </b-card>
+      </div>
 
-    <div class="overflow-auto">
-      <b-pagination
-        bg-variant="dark"
-        align="center"
-        pills
-        v-model="currentPage"
-        :total-rows="videoSize()"
-        :per-page="perPage"
-        class="pagination-dark"
-        size="lg"
-      ></b-pagination>
+      <div class="pagination-container">
+        <b-pagination
+          bg-variant="dark"
+          align="center"
+          pills
+          v-model="currentPage"
+          :total-rows="videoSize()"
+          :per-page="perPage"
+          class="pagination-dark"
+          size="lg"></b-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -115,14 +114,36 @@ export default {
 };
 </script>
 
-<style>
-pagination-dark .page-link {
-  color: white;
+<style scoped>
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  -webkit-scrollbar-width: thin;
+}
+.content-container::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.content-container::-webkit-scrollbar-thumb:hover {
+  background-color: transparent;
+}
+
+.pagination-dark .page-link {
+  color: rgb(68, 67, 67);
 }
 
 .pagination-dark .page-item.active .page-link {
   background-color: #343a40;
   border-color: #343a40;
+  color: antiquewhite;
 }
 
 .card-container {
@@ -134,7 +155,7 @@ pagination-dark .page-link {
 .card {
   width: calc(100% / 6);
   margin: 10px;
-  border-color: cadetblue;
+  border-color: rgb(55, 102, 104);
 }
 
 .header-container {
@@ -149,10 +170,16 @@ pagination-dark .page-link {
   border-radius: 10px;
   flex: 0.6;
   margin-right: 10px;
+  height: 40px;
 }
 
 .search-button {
   width: 80px;
+  height: 40px;
+  font-size: medium;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
