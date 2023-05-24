@@ -33,23 +33,15 @@
           <li v-for="item in wishlist" :key="item.id">{{ item.name }}</li>
         </ul>
       </div>
-    </div>
-  </template>
+    </div>  
+</template>
   
   <script>
   import { mapState } from 'vuex';
 
   export default {
     data() {
-      return {
-        // user: {
-        //   userId : "aa",
-        //   nickName: "John",
-        //   emailAdress: "johndoe@example.com", 
-        //   height: 0,
-        //   weight:0,
-          
-        // },
+      return { 
         wishlist: [
           { id: 1, name: "상품 1" },
           { id: 2, name: "상품 2" },
@@ -72,47 +64,50 @@
         alert("개인정보가 업데이트되었습니다.");
         this.$store.dispatch("updateUser", user);
       }
-    }
+    },
+  computed: {
+    ...mapState(["zzimList"]),
+  },
   };
   </script>
   
   <style>
-  .mypage {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .left-section,
-  .right-section {
-    flex: 1;
-    padding: 20px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 10px;
-  }
-  
-  label {
-    display: block;
-  }
-  
-  input {
-    width: 100%;
-    padding: 5px;
-    font-size: 14px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    margin-bottom: 5px;
-  }
-  </style>
+.mypage {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-section,
+.right-section {
+  flex: 1;
+  padding: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+</style>
   

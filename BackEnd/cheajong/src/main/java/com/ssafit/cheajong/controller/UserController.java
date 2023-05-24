@@ -1,12 +1,10 @@
 package com.ssafit.cheajong.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafit.cheajong.model.dto.MailVo;
 import com.ssafit.cheajong.model.dto.User;
@@ -64,16 +60,20 @@ public class UserController {
 			String ecpPassword = ecp.getEncrypt(user.getPassword());
 			User target = us.searchByUserId(user.getUserId());
 			// 아이디와 비밀번호 모두 일치할 경우 토큰 생성해서 반환
-			if (user != null && target.getPassword().equals(ecpPassword)) {
+			if (target == null)
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+			if (user.getUserId() != null && target.getPassword().equals(ecpPassword)) {
 				Map<String, Object> returnUser = new HashMap<>();
 				returnUser.put("userId", target.getUserId());
 				returnUser.put("nickName", target.getNickName());
+				returnUser.put("emailAdress", target.getEmailAdress());
 				returnUser.put("height", target.getHeight());
 				returnUser.put("weight", target.getWeight());
 				result.put("Authorization", jwtUtil.createToken(returnUser));
 				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 			} else
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -128,12 +128,22 @@ public class UserController {
 //				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
 //				file.transferTo(new File(res.getFile(), user.getImg()));
 //			}
-			System.out.println("들어오나ㅏㅏㅏ");
 			int res = us.update(user);
-			System.out.println(user.getUserId());
-			System.out.println(user.getNickName());
-			System.out.println(res);
-			return new ResponseEntity<Integer>(res, HttpStatus.OK);
+			Map<String, Object> result = new HashMap<String, Object>();
+			if (res == 1) {
+				User target = us.searchByUserId(user.getUserId());
+				Map<String, Object> returnUser = new HashMap<>();
+				returnUser.put("userId", target.getUserId());
+				returnUser.put("nickName", target.getNickName());
+				returnUser.put("emailAdress", target.getEmailAdress());
+				returnUser.put("height", target.getHeight());
+				returnUser.put("weight", target.getWeight());
+				result.put("Authorization", jwtUtil.createToken(returnUser));
+				return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
