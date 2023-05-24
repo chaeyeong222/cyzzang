@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafit.cheajong.model.dao.FoodDao;
-import com.ssafit.cheajong.model.dao.UserDao;
-import com.ssafit.cheajong.model.dto.Food;
-import com.ssafit.cheajong.model.dto.User; 
+import com.ssafit.cheajong.model.dto.Food; 
 
 @Service
 @Transactional

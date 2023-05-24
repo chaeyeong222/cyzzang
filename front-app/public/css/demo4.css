@@ -112,6 +112,7 @@ body {
 
 .gallery__item-tags {
   grid-area: gallery-tags;
+  justify-content: end;
   justify-self: end;
   font-size: 1.5rem;
   display: grid;

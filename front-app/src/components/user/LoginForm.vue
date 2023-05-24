@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <div class="container">
+    <div class="container scroll-container">
       <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center"> 
@@ -34,7 +34,7 @@
                         />
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
-                      <a @click="login()" class="btn mt-4">로그인</a>
+                      <a @click="login()" class="btn mt-6">로그인</a>
                       <p class="mb-0 mt-4 text-center">
                         <a href="#0" class="link">비밀번호를 잊으셨나요?</a>
                       </p>
@@ -90,7 +90,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.scroll-container {
+  height: 100vh;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scroll-container {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+.scroll-container:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
@@ -99,6 +128,16 @@ body {
   color: #c4c3ca;
   background-color: #1f2029;
   overflow-x: hidden;
+}
+label {
+  width: 60px;
+  display: flex;
+  align-items: center;
+}
+.sssss {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 a {
   cursor: pointer;
@@ -117,6 +156,7 @@ p {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.7;
+  width: 90%;
 }
 h4 {
   font-weight: 600;
@@ -177,9 +217,9 @@ h6 span {
 
 .card-3d-wrap {
   position: relative;
-  width: 440px;
+  width: 500px;
   max-width: 100%;
-  height: 350px;
+  height: 600px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -230,19 +270,18 @@ h6 span {
   transform: translate3d(0, -50%, 35px) perspective(100px);
   z-index: 20;
   display: block;
-}
-
+} 
 .form-group {
   position: relative;
-  display: block;
+  display: flex;
   margin: 0;
   padding: 0;
 }
 .form-style {
-  padding : 0px 0px 0px 100px;
+  padding: 0px 0px 0px 20px;
   height: 48px;
-  /* width: 100%; */ 
-  width:500px;
+  /* width: 100%; */
+  width: 280px;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
@@ -321,14 +360,16 @@ h6 span {
 }
 
 .btn {
+  width: 70px;
+  margin: 10 0 0 !important;
   border-radius: 4px;
-  height: 44px;
+  height: 42px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
-  padding: 0 30px;
+  padding: 0 5px;
   letter-spacing: 1px;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
