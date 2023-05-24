@@ -168,6 +168,9 @@ export default {
       fourthText: "till sickness comes",
     };
   },
+  created() {
+    document.body.classList.remove("loading");
+  },
 };
 </script>
 

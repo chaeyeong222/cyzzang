@@ -2,7 +2,7 @@
   <div class="mypage">
     <div class="left-section">
       <h2>개인정보 수정</h2>
-      <form @submit="updateUserInfo">
+      <div>
         <div class="form-group">
           <label for="userId">아이디</label>
           <input type="text" id="userId" v-model="loginUser.userId" disabled />
@@ -38,15 +38,29 @@
             required
           />
         </div>
-        <button type="submit">저장</button>
-      </form>
+        <button @click="updateUserInfo">저장</button>
+      </div>
       <router-link to="/user/myMenu">오늘의 식단 구성하기</router-link>
     </div>
     <div class="right-section">
-      <h2>영상 찜 목록</h2>
-      <!-- <ul>
-        <li v-for="item in wishlist" :key="item.id">{{ item.name }}</li>
-      </ul> -->
+      <div class="scrollable-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>채널</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(zzim, index) in zzimList" :key="index">
+              <td>
+                <a @click="goDetail(zzim.videoId)">{{ zzim.title }}</a>
+              </td>
+              <td>{{ zzim.channelName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -57,14 +71,20 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-
+      user: {},
     };
   },
+  created() {
+    this.$store.commit("SET_LOGIN_USER");
+    this.$store.dispatch("setZzimList")
+  },
   computed: {
-    ...mapState(["loginUser"]),
-    ...mapState(["zzimList"]),
+    ...mapState(["loginUser","zzimList"]),
   },
   methods: {
+    goDetail(videoId) {
+      this.$store.dispatch("setVideoReviews", videoId);
+    },
     updateUserInfo() {
       let user = {
         userId: this.loginUser.userId,
@@ -76,11 +96,15 @@ export default {
       alert("개인정보가 업데이트되었습니다.");
       this.$store.dispatch("updateUser", user);
     },
-  }, 
+  },
 };
 </script>
   
-  <style>
+<style>
+.scrollable-container {
+  height: auto;
+  overflow-y: scroll;
+}
 .mypage {
   display: flex;
   justify-content: space-between;
