@@ -1,7 +1,5 @@
 <template>
-  <div style="justify-content: center">
-    <br />
-    <br />
+  <div style="justify-content: center; diplay: flex">
     <div class="header-container">
       <input
         type="text"
@@ -9,15 +7,20 @@
         @keyup.enter="videoSearch"
         v-model="searchWord"
         ref="search"
-        placeholder="검색어를 입력하세요"
+        placeholder="  검색어를 입력하세요"
       />
-      <button class="search-button" @click="videoSearch">검색</button>
+      <b-button variant="warning" class="search-button" @click="videoSearch"
+        >검색</b-button
+      >
     </div>
-    <div class="card-container">
+    <div class="card-container mt-4 ml-5 mr-5 mb-3">
       <b-card
+        bg-variant="dark"
+        text-variant="white"
+        header="Secondary"
+        class="text-center"
         v-for="(video, index) in paginatedVideos"
         :key="index"
-        class="card"
         @click="goDetail(video.videoId)"
       >
         <template #header>
@@ -28,11 +31,16 @@
       </b-card>
     </div>
 
-    <div class="pagination-container">
+    <div class="overflow-auto">
       <b-pagination
+        bg-variant="dark"
+        align="center"
+        pills
         v-model="currentPage"
         :total-rows="videoSize()"
         :per-page="perPage"
+        class="pagination-dark"
+        size="lg"
       ></b-pagination>
     </div>
   </div>
@@ -61,8 +69,12 @@ export default {
   },
   methods: {
     goDetail(videoId) {
-      this.$store.dispatch("setVideoReviews", videoId);
-      this.$router.push(`/video/${videoId}`)
+      if (sessionStorage.getItem("Authorization")) {
+        this.$store.dispatch("setVideoReviews", videoId);
+        this.$router.push(`/video/${videoId}`);
+      } else {
+        alert("로그인이 필요합니다.");
+      }
     },
     videoSearch() {
       this.$store.dispatch("videoSearch", this.searchWord);
@@ -104,6 +116,15 @@ export default {
 </script>
 
 <style>
+pagination-dark .page-link {
+  color: white;
+}
+
+.pagination-dark .page-item.active .page-link {
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -113,18 +134,20 @@ export default {
 .card {
   width: calc(100% / 6);
   margin: 10px;
+  border-color: cadetblue;
 }
 
 .header-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   width: 100%;
 }
 
 .search-input {
-  flex: 0.7;
+  border-radius: 10px;
+  flex: 0.6;
   margin-right: 10px;
 }
 
@@ -142,9 +165,5 @@ export default {
   .card {
     width: 100%;
   }
-}
-.pagination-container {
-  display: flex;
-  justify-content: center;
 }
 </style>

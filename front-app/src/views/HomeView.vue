@@ -36,7 +36,9 @@
             <span class="gallery__item-number">{{ item.number }}</span>
             <p class="gallery__item-tags">
               <span v-for="tag in item.tags" :key="tag"
-                ><a @click="videoSearch(tag)">#{{ tag }}</a></span
+                ><a @click="videoSearch(item.title + ' ' + tag)"
+                  >#{{ tag }}</a
+                ></span
               >
             </p>
             <a @click="videoSearch(item.title)" class="gallery__item-link">{{
@@ -80,88 +82,67 @@ export default {
       secondText: "chajong",
       items: [
         {
-          image: "img/12.jpg",
-          engtitle: "WHOLE  BODY",
+          image: "img/BODY.jpg",
+          engtitle: "WHOLE BODY",
           title: "전신",
           number: "01",
-          tags: ["house", "green", "chair"],
+          tags: ["체조", "순환", "준비"],
         },
         {
-          image: "img/11.jpg",
+          image: "img/Shoulder.jpg",
           engtitle: "Shoulder",
           title: "어깨",
           number: "02",
-          tags: ["love", "hug", "people"],
+          tags: ["전면", "후면", "측면"],
         },
         {
-          image: "img/10.jpg",
+          image: "img/Chest.jpg",
           engtitle: "Chest",
           title: "가슴",
           number: "03",
-          tags: ["hike", "nature", "rain"],
+          tags: ["덤벨", "바벨", "홈트"],
         },
         {
-          image: "img/9.jpg",
+          image: "img/Arms.jpg",
           engtitle: "Arms",
           title: "팔",
           number: "04",
-          tags: ["free", "wood", "fire"],
+          tags: ["이두", "삼두", "전완"],
         },
         {
-          image: "img/8.jpg",
+          image: "img/Back.jpg",
           engtitle: "Back",
           title: "등",
           number: "05",
-          tags: ["cloud", "lake", "frog"],
+          tags: ["광배", "승모", "극하"],
         },
         {
-          image: "img/7.jpg",
+          image: "img/Abdomen.jpg",
           engtitle: "Abdomen",
           title: "복근",
           number: "06",
-          tags: ["tent", "flower", "love"],
+          tags: ["복사", "복직", "선명"],
         },
         {
-          image: "img/6.jpg",
+          image: "img/Lower.jpg",
           engtitle: "Lower Body",
           title: "하체",
           number: "07",
-          tags: ["water", "bottle", "hand"],
+          tags: ["중량", "런지", "스쿼트"],
         },
         {
-          image: "img/5.jpg",
-          engtitle: "Shoulder",
-          title: "Disenthral",
+          image: "img/Stretching.jpg",
+          engtitle: "Stretching",
+          title: "스트레칭",
           number: "08",
-          tags: ["night", "stars", "moon"],
+          tags: ["전신", "의자", "직장"],
         },
         {
-          image: "img/4.jpg",
-          engtitle: "Shoulder",
-          title: "Abaya",
+          image: "img/Health.jpg",
+          engtitle: "Health",
+          title: "헬스",
           number: "09",
-          tags: ["sun", "light", "air"],
-        },
-        {
-          image: "img/3.jpg",
-          engtitle: "Shoulder",
-          title: "Hallux",
-          number: "10",
-          tags: ["vital", "fog", "close"],
-        },
-        {
-          image: "img/2.jpg",
-          engtitle: "Shoulder",
-          title: "Lablab",
-          number: "11",
-          tags: ["cover", "bed", "window"],
-        },
-        {
-          image: "img/1.jpg",
-          engtitle: "Shoulder",
-          title: "Momisom",
-          number: "12",
-          tags: ["sad", "mouth", "tear"],
+          tags: ["헬스장", "식단", "짐"],
         },
       ],
       thirdText: "Health is not valued",
