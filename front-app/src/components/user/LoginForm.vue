@@ -3,17 +3,15 @@
     <div class="container">
       <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
-          <div class="section pb-5 pt-5 pt-sm-2 text-center">
-            <!-- <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
-                  <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-                  <label for="reg-log"></label> -->
+          <div class="section pb-5 pt-5 pt-sm-2 text-center"> 
             <div class="card-3d-wrap mx-auto">
               <div class="card-3d-wrapper">
                 <div class="card-front">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <h4 class="mb-4 pb-3">로그인</h4>
+                      <h3 class="mb-4 pb-3">로그인</h3>
                       <div class="form-group">
+                        <label for="userId"> </label>
                         <input
                           type="text"
                           name="userId"
@@ -25,6 +23,7 @@
                         <i class="input-icon uil uil-at"></i>
                       </div>
                       <div class="form-group mt-2">
+                        <label for="password">  </label>
                         <input
                           type="password"
                           name="userPassword"
@@ -180,7 +179,7 @@ h6 span {
   position: relative;
   width: 440px;
   max-width: 100%;
-  height: 400px;
+  height: 350px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -240,10 +239,10 @@ h6 span {
   padding: 0;
 }
 .form-style {
-  padding: 13px 20px;
-  padding-left: 55px;
+  padding : 0px 0px 0px 100px;
   height: 48px;
-  width: 100%;
+  /* width: 100%; */ 
+  width:500px;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
