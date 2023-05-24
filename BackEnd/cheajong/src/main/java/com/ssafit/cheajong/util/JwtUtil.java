@@ -21,7 +21,7 @@ public class JwtUtil {
 	public String createToken(Map<String, Object> claims) throws UnsupportedEncodingException {
 
 		return Jwts.builder().setHeaderParam("alg", "HS256").setHeaderParam("typ", "JWT").addClaims(claims)
-				.setExpiration(new Date(System.currentTimeMillis() + 1800000L)) // 임의로 30분의 시간을 생성해놨는데, 필요에 따라서 수정
+				.setExpiration(new Date(System.currentTimeMillis() + 36000000L)) // 임의로 30분의 시간을 생성해놨는데, 필요에 따라서 수정
 				.signWith(SignatureAlgorithm.HS256, Salt.getBytes("UTF-8")).compact();
 	}
 
