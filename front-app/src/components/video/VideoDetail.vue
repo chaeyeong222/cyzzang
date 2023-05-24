@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["videoReviews", "video", "zzimList"]),
+    ...mapState(["videoReviews", "video", "zzimList", "loginUser"]),
     containerWidth() {
       const viewportWidth =
         window.innerWidth || document.documentElement.clientWidth;
@@ -104,7 +104,15 @@ export default {
   methods: {
     toggleFavorite() {
       if (this.favorite) this.$store.dispatch("deleteZzim", this.zzimNum);
-      else this.$store.dispatch("addZzim");
+      else {
+        let newZzim = {
+          userId: this.loginUser.userId,
+          videoId: this.video.videoId,
+          title: this.video.title,
+          channelName: this.video.channelTitle,
+        };
+        this.$store.dispatch("addZzim", newZzim);
+      }
 
       this.favorite = !this.favorite;
     },

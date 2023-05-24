@@ -33,10 +33,24 @@
       <router-link to="/user/myMenu">오늘의 식단 구성하기</router-link>
     </div>
     <div class="right-section">
-      <h2>영상 찜 목록</h2>
-      <ul>
-        <li v-for="item in wishlist" :key="item.id">{{ item.name }}</li>
-      </ul>
+      <div class="scrollable-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>채널</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(zzim, index) in zzimList" :key="index">
+              <td>
+                <a @click="goDetail(zzim.videoId)">{{ zzim.title }}</a>
+              </td>
+              <td>{{ zzim.channelName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -54,14 +68,15 @@ export default {
         height: 0,
         weight: 0,
       },
-      wishlist: [
-        { id: 1, name: "상품 1" },
-        { id: 2, name: "상품 2" },
-        { id: 3, name: "상품 3" },
-      ],
     };
   },
+  created() {
+    this.$store.commit("SET_LOGIN_USER");
+  },
   methods: {
+    goDetail(videoId) {
+      this.$store.dispatch("setVideoReviews", videoId);
+    },
     updateUserInfo() {
       let user = {
         userId: this.user.userId,
@@ -80,7 +95,11 @@ export default {
 };
 </script>
   
-  <style>
+<style>
+.scrollable-container {
+  height: 200px;
+  overflow-y: scroll;
+}
 .mypage {
   display: flex;
   justify-content: space-between;
