@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
   `zzim_num` INT NOT NULL auto_increment,
   `user_num` INT NOT NULL,
   `video_id` VARCHAR(45) NOT NULL,
-  `video_title` VARCHAR(45) NOT NULL,
-  `channel_name` VARCHAR(45) NOT NULL,
+  `video_title` VARCHAR(300) NOT NULL,
+  `channel_name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`zzim_num`),
   INDEX `zzim_from_user_idx` (`user_num` ASC),
   CONSTRAINT `zzim_from_user`

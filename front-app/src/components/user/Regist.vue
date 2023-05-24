@@ -9,10 +9,10 @@
                 <div class="card-front">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <h4 class="mb-4 pb-3">회원가입</h4>
+                      <h3 class="mb-4 pb-3">회원가입</h3>
                       <div class="sssss">
                         <div class="form-group mt-2">
-                          <label for="userId">아이디</label>
+                          <label for="userId"> 아이디</label>
                           <input
                             :readonly="idCC"
                             type="text"
@@ -98,7 +98,7 @@
                         </div>
                         <p v-if="isPasswordMatch">비밀번호가 일치합니다.</p>
                         <p v-else>비밀번호가 일치하지 않습니다.</p>
-                      </div>
+                      </div> 
                     </div>
                     <button
                       v-if="isRegistPossible"
@@ -107,6 +107,7 @@
                       @click="regist">
                       가입하기
                     </button>
+                    
                   </div>
                 </div>
               </div>
@@ -236,6 +237,8 @@ body {
 }
 label {
   width: 60px;
+  display: flex;
+  align-items: center;
 }
 .sssss {
   display: flex;
@@ -259,6 +262,7 @@ p {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.7;
+  width: 90%;
 }
 h4 {
   font-weight: 600;
@@ -372,19 +376,18 @@ h6 span {
   transform: translate3d(0, -50%, 35px) perspective(100px);
   z-index: 20;
   display: block;
-}
-
+} 
 .form-group {
   position: relative;
-  display: block;
+  display: flex;
   margin: 0;
   padding: 0;
 }
 .form-style {
-  padding: 13px 20px 0px 55px;
+  padding: 0px 20px 0px 45px;
   height: 48px;
   /* width: 100%; */
-  width: 250px;
+  width: 280px;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
@@ -464,8 +467,9 @@ h6 span {
 
 .btn {
   width: 70px;
+  margin: 0 0 0 10px !important;
   border-radius: 4px;
-  height: 44px;
+  height: 42px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
