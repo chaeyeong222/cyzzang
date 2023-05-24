@@ -4,7 +4,7 @@
       <h1>오늘의 식단 추천</h1>
     </div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4"> 
         <div class="card mb-4">
           <div class="card-body text-center">
             <h4 class="card-title">{{ loginUser.nickName }}</h4>
@@ -20,28 +20,19 @@
         </div>
       </div>
       <div>
-        <h4 class="card-title">
-          {{ loginUser.nickName }} 님의 하루 적정체중은 {{ betterWeight }} kg
-          입니다.
-        </h4>
-        <h4 class="card-title">
-          {{ loginUser.nickName }} 님의 하루 권장 섭취 칼로리는
-          {{ eatTotalCal }} kcal 입니다.
-        </h4>
-
-        <h4 class="card-title">
-          한 끼에 {{ eatCal }} kcal 이하 섭취를 권장해요!
-        </h4>
+        <div style="text-align: center;">
+        <h4 class="card-title" >  {{loginUser.nickName}}  님의 하루 적정체중은 {{ betterWeight }} kg 입니다. </h4>
+        <h4 class="card-title" >{{loginUser.nickName}}  님의 하루 권장 섭취 칼로리는 {{ eatTotalCal }} kcal 입니다. </h4>  
+       
+        <h4 class="card-title" > 한 끼에 {{ eatCal }} kcal 이하 섭취를 권장해요! </h4> 
       </div>
-      <div class="col-md-8">
-        <div class="card" style="width: 600px">
-          <div class="card-body">
-            <h5 class="card-title" style="width: 500px">
-              버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
-              <button class="btn" @click="getRandomMenu" style="width: 100px">
-                랜덤 식단 추천
-              </button>
-            </h5>
+      </div>
+      <div class="col-md-8"> 
+        <div class="card">
+          <div class="card-body"> 
+            <h5 class="card-title" style="width:500px">버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
+               <button class="btn" @click="getRandomMenu" style="width:100px">랜덤 식단 추천</button>
+              </h5>  
 
             <ul class="list-group">
               <li class="list-group-item">
@@ -121,16 +112,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped>  
+.card{
+  width:700px;
+}
 .container {
   max-width: 800px;
   margin: 0 auto;
 }
-
+.container {
+   max-width: 800px; 
+   margin: 0 auto; 
+} 
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-}
+} 
 </style>
