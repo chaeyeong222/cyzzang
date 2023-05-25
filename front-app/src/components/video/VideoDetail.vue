@@ -20,7 +20,8 @@
                 class="incoming_review"
                 v-for="(review, index) in videoReviews"
                 :key="review.id"
-                :class="index % 2 === 0 ? 'received_review' : 'sent_review'">
+                :class="index % 2 === 0 ? 'received_review' : 'sent_review'"
+              >
                 <div class="message">
                   <div class="message_content">
                     <p>{{ review.content }}</p>
@@ -30,7 +31,8 @@
                         v-for="n in review.rate"
                         :key="n"
                         class="fa fa-star"
-                        aria-hidden="true"></i
+                        aria-hidden="true"
+                      ></i
                     ></span>
                   </div>
                 </div>
@@ -44,13 +46,16 @@
                   v-for="n in 5"
                   :key="n"
                   :class="['fa', 'fa-star', { active: n <= selectedRating }]"
-                  @click="selectRating(n)"></i>
+                  @click="selectRating(n)"
+                ></i>
               </span>
               <input
                 type="text"
                 class="write_review"
                 placeholder="Type a review"
-                v-model="newReviewText" />
+                v-model="newReviewText"
+                @keyup.enter="sendReview"
+              />
               <button class="review_send_btn" type="button" @click="sendReview">
                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
               </button>
@@ -188,15 +193,15 @@ export default {
 .embedded-video {
   display: flex;
   margin-left: 15px;
-  width: 48vw;
-  height: 27vh;
+  width: 480px;
+  height: 270px;
   justify-content: center;
   align-content: center;
 }
 
 iframe {
-  width: 48vw;
-  height: 25vh;
+  width: 480px;
+  height: 270px;
 }
 
 b-embed {
@@ -208,6 +213,9 @@ b-embed {
 
 .time_date i {
   color: #fcd12a;
+}
+.star-rating {
+  color: white;
 }
 
 .star-rating i.active {
@@ -230,7 +238,7 @@ b-embed {
 }
 
 .container {
-  margin: 0 auto;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -238,7 +246,6 @@ b-embed {
 }
 
 .inbox_video {
-  height: 27vh;
   flex-direction: row;
   width: 100%;
   display: flex;
@@ -255,10 +262,10 @@ b-embed {
 
 .mesgs {
   margin: 10px;
-  background-color: #388f9c;
+  background-color: #4a525e;
   padding: 30px 15px 0 25px;
-  width: 50vw;
-  height: 40vh;
+  width: 500px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -285,7 +292,7 @@ b-embed {
 }
 
 .sent_review .message_content p {
-  background: #ebebeb none repeat scroll 0 0;
+  background: #54d7e4 none repeat scroll 0 0;
   border-radius: 3px;
   color: #646464;
   font-size: 14px;
@@ -303,7 +310,7 @@ b-embed {
 .message_content p {
   background: #ebebeb none repeat scroll 0 0;
   border-radius: 3px;
-  color: #646464;
+  color: black;
   font-size: 14px;
   margin: 0;
   padding: 5px 10px 5px 12px;
@@ -325,7 +332,7 @@ b-embed {
 .input_review_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
-  color: #4c4c4c;
+  color: #54d7e4;
   font-size: 15px;
   min-height: 48px;
   width: 100%;

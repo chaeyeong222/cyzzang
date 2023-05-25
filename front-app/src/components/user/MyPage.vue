@@ -1,5 +1,5 @@
 <template>
-  <div class="mypage">
+  <div class="mypage scroll-container">
     <div
       class="card mb-4"
       style="
@@ -7,7 +7,8 @@
         background-color: #1f2028;
         color: palevioletred;
         margin: 20px;
-      ">
+      "
+    >
       <div class="left-section">
         <h2>개인정보 수정</h2>
         <div>
@@ -18,7 +19,8 @@
               id="userId"
               v-model="loginUser.userId"
               disabled
-              style="background-color: #1f2028; color: #b1b1b3" />
+              style="background-color: #1f2028; color: #b1b1b3"
+            />
           </div>
           <div class="form-group">
             <label for="nickName">닉네임</label>
@@ -26,7 +28,8 @@
               style="background-color: #b1b1b3"
               type="text"
               id="nickName"
-              v-model="loginUser.nickName" />
+              v-model="loginUser.nickName"
+            />
           </div>
           <div class="form-group">
             <label for="emailAdress">이메일</label>
@@ -35,7 +38,8 @@
               id="emailAdress"
               v-model="loginUser.emailAdress"
               disabled
-              style="background-color: #1f2028; color: #b1b1b3" />
+              style="background-color: #1f2028; color: #b1b1b3"
+            />
           </div>
           <div class="form-group">
             <label for="height">키</label>
@@ -44,7 +48,8 @@
               id="height"
               v-model="loginUser.height"
               required
-              style="background-color: #b1b1b3" />
+              style="background-color: #b1b1b3"
+            />
           </div>
           <div class="form-group">
             <label for="weight">몸무게</label>
@@ -53,7 +58,8 @@
               id="weight"
               v-model="loginUser.weight"
               required
-              style="background-color: #b1b1b3" />
+              style="background-color: #b1b1b3"
+            />
           </div>
           <div style="display: flex; flex-direction: column">
             <div style="text-align: right">
@@ -69,19 +75,20 @@
             <div style="text-align: right"></div>
           </div>
         </div>
-      </div>
-      <div style="display: flex; flex-direction: column; text-align: center">
-        <router-link to="/user/updatePassword"
-          ><b>비밀번호를 수정하시겠습니까?</b></router-link
-        >
-        <router-link to="/user/myMenu"
-          ><b>[ 오늘의 식단 구성하기 ]</b></router-link
-        >
+        <div style="display: flex; flex-direction: column; text-align: center">
+          <router-link to="/user/updatePassword"
+            ><b>비밀번호를 수정하시겠습니까?</b></router-link
+          >
+          <router-link to="/user/myMenu"
+            ><b>[ 오늘의 식단 구성하기 ]</b></router-link
+          >
+        </div>
       </div>
     </div>
     <div
       class="card mb-4"
-      style="width: 600px; background-color: #1f2028; margin: 20px">
+      style="width: 600px; background-color: #1f2028; margin: 20px"
+    >
       <div class="right-section">
         <h2 style="color: palevioletred">찜 목록</h2>
         <div class="scroll-container">
@@ -96,10 +103,11 @@
               <tr
                 v-for="(zzim, index) in zzimList"
                 :key="index"
-                style="color: white">
+                style="color: white"
+              >
                 <td>
                   <a
-                    @click="goDetail(zzim.videoId)"
+                    @click="goDetail(zzim)"
                     style="color: white; margin: 30px 10px 30px 10px"
                     >{{ zzim.title }}</a
                   >
@@ -131,9 +139,12 @@ export default {
     ...mapState(["loginUser", "zzimList"]),
   },
   methods: {
-    goDetail(videoId) {
-      this.$store.dispatch("setVideoReviews", videoId);
-      this.$router.push(`/video/${videoId}`);
+    goDetail(zzim) {
+      this.$store.state.video.videoId = zzim.videoId;
+      this.$store.state.video.title = zzim.title;
+      this.$store.state.video.channelName = zzim.channelName;
+      this.$store.dispatch("setVideoReviews", zzim.videoId);
+      this.$router.push(`/video/${zzim.videoId}`);
     },
     updateUserInfo() {
       let user = {
@@ -152,7 +163,7 @@ export default {
 
 <style scoped>
 .scroll-container {
-  height: 70vh;
+  height: 100vh;
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
