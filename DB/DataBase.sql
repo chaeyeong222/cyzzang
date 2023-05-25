@@ -1,11 +1,11 @@
 
-CREATE SCHEMA IF NOT EXISTS `SSAFIT` DEFAULT CHARACTER SET utf8mb4;
-USE `SSAFIT` ;
+CREATE SCHEMA IF NOT EXISTS `ssafit_db` DEFAULT CHARACTER SET utf8mb4;
+USE `ssafit_db` ;
 
 -- -----------------------------------------------------
--- Table `SSAFIT`.`User`
+-- Table `ssafit_db`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SSAFIT`.`User` (
+CREATE TABLE IF NOT EXISTS `ssafit_db`.`User` (
   `user_num` INT NOT NULL AUTO_INCREMENT,
   `password` VARCHAR(100) NOT NULL,
   `user_id` VARCHAR(20) NOT NULL,
@@ -19,15 +19,10 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`User` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-INSERT INTO user (password,user_id,nick_name,email_adress)
-values ("qwer","qwer","admin","john0513@naver.com");
-
-
-
 -- -----------------------------------------------------
--- Table `SSAFIT`.`Schedule`
+-- Table `ssafit_db`.`Schedule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SSAFIT`.`Schedule` (
+CREATE TABLE IF NOT EXISTS `ssafit_db`.`Schedule` (
   `schedule_num` INT NOT NULL AUTO_INCREMENT,
   `user_num` INT NOT NULL,
   `video_id` VARCHAR(45) NOT NULL,
@@ -36,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`Schedule` (
   INDEX `schedule_from_user_idx` (`user_num` ASC),
   CONSTRAINT `schedule_from_user`
     FOREIGN KEY (`user_num`)
-    REFERENCES `SSAFIT`.`User` (`user_num`)
+    REFERENCES `ssafit_db`.`User` (`user_num`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -44,9 +39,9 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `SSAFIT`.`Review`
+-- Table `ssafit_db`.`Review`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SSAFIT`.`Review` (
+CREATE TABLE IF NOT EXISTS `ssafit_db`.`Review` (
   `review_num` INT NOT NULL AUTO_INCREMENT,
   `video_id` VARCHAR(45) NOT NULL,
   `user_num` INT NOT NULL,
@@ -57,16 +52,14 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`Review` (
   INDEX `review_from_user_idx` (`user_num` ASC),
   CONSTRAINT `review_from_user`
     FOREIGN KEY (`user_num`)
-    REFERENCES `SSAFIT`.`User` (`user_num`))
+    REFERENCES `ssafit_db`.`User` (`user_num`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-insert into Review values (0,"test",1,"test",now(),5);
-
 -----------------------------------------------------
--- Table `SSAFIT`.`ZzimList`
+-- Table `ssafit_db`.`ZzimList`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
+CREATE TABLE IF NOT EXISTS `ssafit_db`.`ZzimList` (
   `zzim_num` INT NOT NULL auto_increment,
   `user_num` INT NOT NULL,
   `video_id` VARCHAR(45) NOT NULL,
@@ -76,19 +69,16 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
   INDEX `zzim_from_user_idx` (`user_num` ASC),
   CONSTRAINT `zzim_from_user`
     FOREIGN KEY (`user_num`)
-    REFERENCES `SSAFIT`.`User` (`user_num`)
+    REFERENCES `ssafit_db`.`User` (`user_num`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-drop table zzimlist;
-
-
 -- -----------------------------------------------------
--- Table `SSAFIT`.`food`
+-- Table `ssafit_db`.`food`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SSAFIT`.`food` (
+CREATE TABLE IF NOT EXISTS `ssafit_db`.`food` (
   `food_num` INT NOT NULL AUTO_INCREMENT,
   `food_name` VARCHAR(45) NOT NULL,
   `category` VARCHAR(20) NOT NULL,
@@ -120,5 +110,3 @@ insert into food (category, food_name )values
 ,("간식", "바나나"),("간식", "군밤")  ,("간식", "참치캔샐러드")  ,("간식", "연어샐러드")    
 ,("간식", "닭가슴살샐러드");
 
-select * from user;
-delete from user where user_num = 10;

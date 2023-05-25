@@ -33,7 +33,6 @@
       <div class="pagination-container">
         <b-pagination
           bg-variant="dark"
-          align="center"
           pills
           v-model="currentPage"
           :total-rows="videoSize()"
@@ -134,16 +133,6 @@ export default {
 
 .content-container::-webkit-scrollbar-thumb:hover {
   background-color: transparent;
-}
-
-.pagination .page-link {
-  color: #B2366F;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #B2366F;
-  border-color: #B2366F;
-  color: antiquewhite;
 }
 
 .card-container {

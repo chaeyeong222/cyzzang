@@ -144,3 +144,17 @@ body {
 .gallery__text-inner {
   display: block;
 }
+
+.pagination .page-link {
+  color: rgb(55, 102, 104);
+}
+.page-item.active button{
+  background-color: rgb(55, 102, 104);
+  color: white;
+}
+
+.pagination .page-item.action .page-link {
+  background-color: rgb(55, 102, 104);
+  border-color: #B2366F;
+  color: white;
+}

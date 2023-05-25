@@ -2,8 +2,8 @@
   <div class="section">
     <div class="container scroll-container">
       <div class="row full-height justify-content-center">
-        <div class="col-12 text-center align-self-center py-5">
-          <div class="section pb-5 pt-5 pt-sm-2 text-center"> 
+        <div class="text-center align-self-center">
+          <div class="section pb-5 pt-5 pt-sm-2 text-center">
             <div class="card-3d-wrap mx-auto">
               <div class="card-3d-wrapper">
                 <div class="card-front">
@@ -11,56 +11,31 @@
                     <div class="section text-center">
                       <h3 class="mb-4 pb-3">로그인</h3>
                       <div class="form-group">
-                        <label for="userId"> </label>
                         <input
                           type="text"
                           name="userId"
                           class="form-style"
                           placeholder="아이디를 입력하세요"
                           v-model="userId"
-                          autocomplete="off"
-                        />
+                          autocomplete="off" />
                         <i class="input-icon uil uil-at"></i>
                       </div>
                       <div class="form-group mt-2">
-                        <label for="password">  </label>
                         <input
                           type="password"
                           name="userPassword"
                           class="form-style"
                           placeholder="비밀번호를 입력하세요"
                           v-model="userPassword"
-                          autocomplete="off"
-                        />
+                          autocomplete="off" />
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
-                      <br>
+                      <br />
                       <a @click="login()" class="btn mt-6">로그인</a>
-                      <p class="mb-0 mt-4 text-center"> 
-                      </p>
+                      <p class="mb-0 mt-4 text-center"></p>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="card-back">
-                  <div class="center-wrap">
-                    <div class="section text-center">
-                      <h4 class="mb-4 pb-3">Sign Up</h4>
-                      <div class="form-group">
-                        <input type="text" name="logname" class="form-style" placeholder="Your Full Name" id="logname" autocomplete="off">
-                        <i class="input-icon uil uil-user"></i>
-                      </div>  
-                      <div class="form-group mt-2">
-                        <input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-                        <i class="input-icon uil uil-at"></i>
-                      </div>  
-                      <div class="form-group mt-2">
-                        <input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-                        <i class="input-icon uil uil-lock-alt"></i>
-                      </div>
-                      <a href="#" class="btn mt-4">submit</a>
-                        </div>
-                      </div>
-                    </div> -->
               </div>
             </div>
           </div>
@@ -270,10 +245,11 @@ h6 span {
   transform: translate3d(0, -50%, 35px) perspective(100px);
   z-index: 20;
   display: block;
-} 
+}
 .form-group {
   position: relative;
   display: flex;
+  justify-content: center;
   margin: 0;
   padding: 0;
 }
@@ -361,7 +337,7 @@ h6 span {
 
 .btn {
   width: 70px;
-  margin: 10 0 0 !important;
+  margin: 0 0 0 !important;
   border-radius: 4px;
   height: 42px;
   font-size: 13px;

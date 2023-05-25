@@ -192,7 +192,7 @@ export default {
 }
 .mypage {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .left-section,
