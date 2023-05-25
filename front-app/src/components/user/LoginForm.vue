@@ -34,9 +34,9 @@
                         />
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
+                      <br>
                       <a @click="login()" class="btn mt-6">로그인</a>
-                      <p class="mb-0 mt-4 text-center">
-                        <a href="#0" class="link">비밀번호를 잊으셨나요?</a>
+                      <p class="mb-0 mt-4 text-center"> 
                       </p>
                     </div>
                   </div>
