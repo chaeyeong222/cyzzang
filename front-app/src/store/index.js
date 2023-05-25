@@ -53,7 +53,6 @@ export default new Vuex.Store({
   },
   actions: {
     createUser({ commit }, user) {
-      console.log(user);
       http
         .post("userapi/regist", user)
         .then(() => {
@@ -92,7 +91,6 @@ export default new Vuex.Store({
         });
     },
     setVideoReviews({ commit }, videoId) {
-      console.log();
       axios({
         method: "GET",
         url: URL + `reviewapi/video/${videoId}`,

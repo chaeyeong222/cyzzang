@@ -1,6 +1,6 @@
 <template>
   <div class="container scroll-container">
-    <div style="text-align: center;">
+    <div style="text-align: center">
       <h1>오늘의 식단 추천</h1>
     </div>
     <div class="row">
@@ -15,8 +15,7 @@
         <div class="card">
           <h5
             class="card-body"
-            style="display: flex; flex-direction: column; text-align: center;"
-          >
+            style="display: flex; flex-direction: column; text-align: center">
             <p>키: {{ loginUser.height }} cm</p>
             <p>몸무게: {{ loginUser.weight }} kg</p>
           </h5>
@@ -127,6 +126,9 @@ export default {
 </script>
 
 <style scoped>
+p {
+  width: 100%;
+}
 .scroll-container {
   height: 100vh;
   overflow: auto;
@@ -168,9 +170,9 @@ export default {
   background-color: #1f2028;
   color: #c4c3c9;
 }
-.badge{
+.badge {
   margin-right: 20pt;
-  width: 50px;
+  width: 70px;
 }
 
 .container {
