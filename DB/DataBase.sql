@@ -82,6 +82,8 @@ CREATE TABLE IF NOT EXISTS `SSAFIT`.`ZzimList` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
+drop table zzimlist;
+
 
 -- -----------------------------------------------------
 -- Table `SSAFIT`.`food`
@@ -117,3 +119,6 @@ insert into food (category, food_name )values
 ,("간식", "견과류"),("간식", "과일")  ,("간식", "플레인요거트")  ,("간식", "방울토마토") 
 ,("간식", "바나나"),("간식", "군밤")  ,("간식", "참치캔샐러드")  ,("간식", "연어샐러드")    
 ,("간식", "닭가슴살샐러드");
+
+select * from user;
+delete from user where user_num = 10;
