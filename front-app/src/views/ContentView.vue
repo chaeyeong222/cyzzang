@@ -16,7 +16,7 @@ export default {
 
 <style>
 .scroll-container {
-  height: 85vh;
+  height: 100%;
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;

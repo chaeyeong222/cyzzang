@@ -38,7 +38,7 @@
           v-model="currentPage"
           :total-rows="videoSize()"
           :per-page="perPage"
-          class="pagination-dark"
+          class="pagination"
           size="lg"></b-pagination>
       </div>
     </div>
@@ -136,13 +136,13 @@ export default {
   background-color: transparent;
 }
 
-.pagination-dark .page-link {
-  color: rgb(68, 67, 67);
+.pagination .page-link {
+  color: #B2366F;
 }
 
-.pagination-dark .page-item.active .page-link {
-  background-color: #343a40;
-  border-color: #343a40;
+.pagination .page-item.active .page-link {
+  background-color: #B2366F;
+  border-color: #B2366F;
   color: antiquewhite;
 }
 

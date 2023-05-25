@@ -1,6 +1,5 @@
 package com.ssafit.cheajong.interceptor;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,10 +19,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		if(request.getMethod().equals("OPTIONS"))
+		if (request.getMethod().equals("OPTIONS"))
 			return true;
-		
-		System.out.println(request.getHeader(HEADER_AUTH));
 		String token = request.getHeader(HEADER_AUTH);
 		if (token != null) {
 			jwtUtil.valid(token);

@@ -1,36 +1,52 @@
 <template>
-  <div class="container">
+  <div class="container scroll-container">
     <div>
-      <h1>오늘의 식단 추천</h1> 
+      <h1>오늘의 식단 추천</h1>
     </div>
     <div class="row">
-      <div class="col-md-4"> 
+      <div class="col">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <h4 class="card-title">{{ loginUser.nickName }} 님의 키와 몸무게 정보입니다</h4> 
+            <h4 class="card-title">
+              {{ loginUser.nickName }} 님의 키와 몸무게 정보입니다
+            </h4>
           </div>
         </div>
         <div class="card">
-          <div class="card-body" style="display: flex; flex-direction: column; text-align: center;"> 
+          <h5
+            class="card-body"
+            style="display: flex; flex-direction: column; text-align: center;"
+          >
             <p>키: {{ loginUser.height }} cm</p>
             <p>몸무게: {{ loginUser.weight }} kg</p>
-          </div>
+          </h5>
         </div>
       </div>
       <div>
-        <div style="text-align: center;">
-        <h4 class="card-title" >  {{loginUser.nickName}}  님의 하루 적정체중은 {{ betterWeight }} kg 입니다. </h4>
-        <h4 class="card-title" >{{loginUser.nickName}}  님의 하루 권장 섭취 칼로리는 {{ eatTotalCal }} kcal 입니다. </h4>  
-       
-        <h4 class="card-title" > 한 끼에 {{ eatCal }} kcal 이하 섭취를 권장해요! </h4> 
+        <div style="text-align: center">
+          <h4 class="card-title">
+            {{ loginUser.nickName }} 님의 하루 적정체중은 {{ betterWeight }} kg
+            입니다.
+          </h4>
+          <h4 class="card-title">
+            {{ loginUser.nickName }} 님의 하루 권장 섭취 칼로리는
+            {{ eatTotalCal }} kcal 입니다.
+          </h4>
+
+          <h4 class="card-title">
+            한 끼에 {{ eatCal }} kcal 이하 섭취를 권장해요!
+          </h4>
+        </div>
       </div>
-      </div>
-      <div class="col-md-8"> 
+      <div class="col">
         <div class="card">
-          <div class="card-body"> 
-            <h5 class="card-title" style="width:500px">버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
-               <b-button @click="getRandomMenu" class="btn-btn">랜덤 식단 추천</b-button>
-              </h5>  
+          <div class="card-body">
+            <h5 class="card-title" style="width: 500px">
+              버튼을 눌러 랜덤 식단 재료를 추천받아보세요!!
+              <b-button @click="getRandomMenu" class="btn-btn"
+                >랜덤 식단 추천</b-button
+              >
+            </h5>
 
             <ul class="list-group">
               <li class="list-group-item">
@@ -96,7 +112,7 @@ export default {
         url: "http://localhost:9999/foodapi/food",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Authorization"),
+          Authorization: sessionStorage.getItem("Authorization"),
         },
       })
         .then((response) => {
@@ -110,32 +126,74 @@ export default {
 };
 </script>
 
-<style scoped>  
- .card{
-  background-color: #1F2028;
-  width:700px;
-} 
-.list-group-item{
-  background-color: #1F2028;
+<style scoped>
+.scroll-container {
+  height: 100vh;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scroll-container {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+.scroll-container:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  background-color: #1f2028;
+  border-color: rgb(55, 102, 104);
+  width: 100%;
+  justify-self: center;
+}
+
+.list-group-item {
+  background-color: #1f2028;
   color: #c4c3c9;
 }
+.badge{
+  margin-right: 20pt;
+  width: 50px;
+}
+
 .container {
   max-width: 800px;
   margin: 0 auto;
 }
 .container {
-   max-width: 800px; 
-   margin: 0 auto; 
-} 
+  color: #b2366f;
+  max-width: 800px;
+  margin: 0 auto;
+}
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-} 
-.btn-btn{
-  width: fit-content;
-  background-color: yellowgreen;
+}
+.btn-btn {
+  width: auto;
+  color: wheat;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: rgb(170, 170, 69);
   padding: 5px;
 }
 </style>
