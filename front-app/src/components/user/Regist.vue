@@ -163,9 +163,7 @@ export default {
     },
 
     idDuplicateCheck(userId) {
-      console.log(userId);
       http.get(`userapi/dupli/${userId}`).then((res) => {
-        console.log(res);
         if (res.data) {
           alert("사용가능한 아이디 입니다.");
           this.idCC = true;
@@ -193,8 +191,7 @@ export default {
       });
     },
 
-    authenNumCheck(emailAuthentic) {
-      console.log(emailAuthentic);
+    authenNumCheck() {
       if (this.authenticNum === this.emailAuthentic) {
         alert("인증완료!!");
         this.authenticNumCC = true;

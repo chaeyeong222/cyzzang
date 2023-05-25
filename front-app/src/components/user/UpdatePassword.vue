@@ -21,14 +21,12 @@
                             placeholder="이메일을 입력하세요"
                             v-model="emailAdress"
                             autocomplete="off"
-                            ref="emailDupCheck"
-                          />
+                            ref="emailDupCheck" />
                           <i class="input-icon uil uil-at"></i>
                           <button
                             class="btn"
                             @click="emailExistCheck(emailAdress)"
-                            style="width:80px"
-                          >
+                            style="width: 80px">
                             이메일 확인
                           </button>
                         </div>
@@ -44,8 +42,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import { mapState } from "vuex";
 import axios from "axios";
 
@@ -59,7 +57,7 @@ export default {
       emailAuthentic: "", // 사용자에게 입력받을 인증번호
       authenticNumCC: false, //인증번호 확인 환료시
       isRegistPossible: false,
-      emailCC:false,
+      emailCC: false,
     };
   },
   methods: {
@@ -69,22 +67,22 @@ export default {
         this.emailSendCheck = true;
         axios({
           method: "put",
-          url:`http://localhost:9999/userapi/sendemail`,
-          params : {
-            memberEmail : emailAdress,
-          }
-        }).then((res) => {
-          alert("이메일 전송 완료! 메일함을 확인하세요")
-          console.log(res.status);
-          this.$router.push("/user/login");
-        }).catch((err)=>console.log(err));
+          url: `http://localhost:9999/userapi/sendemail`,
+          params: {
+            memberEmail: emailAdress,
+          },
+        })
+          .then(() => {
+            alert("이메일 전송 완료! 메일함을 확인하세요");
+            this.$router.push("/user/login");
+          })
+          .catch((err) => console.log(err));
       } else {
         alert("회원가입 시 등록한 이메일을 입력해주세요");
         this.$refs.emailDupCheck.value = "";
       }
     },
-    authenNumCheck(emailAuthentic) {
-      console.log(emailAuthentic);
+    authenNumCheck() {
       if (this.emailAuthenticCheck === this.emailAuthentic) {
         alert("인증완료!!");
         this.authenticNumCC = true;
@@ -99,8 +97,8 @@ export default {
   },
 };
 </script>
-  
-  <style>
+
+<style>
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
@@ -382,4 +380,3 @@ h6 span {
   box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
 }
 </style>
-  
