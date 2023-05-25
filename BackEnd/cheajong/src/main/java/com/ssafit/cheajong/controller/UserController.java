@@ -115,19 +115,6 @@ public class UserController {
 	@PutMapping("/user")
 	public ResponseEntity<?> update(@RequestBody User user) {
 		try {
-//			if (!file.isEmpty()) {
-//				Resource res = resLoader.getResource("resources/upload");
-//				if (!res.getFile().exists())
-//					res.getFile().mkdir();
-//				// 다른 것은 가입 시 저장과 동일, 하지만 이미지를 새로 입력시 기존 이미지를 삭제하는 양식 추가
-//				if (us.searchByUserId(user.getUserId()) != null) {
-//					String oldImg = us.searchByUserId(user.getUserId()).getImg();
-//					File target = new File("resources/upload" + "/" + oldImg);
-//					target.delete();
-//				}
-//				user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
-//				file.transferTo(new File(res.getFile(), user.getImg()));
-//			}
 			int res = us.update(user);
 			Map<String, Object> result = new HashMap<String, Object>();
 			if (res == 1) {
@@ -207,27 +194,29 @@ public class UserController {
 	@PutMapping("/sendemail")
 	@ApiOperation(value = "임시 비밀번호 생성해서 db 수정 후, 이메일 보내기기능    .")
 	public ResponseEntity<?> sendEmail(@RequestParam("memberEmail") String memberEmail) {
+
 		System.out.println("memberEmail " + memberEmail);
 
 		/** 임시 비밀번호 생성 **/
 		String tmpPassword = ms.getTmpPassword();
-		String ecpPassword = ecp.getEncrypt(ms.getTmpPassword());
+		String ecpPassword = ecp.getEncrypt(tmpPassword);
 		System.out.println("임시 비밀번호 " + tmpPassword);
 		System.out.println("암호화  비밀번호 " + ecpPassword);
 
 		User user = us.searchByEmail(memberEmail);
+		if (user != null) {
+			/** 임시 비밀번호 저장 **/
+			user.setPassword(ecpPassword);
+			us.updateToNewPassword(user);
 
-		/** 임시 비밀번호 저장 **/
-		user.setPassword(ecpPassword);
-		us.updateToNewPassword(user);
+			// 이메일 보내기
+			MailVo mail = ms.createMail(tmpPassword, memberEmail);
+			ms.sendMail(mail);
 
-		// 이메일 보내기
-		MailVo mail = ms.createMail(tmpPassword, memberEmail);
-		ms.sendMail(mail);
-
-		System.out.println("임시 비밀번호 전송 완료");
-
+			System.out.println("임시 비밀번호 전송 완료");
+		}
 		return new ResponseEntity<Void>(HttpStatus.OK);
+
 	}
 
 	/**
