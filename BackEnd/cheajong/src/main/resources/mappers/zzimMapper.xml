@@ -4,7 +4,7 @@
 
 	<insert id="addZzim" parameterType="Zzim">
 		INSERT INTO ZzimList (video_Id,user_num,video_title,channel_name)
-		VALUES(#{videoId},(select user_num from user where user_id =
+		VALUES(#{videoId},(select user_num from User where user_id =
 		#{userId}),#{title},#{channelName})
 	</insert>
 
