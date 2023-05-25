@@ -12,7 +12,7 @@
 
 	<insert id="insertReview" parameterType="Review">
 		INSERT INTO Review (video_Id,user_num,content,write_time,rate)
-		VALUES(#{videoId},(select user_num from user where user_id =
+		VALUES(#{videoId},(select user_num from User where user_id =
 		#{userId}),#{content},now(),#{rate})
 	</insert>
 
@@ -30,7 +30,7 @@
 		SELECT
 		review_num AS reviewNum,
 		video_id AS videoId,
-		(SELECT user_id FROM User WHere user_num = Review.user_num) AS userId,
+		(SELECT user_id FROM User WHere User = Review.user_num) AS userId,
 		content,
 		date_format(write_time,'%y-%m-%d %H:%i:%s') AS writeTime,
 		rate
