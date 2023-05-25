@@ -1,6 +1,6 @@
 <template>
   <div class="container scroll-container">
-    <div>
+    <div style="text-align: center;">
       <h1>오늘의 식단 추천</h1>
     </div>
     <div class="row">
@@ -159,6 +159,7 @@ export default {
 .card {
   background-color: #1f2028;
   border-color: rgb(55, 102, 104);
+  color: whitesmoke;
   width: 100%;
   justify-self: center;
 }
