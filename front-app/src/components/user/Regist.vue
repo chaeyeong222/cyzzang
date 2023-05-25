@@ -183,7 +183,6 @@ export default {
         } else {
           alert("사용가능한 이메일입니다.");
           this.authenticNum = res.data; //넘어온 인증번호
-          alert(res.data);
           this.emailSendCheck = true;
           this.emailCC = true;
           this.registPossible();
