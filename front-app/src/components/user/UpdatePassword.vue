@@ -27,6 +27,7 @@
                           <button
                             class="btn"
                             @click="emailExistCheck(emailAdress)"
+                            style="width:80px"
                           >
                             이메일 확인
                           </button>

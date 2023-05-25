@@ -19,13 +19,13 @@
               id="userId"
               v-model="loginUser.userId"
               disabled
-              style="background-color: #1f2028; color: #b1b1b3"
+              style="background-color: #1f2028; color: #b1b1b3; border-radius: 10px;"
             />
           </div>
           <div class="form-group">
             <label for="nickName">닉네임</label>
             <input
-              style="background-color: #b1b1b3"
+              style="background-color: #b1b1b3; border-radius: 10px;"
               type="text"
               id="nickName"
               v-model="loginUser.nickName"
@@ -38,7 +38,7 @@
               id="emailAdress"
               v-model="loginUser.emailAdress"
               disabled
-              style="background-color: #1f2028; color: #b1b1b3"
+              style="background-color: #1f2028; color: #b1b1b3; border-radius: 10px;"
             />
           </div>
           <div class="form-group">
@@ -48,7 +48,7 @@
               id="height"
               v-model="loginUser.height"
               required
-              style="background-color: #b1b1b3"
+              style="background-color: #b1b1b3; border-radius: 10px;"
             />
           </div>
           <div class="form-group">
@@ -58,14 +58,14 @@
               id="weight"
               v-model="loginUser.weight"
               required
-              style="background-color: #b1b1b3"
+              style="background-color: #b1b1b3; border-radius: 10px;"
             />
           </div>
           <div style="display: flex; flex-direction: column">
             <div style="text-align: right">
               <b-button
                 @click="updateUserInfo"
-                style="background-color: #f6bf50"
+                style="background-color: #f6bf50; border-radius: 10px;"
                 class="btn-btn"
                 >수정하기</b-button
               >
@@ -80,7 +80,7 @@
             ><b>비밀번호를 수정하시겠습니까?</b></router-link
           >
           <router-link to="/user/myMenu"
-            ><b>[ 오늘의 식단 구성하기 ]</b></router-link
+            ><button style="background-color: pink; color: palevioletred; border-radius: 10px;">[ 오늘의 식단 구성하기 ]</button></router-link
           >
         </div>
       </div>
